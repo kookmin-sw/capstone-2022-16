@@ -23,7 +23,7 @@
 
 ### 4. 사용법
 
-#### 환경설정
+#### 개발 환경설정
 ##### 1.데이터베이스 h2(임시) 설치 (https://www.h2database.com/html/download-archive.html)
 ##### 2.자바버전 11.0.2 (build 11.0.2+9) 설치. (https://jdk.java.net/archive/)
 ##### 3.자바 환경변수 추가.
