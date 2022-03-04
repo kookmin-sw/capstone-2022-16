@@ -45,10 +45,17 @@
 
 #### 환경설정
 ##### 1.데이터베이스 h2(임시) 설치 (https://www.h2database.com/html/download-archive.html)
-##### 2.자바버전 11 설치.
-##### 3.노드버전 ? 설치 /// 리액트버전:17.0.2 (참고)
-##### 4.인텔리제이 설치 (https://www.jetbrains.com/idea/download/#section=windows)
-##### 5.frontend 폴더내에서 ```npm install```
+##### 2.자바버전 11.0.2 (build 11.0.2+9) 설치. (https://jdk.java.net/archive/)
+##### 3.자바 환경변수 추가.
+###### 3-1.C:\Program Files 폴더에 OpenJDK 폴더 생성
+###### 3-2.openjdk-11.0.1_windows-x64_bin.zip 압축해제
+###### 3-3.jdk-11.0.1 폴더를 OpenJDK 폴더 안으로 이동
+###### 3-5.시스템 환경변수 등록 (JAVA_HOME(변수명)	C:\Program Files\OpenJDK\jdk-11.0.1(값)
+###### 3-8.Path에 %JAVA_HOME%\bin 등록
+##### 4.노드버전 ? 설치 /// 리액트버전:17.0.2 (참고)
+##### 5.노드 환경변수 추가
+##### 6.인텔리제이 설치 (https://www.jetbrains.com/idea/download/#section=windows)
+##### 7.frontend 폴더내에서 ```npm install```
 
 #### 실행방법
 ##### 6.backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행
