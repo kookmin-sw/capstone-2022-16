@@ -1,13 +1,11 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224874&assignment_repo_type=AssignmentRepo)
-# Welcome to GitHub
-
-캡스톤 팀 생성을 축하합니다.
 
 ## 팀소개 및 페이지를 꾸며주세요.
 
 - 프로젝트 소개
   - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
   - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
+ 
 
 - 팀페이지 꾸미기
   - 프로젝트 소개 및 팀원 소개
@@ -18,16 +16,16 @@
   - Theme Chooser에서 태마선택
   - 수정후 팀페이지 확인하여 점검.
 
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
+**팀페이지 주소** : https://kookmin-sw.github.io/capstone-2022-16/ '{{자신의 리파지토리 아이디}}'
 
-**예시)** 2020년 0조  https://kookmin-sw.github.io/capstone-2020-0/
 
 
 ## 내용에 아래와 같은 내용들을 추가하세요.
 
-### 1. 프로잭트 소개
+### 1. 프로젝트 소개
 
-프로젝트
+당근마켓과 5일장의 컨셉을 섞어서, 망치나, 데일밴드, 충전기, 티슈, 휴지등 중고나라나 당근마켓에서는 팔기 사소하고 귀찮지만 버리기 아까운 물건들을,
+한날 한시 한장소에 여러명이 모여 한꺼번에 대량으로 거래를 주고받는걸 도와주는 플랫폼.
 
 ### 2. 소개 영상
 
@@ -35,13 +33,24 @@
 
 ### 3. 팀 소개
 
-팀을 소개하세요.
+팀이름:
 
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
+조원1:김병관
+역할: 백엔드 및 DB
+
+조원2:강찬우
+역할: 프론트엔드
 
 ### 4. 사용법
 
-소스코드제출시 설치법이나 사용법을 작성하세요.
+환경설정 및 실행방법:
+    데이터베이스:h2 설치
+    https://www.h2database.com/html/download-archive.html
+    자바버전:11 설치.
+    리액트버전:17.0.2 (참고)
+    frontend 폴더내에서 ```***npm install***``` 실행
+    인텔리제이 설치후 backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행하여 Spring 켜기.
+    이후 ```***npm start***```로 React 실행
 
 ### 5. 기타
 
