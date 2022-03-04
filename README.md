@@ -58,7 +58,7 @@
 ##### 7.frontend 폴더내에서 ```npm install```
 
 #### 실행방법
-##### 6.backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행
-##### 7.frontend 폴더내에서 ```npm start```
+##### 1.backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행
+##### 2.frontend 폴더내에서 ```npm start```
 
 ### 5. 기타
