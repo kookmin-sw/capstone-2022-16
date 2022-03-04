@@ -33,12 +33,12 @@
 
 ### 3. 팀 소개
 
-팀이름:
+팀이름: ###FLEAMARKET
 
-조원1:김병관
+조장: 김병관
 역할: 백엔드 및 DB
 
-조원2:강찬우
+조원1: 강찬우
 역할: 프론트엔드
 
 ### 4. 사용법
@@ -48,9 +48,9 @@
     https://www.h2database.com/html/download-archive.html
     자바버전:11 설치.
     리액트버전:17.0.2 (참고)
-    frontend 폴더내에서 ```***npm install***``` 실행
+    frontend 폴더내에서 ```###npm install###``` 실행
     인텔리제이 설치후 backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행하여 Spring 켜기.
-    이후 ```***npm start***```로 React 실행
+    이후 ```###npm start###```로 React 실행
 
 ### 5. 기타
 
