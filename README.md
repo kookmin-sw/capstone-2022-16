@@ -43,44 +43,15 @@
 
 ### 4. 사용법
 
-환경설정 및 실행방법:
-    데이터베이스:h2 설치
-    https://www.h2database.com/html/download-archive.html
-    자바버전:11 설치.
-    리액트버전:17.0.2 (참고)
-    frontend 폴더내에서 ```###npm install###``` 실행
-    인텔리제이 설치후 backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행하여 Spring 켜기.
-    이후 ```###npm start###```로 React 실행
+#### 환경설정
+##### 1.데이터베이스 h2(임시) 설치 (https://www.h2database.com/html/download-archive.html)
+##### 2.자바버전 11 설치.
+##### 3.노드버전 ? 설치 /// 리액트버전:17.0.2 (참고)
+##### 4.인텔리제이 설치 (https://www.jetbrains.com/idea/download/#section=windows)
+##### 5.frontend 폴더내에서 ```npm install```
+
+#### 실행방법
+##### 6.backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행
+##### 7.frontend 폴더내에서 ```npm start```
 
 ### 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
-
-
-## Markdown을 사용하여 내용꾸미기
-
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Support or Contact
-
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
