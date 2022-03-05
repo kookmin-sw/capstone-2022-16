@@ -88,3 +88,5 @@ out/
 
 ### VS Code ###
 .vscode/
+frontend/.DS_Store
+.DS_Store
