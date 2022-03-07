@@ -1,15 +1,16 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
 const MapPage = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [state, setState] = useState({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.58827661475296,
+      lng: 127.2197275271777,
     },
     errMsg: null,
     isLoading: true,
@@ -38,6 +39,10 @@ const MapPage = (props) => {
           }));
         }
       );
+      axios({
+        method: "GET",
+        url: `/map/?longitude=${state.center.lng}&latitude=${state.center.lat}`,
+      });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
@@ -46,7 +51,7 @@ const MapPage = (props) => {
         isLoading: false,
       }));
     }
-  }, []);
+  }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-full bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">

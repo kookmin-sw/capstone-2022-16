@@ -2,7 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Input from "../input";
 const LoginPage = (props) => {
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm({ mode: onchange });
+  const onValid = (d) => {
+    console.log(d.id);
+  };
+  const onInValid = (error) => {
+    console.log(error);
+  };
 
   return (
     <div className="mt-16 px-4 flex flex-col justify-center">
@@ -13,7 +19,10 @@ const LoginPage = (props) => {
         <div className="flex flex-col items-center">
           <h5 className="text-sm font-medium text-blue-500">로그인</h5>
         </div>
-        <form className="mt-8 flex flex-col space-y-4">
+        <form
+          onSubmit={handleSubmit(onValid, onInValid)}
+          className="mt-8 flex flex-col space-y-4"
+        >
           <Input
             type="text"
             register={register("id", { required: true })}
@@ -23,7 +32,7 @@ const LoginPage = (props) => {
           />
           <Input
             type="password"
-            register={register("passwrod", { required: true })}
+            register={register("password", { required: true })}
             name="password"
             placeholder="비밀번호"
             kind="text"

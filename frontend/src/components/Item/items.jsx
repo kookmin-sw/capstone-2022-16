@@ -11,13 +11,13 @@ const Items = ({ description, name }) => {
           alt=""
           className="w-14 h-14 rounded-full"
         />
-        <div className=" space-y-3">
-          <div className=" flex justify-between">
+        <div className=" w-full space-y-3">
+          <div className=" w-full flex justify-between">
             <h2>{name}</h2>
             <h2>1000원</h2>
           </div>
 
-          <p className=" font-mono text-xs">{description}</p>
+          <p className=" font-mono text-xs">description</p>
         </div>
       </div>
     </div>

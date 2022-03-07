@@ -6,6 +6,7 @@ import LoginPage from "./components/LoginPage/loginpage";
 import MapPage from "./components/MapPage/mappage";
 import ItemsInMarket from "./components/Item/ItemsInMarket";
 import ItemDetail from "./components/Item/ItemDetail";
+import { useState } from "react";
 
 function App() {
   return (
