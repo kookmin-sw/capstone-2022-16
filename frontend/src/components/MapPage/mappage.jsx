@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MapPage = (props) => {
+  const [marketsinfo, setMarketsinfo] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [overlayPos, setOverlayPos] = useState([]);
   const navigate = useNavigate();
   const [state, setState] = useState({
     center: {
@@ -42,6 +44,8 @@ const MapPage = (props) => {
       axios({
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
+      }).then((res) => {
+        setMarketsinfo(res.data);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -84,15 +88,32 @@ const MapPage = (props) => {
         }}
         level={2} // 지도의 확대 레벨
       >
-        <MapMarker position={state.center} onClick={() => setIsOpen(true)} />
+        <MapMarker position={state.center} /> {/* 현재 자기 위치 마커에표시*/}
+        {marketsinfo.map((market) => {
+          const position = {
+            lat: market.latitude,
+            lng: market.longitude,
+          };
+          return (
+            <MapMarker
+              className="z-0"
+              position={position}
+              key={position.lat * Math.random(1)}
+              onClick={() => {
+                setIsOpen(true);
+                setOverlayPos(position);
+              }}
+            />
+          );
+        })}{" "}
+        {/* 주변 장터의 위치 마커에 표시*/}
         {isOpen && (
-          <CustomOverlayMap position={state.center}>
-            <div className=" w-40 h-24 box-border text-xs bg-blue-200 font-medium rounded-lg shadow-md p-3">
+          <CustomOverlayMap position={overlayPos} className="z-10 relative">
+            <div className="absolute w-40 h-24 box-border text-xs bg-blue-200 font-medium rounded-lg shadow-md p-3">
               <div className=" space-y-2">
                 <div className="flex justify-between">
                   <div>장터 이름</div>
                   <div
-                    className=" "
                     onClick={() => {
                       setIsOpen(false);
                     }}
