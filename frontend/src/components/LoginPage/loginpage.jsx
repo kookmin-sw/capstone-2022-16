@@ -1,10 +1,22 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Input from "../input";
 const LoginPage = (props) => {
   const { register, handleSubmit } = useForm({ mode: onchange });
+  const navigate = useNavigate();
   const onValid = (d) => {
+    axios({
+      method: "POST",
+      url: ``,
+      data: {
+        id: d.id,
+        password: d.password,
+      },
+    }).then((res) => {});
     console.log(d.id);
+    console.log(d.password);
   };
   const onInValid = (error) => {
     console.log(error);
@@ -46,8 +58,8 @@ const LoginPage = (props) => {
           <div className="flex justify-center mt-5">
             <button className=" border-r-2 pr-5 ">아이디 찾기</button>
             <button className="pl-5 border-r-2 pr-5 ">비밀번호 찾기</button>
-            <button className="pl-5">
-              <a href="/join">회원가입</a>
+            <button className="pl-5" onClick={() => navigate("/join")}>
+              <span>회원가입</span>
             </button>
           </div>
         </div>
