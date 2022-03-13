@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 @Repository
 public class MemoryMemberRepository implements MemberRepository{
-//  private static Map<Long,Member> store = new HashMap<>();
-    private static Map<Long,Member> store = new ConcurrentHashMap<>();
+    private static Map<Long,Member> store = new HashMap<>();
+    //private static Map<Long,Member> store = new ConcurrentHashMap<>();
     private static  long sequence = 0L;
 
     @Override
@@ -25,6 +25,13 @@ public class MemoryMemberRepository implements MemberRepository{
     @Override
     public Optional<Member> findById(Long id) {
         return Optional.ofNullable(store.get(id));
+    }
+
+
+    public Optional<Member> findByLoginId(String loginId) {
+        return findAll().stream()
+                .filter(m -> m.getLoginId().equals(loginId))
+                .findFirst();
     }
 
     @Override
