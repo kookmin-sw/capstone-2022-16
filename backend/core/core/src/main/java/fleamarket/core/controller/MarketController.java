@@ -28,7 +28,7 @@ public class MarketController {
     @GetMapping("/map")
     public Location[] marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
 
-        double value = .000000000000004;
+        double value = .000000004;
         Location location1 = new Location(latitude+value,longitude+value);
         Location location2 = new Location(latitude+value,longitude-value);
         Location location3 = new Location(latitude-value,longitude+value);
