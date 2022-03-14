@@ -1,15 +1,18 @@
 package fleamarket.core.repository;
 
 import fleamarket.core.domain.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+@Slf4j
 @Repository
 public class MemoryMemberRepository implements MemberRepository{
-
-    private static Map<Long,Member> store = new HashMap<>();
+//  private static Map<Long,Member> store = new HashMap<>();
+    private static Map<Long,Member> store = new ConcurrentHashMap<>();
     private static  long sequence = 0L;
 
     @Override

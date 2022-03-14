@@ -1,16 +1,15 @@
-package fleamarket.core.domain;
+package fleamarket.core.web.login;
 
 import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class Member {
+public class LoginForm {
     @NotEmpty
-    private String id;
-
-    @NotEmpty
-    private String name;
+    private String loginId;
 
     @NotEmpty
     private String password;
+
 }
