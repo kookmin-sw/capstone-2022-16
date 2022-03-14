@@ -4,17 +4,20 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Input from "../input";
 const LoginPage = (props) => {
-  const { register, handleSubmit } = useForm({ mode: onchange });
+  const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const navigate = useNavigate();
   const onValid = (d) => {
     axios({
       method: "POST",
-      url: ``,
-      data: {
-        id: d.id,
-        password: d.password,
-      },
-    }).then((res) => {});
+      url: `/login?loginId=${d.id}&password=${d.password}`,
+    }).then((res) => {
+      if (res.data === "ok") {
+        //데이터를 성공적으로 찾았을경우
+        navigate("/map");
+      } else {
+        reset({ password: "" });
+      }
+    });
     console.log(d.id);
     console.log(d.password);
   };

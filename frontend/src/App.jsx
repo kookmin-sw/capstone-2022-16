@@ -7,6 +7,7 @@ import MapPage from "./components/MapPage/mappage";
 import ItemsInMarket from "./components/Item/ItemsInMarket";
 import ItemDetail from "./components/Item/ItemDetail";
 import { useState } from "react";
+import Upload from "./components/uploadPage/upload";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             path="/map/:marketid/:itemid"
             element={<ItemDetail></ItemDetail>}
           ></Route>
+          <Route path="upload" exact element={<Upload></Upload>}></Route>
         </Routes>
       </BrowserRouter>
     </>

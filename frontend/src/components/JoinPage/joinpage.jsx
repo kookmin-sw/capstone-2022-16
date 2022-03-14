@@ -1,5 +1,4 @@
 import axios from "axios";
-import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";

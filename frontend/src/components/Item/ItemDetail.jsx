@@ -1,15 +1,24 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ItemDetail = (props) => {
+  const navigate = useNavigate();
   const params = useParams();
   console.log(params);
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "",
+    }).then((res) => {});
+  }, []);
+
   return (
     //
 
     <div className=" w-full h-[100vh] flex flex-col items-center">
       <div className=" w-full items-center justify-center flex relative bg-blue-500 ">
-        <button className=" absolute left-3">
+        <button onClick={() => navigate(-1)} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"

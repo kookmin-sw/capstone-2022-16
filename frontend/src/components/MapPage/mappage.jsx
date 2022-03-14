@@ -8,6 +8,7 @@ const MapPage = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [overlayPos, setOverlayPos] = useState([]);
+  const [currentmarketid, setCurrentMarketid] = useState(1);
   const navigate = useNavigate();
   const [state, setState] = useState({
     center: {
@@ -41,10 +42,28 @@ const MapPage = (props) => {
           }));
         }
       );
+
       axios({
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
+        res.data[0] = {
+          ...res.data[0],
+          marketId: 0,
+        };
+        res.data[1] = {
+          ...res.data[1],
+          marketId: 1,
+        };
+        res.data[2] = {
+          ...res.data[2],
+          marketId: 2,
+        };
+        res.data[3] = {
+          ...res.data[3],
+          marketId: 3,
+        };
+
         setMarketsinfo(res.data);
       });
     } else {
@@ -94,14 +113,16 @@ const MapPage = (props) => {
             lat: market.latitude,
             lng: market.longitude,
           };
+          const marketId = market.marketId;
           return (
             <MapMarker
               className="z-0"
               position={position}
-              key={position.lat * Math.random(1)}
+              key={marketId}
               onClick={() => {
                 setIsOpen(true);
                 setOverlayPos(position);
+                setCurrentMarketid(marketId);
               }}
             />
           );
@@ -132,7 +153,7 @@ const MapPage = (props) => {
                   <div>판매 물품</div>
                   <button
                     onClick={() => {
-                      navigate("123");
+                      navigate(`${currentmarketid}`);
                       setHasChild(true);
                     }}
                   >
