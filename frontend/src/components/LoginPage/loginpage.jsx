@@ -1,8 +1,29 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Input from "../input";
 const LoginPage = (props) => {
-  const { register } = useForm();
+  const { register, handleSubmit, reset } = useForm({ mode: onchange });
+  const navigate = useNavigate();
+  const onValid = (d) => {
+    axios({
+      method: "POST",
+      url: `/login?loginId=${d.id}&password=${d.password}`,
+    }).then((res) => {
+      if (res.data === "ok") {
+        //데이터를 성공적으로 찾았을경우
+        navigate("/map");
+      } else {
+        reset({ password: "" });
+      }
+    });
+    console.log(d.id);
+    console.log(d.password);
+  };
+  const onInValid = (error) => {
+    console.log(error);
+  };
 
   return (
     <div className="mt-16 px-4 flex flex-col justify-center">
@@ -13,7 +34,10 @@ const LoginPage = (props) => {
         <div className="flex flex-col items-center">
           <h5 className="text-sm font-medium text-blue-500">로그인</h5>
         </div>
-        <form className="mt-8 flex flex-col space-y-4">
+        <form
+          onSubmit={handleSubmit(onValid, onInValid)}
+          className="mt-8 flex flex-col space-y-4"
+        >
           <Input
             type="text"
             register={register("id", { required: true })}
@@ -23,7 +47,7 @@ const LoginPage = (props) => {
           />
           <Input
             type="password"
-            register={register("passwrod", { required: true })}
+            register={register("password", { required: true })}
             name="password"
             placeholder="비밀번호"
             kind="text"
@@ -37,8 +61,8 @@ const LoginPage = (props) => {
           <div className="flex justify-center mt-5">
             <button className=" border-r-2 pr-5 ">아이디 찾기</button>
             <button className="pl-5 border-r-2 pr-5 ">비밀번호 찾기</button>
-            <button className="pl-5">
-              <a href="/join">회원가입</a>
+            <button className="pl-5" onClick={() => navigate("/join")}>
+              <span>회원가입</span>
             </button>
           </div>
         </div>

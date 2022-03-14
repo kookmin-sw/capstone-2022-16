@@ -1,7 +1,12 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const JoinPage = (props) => {
+  const navigate = useNavigate();
+  const [popupopen, setPopupOPen] = useState(false);
+  const [message, setMessage] = useState();
   const {
     register,
     formState: { errors },
@@ -11,11 +16,41 @@ const JoinPage = (props) => {
     mode: "onChange",
   });
 
-  const onValid = (data) => {};
-  const onInvalid = (errors) => {};
+  const onValid = (data) => {
+    axios({
+      method: "POST",
+      url: ``,
+      data: {
+        id: data.joinid,
+        password: data.joinpassword,
+        name: data.joinnickname,
+      },
+    }).then((res) => {
+      if (res.data === 0) {
+        navigate("/map");
+      } else {
+        setMessage(res.data.message);
+        //아이디가 같은경우
+        if (res.data.code === 10000) {
+          setMessage("이미 같은 아이디가 있습니다. 아이디를 바꾸어주세요");
+          setPopupOPen(true);
+        }
+        //닉네임이 같은경우
+        else if (res.data.code === 10001) {
+          setMessage("이미 같은 닉네임이 있습니다. 닉네임을 바꾸어주세요");
+          setPopupOPen(true);
+        }
+      }
+    });
+  };
+  const onInvalid = (errors) => {
+    setMessage("빈칸을 모두 채워주세요");
+    setPopupOPen(true);
+    console.log(errors);
+  };
 
   return (
-    <div className=" px-10 py-10 flex justify-center">
+    <div className=" px-10 py-10 flex justify-center relative">
       <div className=" w-[460px]">
         <h1 className=" cursor-pointer text-center font-bold text-blue-500 text-5xl mb-10">
           <a href="/">market</a>
@@ -90,7 +125,23 @@ const JoinPage = (props) => {
                 </div>
               ))}
           </div>
-
+          <div>
+            <label htmlFor="joinnickname">닉네임</label>
+            <div className="relative flex items-center shadow-sm">
+              <input
+                id="joinnickname"
+                {...register("joinnickname", {
+                  required: "필수항목 입니다",
+                })}
+                className=" w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+              />
+            </div>
+            {errors.joinnickname && (
+              <div className=" text-red-500 text-xs font-medium">
+                {errors.joinnickname.message}
+              </div>
+            )}
+          </div>
           <div className=" w-full">
             <label htmlFor="birth">생년월일</label>
             <div className="flex space-x-5">
@@ -151,6 +202,34 @@ const JoinPage = (props) => {
           </button>
         </form>
       </div>
+      {popupopen && (
+        <div className=" absolute w-96 h-40 bg-blue-300 top-[40%] rounded-md">
+          <div className="relative" onClick={() => setPopupOPen(false)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white absolute right-0 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
+          <div className=" rounded-md bg-blue-600 text-white flex justify-center">
+            <span>market</span>
+          </div>
+          <div className=" relative flex justify-center">
+            <span className=" absolute top-12 font-mono text-sm">
+              {message}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
