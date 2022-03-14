@@ -1,15 +1,19 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MapPage = (props) => {
+  const [marketsinfo, setMarketsinfo] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [overlayPos, setOverlayPos] = useState([]);
+  const [currentmarketid, setCurrentMarketid] = useState(1);
   const navigate = useNavigate();
   const [state, setState] = useState({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.58827661475296,
+      lng: 127.2197275271777,
     },
     errMsg: null,
     isLoading: true,
@@ -38,6 +42,30 @@ const MapPage = (props) => {
           }));
         }
       );
+
+      axios({
+        method: "GET",
+        url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
+      }).then((res) => {
+        res.data[0] = {
+          ...res.data[0],
+          marketId: 0,
+        };
+        res.data[1] = {
+          ...res.data[1],
+          marketId: 1,
+        };
+        res.data[2] = {
+          ...res.data[2],
+          marketId: 2,
+        };
+        res.data[3] = {
+          ...res.data[3],
+          marketId: 3,
+        };
+
+        setMarketsinfo(res.data);
+      });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
@@ -46,7 +74,7 @@ const MapPage = (props) => {
         isLoading: false,
       }));
     }
-  }, []);
+  }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-full bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
@@ -79,15 +107,34 @@ const MapPage = (props) => {
         }}
         level={2} // 지도의 확대 레벨
       >
-        <MapMarker position={state.center} onClick={() => setIsOpen(true)} />
+        <MapMarker position={state.center} /> {/* 현재 자기 위치 마커에표시*/}
+        {marketsinfo.map((market) => {
+          const position = {
+            lat: market.latitude,
+            lng: market.longitude,
+          };
+          const marketId = market.marketId;
+          return (
+            <MapMarker
+              className="z-0"
+              position={position}
+              key={marketId}
+              onClick={() => {
+                setIsOpen(true);
+                setOverlayPos(position);
+                setCurrentMarketid(marketId);
+              }}
+            />
+          );
+        })}{" "}
+        {/* 주변 장터의 위치 마커에 표시*/}
         {isOpen && (
-          <CustomOverlayMap position={state.center}>
-            <div className=" w-40 h-24 box-border text-xs bg-blue-200 font-medium rounded-lg shadow-md p-3">
+          <CustomOverlayMap position={overlayPos} className="z-10 relative">
+            <div className="absolute w-40 h-24 box-border text-xs bg-blue-200 font-medium rounded-lg shadow-md p-3">
               <div className=" space-y-2">
                 <div className="flex justify-between">
                   <div>장터 이름</div>
                   <div
-                    className=" "
                     onClick={() => {
                       setIsOpen(false);
                     }}
@@ -106,7 +153,7 @@ const MapPage = (props) => {
                   <div>판매 물품</div>
                   <button
                     onClick={() => {
-                      navigate("123");
+                      navigate(`${currentmarketid}`);
                       setHasChild(true);
                     }}
                   >

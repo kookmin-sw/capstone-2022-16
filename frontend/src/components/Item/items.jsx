@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const Items = ({ description, name }) => {
   const navigate = useNavigate();
+  const [data, setData] = useState({});
   return (
     <div onClick={() => navigate("123")}>
       <div className=" flex space-x-2 border-b-2 p-2 border-gray-300 items-center">
@@ -11,13 +12,11 @@ const Items = ({ description, name }) => {
           alt=""
           className="w-14 h-14 rounded-full"
         />
-        <div className=" space-y-3">
-          <div className=" flex justify-between">
+        <div className=" w-full space-y-3">
+          <div className=" w-full flex justify-between">
             <h2>{name}</h2>
-            <h2>1000원</h2>
+            <h2>1000</h2>
           </div>
-
-          <p className=" font-mono text-xs">{description}</p>
         </div>
       </div>
     </div>
