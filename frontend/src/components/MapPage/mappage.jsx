@@ -127,7 +127,7 @@ const MapPage = (props) => {
               }}
             />
           );
-        })}{" "}
+        })}
         {/* 주변 장터의 위치 마커에 표시*/}
         {isOpen && (
           <CustomOverlayMap position={overlayPos} className="z-10 relative">

@@ -5,6 +5,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 
 const MarketReg = (props) => {
+  const [marketsinfo, setMarketsinfo] = useState([]);
   const [marker, setMarkers] = useState({
     position: {
       lat: 33.450701,
@@ -42,6 +43,30 @@ const MarketReg = (props) => {
           }));
         }
       );
+      axios({
+        method: "GET",
+        url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
+      }).then((res) => {
+        console.log(res);
+        res.data[0] = {
+          ...res.data[0],
+          marketId: 0,
+        };
+        res.data[1] = {
+          ...res.data[1],
+          marketId: 1,
+        };
+        res.data[2] = {
+          ...res.data[2],
+          marketId: 2,
+        };
+        res.data[3] = {
+          ...res.data[3],
+          marketId: 3,
+        };
+
+        setMarketsinfo(res.data);
+      });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
@@ -50,9 +75,8 @@ const MarketReg = (props) => {
         isLoading: false,
       }));
     }
-  }, []);
+  }, [state.center.lat, state.center.lng]);
 
-  const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const onValid = (data) => {
@@ -132,17 +156,42 @@ const MarketReg = (props) => {
                 },
               }}
             />
+            {marketsinfo.map((market) => {
+              const position = {
+                lat: market.latitude,
+                lng: market.longitude,
+              };
+              const marketId = market.marketId;
+              return (
+                <MapMarker className="z-0" position={position} key={marketId} />
+              );
+            })}
           </Map>
         </div>
+        <div className="flex mt-3 space-x-2 items-center justify-center">
+          <img
+            src="http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png"
+            alt=""
+            className=" w-5 h-7"
+          />
+          <span>: 다른 장터의 위치</span>
+          <img
+            src="icon/8726082_map_marker_alt_icon.png"
+            alt=""
+            className="w-7 h-8"
+          />
+          <span>: 장터를 오픈할 위치</span>
+        </div>
+
         <form
           onSubmit={handleSubmit(onValid)}
           className="flex flex-col space-y-3"
         >
-          <label htmlFor="itemname">장터 이름</label>
+          <label htmlFor="marketname">장터 이름</label>
           <input
-            id="itemname"
+            id="marketname"
             type="text"
-            {...register("itemname", { required: true })}
+            {...register("marketname", { required: true })}
             className=" focus:border-blue-500 border-2 border-gray-700 rounded-md outline-none px-2 py-1"
           />
 
