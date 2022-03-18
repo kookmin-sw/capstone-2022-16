@@ -6,22 +6,6 @@ const MainPage = (props) => {
   return (
     <div className=" bg-blue-100 w-full h-[100vh] relative">
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
-        <button className=" absolute left-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
       <div className="flex justify-center items-center h-full">
