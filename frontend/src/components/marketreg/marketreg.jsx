@@ -70,7 +70,7 @@ const MarketReg = (props) => {
     });
   };
   return (
-    <div>
+    <div className=" w-full h-[100vh]">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
         <button onClick={() => navigate(-1)} className=" absolute left-3">
           <svg
@@ -90,71 +90,67 @@ const MarketReg = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      <Map // 지도를 표시할 Container
-        center={state.center}
-        style={{
-          // 지도의 크기
-          width: "100%",
-          height: "450px",
-        }}
-        level={2} // 지도의 확대 레벨
-        onClick={(_target, mouseEvent) => {
-          setMarkers({
-            position: {
-              lat: mouseEvent.latLng.getLat(),
-              lng: mouseEvent.latLng.getLng(),
-            },
-          });
-          console.log(marker);
-        }}
-      >
-        <MapMarker // 마커를 생성합니다
-          position={marker.position}
-          image={{
-            src: "icon/8726082_map_marker_alt_icon.png", // 마커이미지의 주소입니다
-            size: {
-              width: 40,
-              height: 40,
-            }, // 마커이미지의 크기입니다
-            options: {
-              offset: {
-                x: 20,
-                y: 30,
-              }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-            },
-          }}
-        />
-      </Map>
-      <form
-        onSubmit={handleSubmit(onValid)}
-        className="flex flex-col p-10 space-y-3"
-      >
-        <label htmlFor="itemname">물건 이름</label>
-        <input
-          id="itemname"
-          type="text"
-          {...register("itemname", { required: true })}
-          className=" focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
-        />
-        <label htmlFor="itemprice">가격</label>
-        <input
-          {...register("itemprice", { required: true })}
-          id="itemprice"
-          type="text"
-          className="focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
-        />
-        <label htmlFor="itemdes">설명</label>
-        <textarea
-          {...register("itemdescription", { required: true })}
-          id="itemdes"
-          cols="30"
-          rows="10"
-          className="focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
-        ></textarea>
-        <button className=" transition-colors hover:bg-blue-400 bg-blue-300 text-white text-xl p-2 rounded-md">
-          장터 등록
-        </button>
-      </form>
+      <div className="p-4">
+        <div className="flex justify-center">
+          <span className=" text-gray-700 font-medium mb-4">
+            장터를 오픈할 위치를 지정해주세요
+          </span>
+        </div>
+        <div className=" border-4 border-blue-400 rounded-3xl p-2">
+          <Map // 지도를 표시할 Container
+            className=" rounded-3xl"
+            center={state.center}
+            style={{
+              // 지도의 크기
+              width: "100%",
+              height: "450px",
+            }}
+            level={2} // 지도의 확대 레벨
+            onClick={(_target, mouseEvent) => {
+              setMarkers({
+                position: {
+                  lat: mouseEvent.latLng.getLat(),
+                  lng: mouseEvent.latLng.getLng(),
+                },
+              });
+              console.log(marker);
+            }}
+          >
+            <MapMarker // 마커를 생성합니다
+              position={marker.position}
+              image={{
+                src: "icon/8726082_map_marker_alt_icon.png", // 마커이미지의 주소입니다
+                size: {
+                  width: 40,
+                  height: 40,
+                }, // 마커이미지의 크기입니다
+                options: {
+                  offset: {
+                    x: 20,
+                    y: 30,
+                  }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                },
+              }}
+            />
+          </Map>
+        </div>
+        <form
+          onSubmit={handleSubmit(onValid)}
+          className="flex flex-col space-y-3"
+        >
+          <label htmlFor="itemname">장터 이름</label>
+          <input
+            id="itemname"
+            type="text"
+            {...register("itemname", { required: true })}
+            className=" focus:border-blue-500 border-2 border-gray-700 rounded-md outline-none px-2 py-1"
+          />
+
+          <button className=" transition-colors hover:bg-blue-400 bg-blue-300 text-white text-xl p-2 rounded-md">
+            장터 등록
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
