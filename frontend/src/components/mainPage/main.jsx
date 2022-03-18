@@ -71,7 +71,10 @@ const MainPage = (props) => {
             </svg>
             <span className=" text-xl">내 정보</span>
           </button>
-          <button className="transition-colors hover:bg-blue-500 space-y-4 text-white w-52 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center">
+          <button
+            onClick={() => navigate("/marketreg")}
+            className="transition-colors hover:bg-blue-500 space-y-4 text-white w-52 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-16 w-16"

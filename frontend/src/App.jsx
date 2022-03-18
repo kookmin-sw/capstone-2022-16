@@ -10,6 +10,7 @@ import Upload from "./components/uploadPage/upload";
 import MainPage from "./components/mainPage/main";
 import Profile from "./components/profilePage/profile";
 import { useState } from "react";
+import MarketReg from "./components/marketreg/marketreg";
 
 function App() {
   const [user, setUser] = useState();
@@ -32,6 +33,11 @@ function App() {
           <Route path="main" exact element={<MainPage></MainPage>}></Route>
           <Route path="profile" exact element={<Profile></Profile>}></Route>
           <Route path="upload" exact element={<Upload></Upload>}></Route>
+          <Route
+            path="marketreg"
+            exact
+            element={<MarketReg></MarketReg>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
