@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Popup from "../components/popup";
 
 const JoinPage = (props) => {
+  const [joinsuccess, setJoinsuccess] = useState(false);
   const navigate = useNavigate();
   const [popupopen, setPopupOPen] = useState(false);
   const [message, setMessage] = useState();
@@ -19,15 +21,10 @@ const JoinPage = (props) => {
   const onValid = (data) => {
     axios({
       method: "POST",
-      url: ``,
-      data: {
-        id: data.joinid,
-        password: data.joinpassword,
-        name: data.joinnickname,
-      },
+      url: `/join?password=${data.joinpassword}&name=${data.joinnickname}&loginId=${data.joinid}`,
     }).then((res) => {
-      if (res.data === 0) {
-        navigate("/map");
+      if (res.data === "ok") {
+        setJoinsuccess(true);
       } else {
         setMessage(res.data.message);
         //아이디가 같은경우
@@ -51,6 +48,13 @@ const JoinPage = (props) => {
 
   return (
     <div className=" px-10 py-10 flex justify-center relative">
+      {joinsuccess && (
+        <Popup
+          itemclick={setJoinsuccess}
+          popupmsg="가입이 완료되었습니다!"
+          navigateurl="/"
+        ></Popup>
+      )}
       <div className=" w-[460px]">
         <h1 className=" cursor-pointer text-center font-bold text-blue-500 text-5xl mb-10">
           <a href="/">market</a>

@@ -47,6 +47,7 @@ const MapPage = (props) => {
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
+        console.log(res);
         res.data[0] = {
           ...res.data[0],
           marketId: 0,
@@ -78,7 +79,7 @@ const MapPage = (props) => {
   return (
     <div className=" w-full h-full bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
-        <button className=" absolute left-3">
+        <button onClick={() => navigate(-1)} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"
@@ -182,7 +183,7 @@ const MapPage = (props) => {
         <h3 className=" font-semibold text-lg">장터 이름</h3>
       </div>
       {!hasChild ? (
-        <div className=" w-full relative flex justify-center items-center">
+        <div className=" transition-all  w-full relative flex justify-center items-center">
           <span className=" absolute top-40">장터 아이템을 표시</span>
         </div>
       ) : (

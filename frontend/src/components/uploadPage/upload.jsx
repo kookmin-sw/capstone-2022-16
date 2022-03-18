@@ -16,17 +16,9 @@ const Upload = (props) => {
         price: data.itemprice,
         description: data.itemdescription,
       },
-    })
-      .then((req) => {
-        console.log(req);
-      })
-      .then((res) => {
-        if (res.data === "") {
-          //데이터를 성공적으로 찾았을경우
-          navigate("/map");
-        } else {
-        }
-      });
+    }).then((req) => {
+      console.log(req);
+    });
   };
   return (
     <div className=" w-full h-[100vh]">
@@ -63,14 +55,14 @@ const Upload = (props) => {
           id="itemname"
           type="text"
           {...register("itemname", { required: true })}
-          className=" border-2 border-blue-400 rounded-md outline-none px-2 py-1"
+          className=" focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
         />
         <label htmlFor="itemprice">가격</label>
         <input
           {...register("itemprice", { required: true })}
           id="itemprice"
           type="text"
-          className="border-2 border-blue-400 rounded-md outline-none px-2 py-1"
+          className="focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
         />
         <label htmlFor="itemdes">설명</label>
         <textarea
@@ -78,9 +70,9 @@ const Upload = (props) => {
           id="itemdes"
           cols="30"
           rows="10"
-          className="border-2 border-blue-400 rounded-md outline-none px-2 py-1"
+          className="focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
         ></textarea>
-        <button className=" bg-blue-400 text-white text-xl p-2 rounded-md">
+        <button className=" transition-colors hover:bg-blue-400 bg-blue-300 text-white text-xl p-2 rounded-md">
           물품 등록
         </button>
       </form>

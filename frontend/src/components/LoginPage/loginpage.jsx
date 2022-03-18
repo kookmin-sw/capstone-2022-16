@@ -1,21 +1,26 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Popup from "../components/popup";
 import Input from "../input";
 const LoginPage = (props) => {
+  const [loginfail, setLoginfail] = useState(false);
   const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const navigate = useNavigate();
+
   const onValid = (d) => {
     axios({
       method: "POST",
-      url: `/login?loginId=${d.id}&password=${d.password}`,
+      url: `login?loginId=${d.id}&password=${d.password}`,
     }).then((res) => {
+      console.log(res);
       if (res.data === "ok") {
-        //데이터를 성공적으로 찾았을경우
-        navigate("/map");
+        navigate("/main");
       } else {
         reset({ password: "" });
+        reset({ id: "" });
+        setLoginfail(true);
       }
     });
     console.log(d.id);
@@ -26,7 +31,15 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div className="mt-16 px-4 flex flex-col justify-center">
+    <div className=" relative mt-16 px-4 flex flex-col justify-center">
+      {loginfail && (
+        <Popup
+          itemclick={setLoginfail}
+          popupmsg="아이디 및 비밀번호가 일치하지 않습니다"
+          navigateurl="/"
+        ></Popup>
+      )}
+
       <h3 className="text-center text-3xl font-bold text-blue-800">
         Welcome to market
       </h3>
