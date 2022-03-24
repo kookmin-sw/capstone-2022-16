@@ -1,42 +1,70 @@
 package fleamarket.core.controller;
 
-import fleamarket.core.domain.Location;
+import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Market;
-import fleamarket.core.domain.MarketLocations;
+import fleamarket.core.domain.Member;
+import fleamarket.core.repository.ItemRepository;
+import fleamarket.core.repository.MarketRepository;
 import fleamarket.core.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import fleamarket.core.web.SessionConst;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 public class MarketController {
     private final MemberService memberService;
-    @Autowired
-    public MarketController(MemberService memberService) {
-        this.memberService = memberService;
+    private final MarketRepository marketRepository;
+    private final ItemRepository itemRepository;
+
+    @PostMapping("/market/add/{latitude}/{longitude}")
+    public String addNewMarket(@RequestParam double latitude,@RequestParam double longitude){
+        Market market = new Market();
+        market.setLatitude(latitude);
+        market.setLongitude(longitude);
+        marketRepository.save(market);
+        return "OK";
     }
 
     @GetMapping("/market/{id}")
-    public Market marketInfo(){
-        String[] itemInfo = {"초콜릿","티슈"};
-        Market market = new Market(itemInfo);
-        return market;
-    } 
+    public List<Item> marketInfo(@RequestParam Long id){
+        Market market = marketRepository.findById(id).get();
+        List<Item> items = market.getItems();
+
+        return items;
+    }
+
+    @PostMapping("/market/{id}/save/{itemName}")
+    public String itemSave(@RequestParam Long id, @RequestParam String itemName, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            return "Not logged In";
+        }
+        Item item = new Item();
+        Market market = marketRepository.findById(id).get();
+        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        item.setItemName(itemName);
+        item.setPrice(1000L);
+        item.setMember(loggedMember);
+        item.setMarket(market);
+        itemRepository.save(item);
+
+        return "OK";
+    }
 
     @GetMapping("/map")
-    public Location[] marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
-
-        double value = .000000004;
-        Location location1 = new Location(latitude+value,longitude+value);
-        Location location2 = new Location(latitude+value,longitude-value);
-        Location location3 = new Location(latitude-value,longitude+value);
-        Location location4 = new Location(latitude-value,longitude-value);
-
-        Location[] marketLocations = {location1,location2,location3,location4};
-
-        return marketLocations;
+    public List<Market> marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
+        List<Market> markets = marketRepository.findAll();
+        return markets;
     }
 
 }
