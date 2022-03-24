@@ -23,7 +23,7 @@ public class MarketController {
         String[] itemInfo = {"초콜릿","티슈"};
         Market market = new Market(itemInfo);
         return market;
-    }
+    } 
 
     @GetMapping("/map")
     public Location[] marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
