@@ -8,11 +8,13 @@ const ItemsInMarket = (props) => {
   const [itemlist, setItemlist] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
+    console.log(params);
     axios({
-      method: "get",
-      url: "/market/1",
+      method: "GET",
+      url: `/market?id=${params.marketid}`,
     }).then((res) => {
-      setItemlist(res.data.items);
+      console.log(res.data);
+      res.data.items && setItemlist(res.data.items);
     });
   }, []);
   return (
@@ -26,7 +28,7 @@ const ItemsInMarket = (props) => {
       ))}
       <div
         onClick={() => {
-          navigate("/upload");
+          navigate(`/${params.marketid}/upload`);
         }}
         className=" rounded-b-md cursor-pointer flex justify-center text-white  items-center  bg-blue-500 text-4xl"
       >

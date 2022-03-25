@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 const MarketReg = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
   const [isimpossible, setisimpossible] = useState(false);
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
   const [marker, setMarkers] = useState({
     position: {
       lat: 33.450701,
@@ -48,22 +50,6 @@ const MarketReg = (props) => {
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
-        res.data[0] = {
-          ...res.data[0],
-          marketId: 0,
-        };
-        res.data[1] = {
-          ...res.data[1],
-          marketId: 1,
-        };
-        res.data[2] = {
-          ...res.data[2],
-          marketId: 2,
-        };
-        res.data[3] = {
-          ...res.data[3],
-          marketId: 3,
-        };
         setMarketsinfo(res.data);
       });
     } else {
@@ -80,13 +66,12 @@ const MarketReg = (props) => {
       setisimpossible(false);
     }, 500);
   }, [isimpossible]);
-  const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
-  const onValid = (data) => {
+
+  const onValid = (d) => {
+    console.log(`${marker.position.lat} ${marker.position.lng}`);
     axios({
       method: "POST",
-      url: ``,
-      data: {},
+      url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
     }).then((req) => {
       console.log(req);
     });
