@@ -3,11 +3,25 @@ package fleamarket.core.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-public class Market {
-    private String[] items;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Market(String[] itemsInfo){
-        items = itemsInfo;
-    }
+@Getter
+@Setter
+@Entity
+public class Market {
+
+    @Id @GeneratedValue
+    @Column(name = "MARKET_ID")
+    private Long marketId;
+
+    @OneToMany(mappedBy = "market")
+    private List<Item> items = new ArrayList<>();
+
+    private double latitude;
+    private double longitude;
+    //public Market(String[] itemsInfo){
+        //items = itemsInfo;
+    //}
 }

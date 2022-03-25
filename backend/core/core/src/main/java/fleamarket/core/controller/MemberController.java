@@ -2,6 +2,7 @@ package fleamarket.core.controller;
 
 import fleamarket.core.domain.Member;
 import fleamarket.core.repository.MemberRepository;
+import fleamarket.core.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +13,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberRepository memberRepository;
+    private final MemoryMemberRepository memoryMemberRepository;
 
     @PostMapping("/join")
     public Object save(@Valid @ModelAttribute Member member, BindingResult
@@ -20,8 +21,8 @@ public class MemberController {
         if (result.hasErrors()) {
             return result.getAllErrors();
         }
-        System.out.println(member.getId());
-        memberRepository.save(member);
+        System.out.println(member.getMemberId());
+        memoryMemberRepository.save(member);
         return "ok";
     }
 }

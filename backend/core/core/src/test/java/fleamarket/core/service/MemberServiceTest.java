@@ -20,7 +20,7 @@ class MemberServiceTest {
     }
     @AfterEach
     public void afterEach() {
-        memberRepository.deleteAll();
+        //memberRepository.deleteAll();
     }
     @Test
     public void 회원가입() throws Exception {
