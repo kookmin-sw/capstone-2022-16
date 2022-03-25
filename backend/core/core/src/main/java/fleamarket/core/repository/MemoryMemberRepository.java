@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Slf4j
 @Repository
+@Transactional
 public class MemoryMemberRepository implements MemberRepository{
 
     @PersistenceContext

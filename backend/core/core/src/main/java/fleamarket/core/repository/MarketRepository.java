@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Repository
+@Transactional
 public class MarketRepository {
     @PersistenceContext
     private EntityManager em;
