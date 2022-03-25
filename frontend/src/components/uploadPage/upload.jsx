@@ -10,7 +10,7 @@ const Upload = (props) => {
   const onValid = (data) => {
     console.log(params);
     axios({
-      method: "GET",
+      method: "POST",
       url: `/market/save?marketId=${params.marketid}&itemName=sfsf`,
     }).then((req) => {
       console.log(req);
