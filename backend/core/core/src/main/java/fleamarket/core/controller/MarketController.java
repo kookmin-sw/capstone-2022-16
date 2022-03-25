@@ -45,7 +45,7 @@ public class MarketController {
     }
 
     //특정 마켓에 아이템 등록
-    @GetMapping("/market/save")
+    @PostMapping("/market/save")
     public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){

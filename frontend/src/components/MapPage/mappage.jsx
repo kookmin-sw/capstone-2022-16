@@ -45,7 +45,7 @@ const MapPage = (props) => {
 
       axios({
         method: "GET",
-        url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
+        url: `/map?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
         setMarketsinfo(res.data);
       });
@@ -57,7 +57,8 @@ const MapPage = (props) => {
         isLoading: false,
       }));
     }
-  }, [state.center.lat, state.center.lng]);
+    console.log(marketsinfo);
+  }, [marketsinfo]);
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
