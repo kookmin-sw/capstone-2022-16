@@ -13,7 +13,6 @@ public class Item {
     @Id @GeneratedValue
     @Column(name="ITEM_ID")
     private Long itemId;
-
     private String itemName;
     private Long price;
 

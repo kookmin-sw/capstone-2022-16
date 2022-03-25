@@ -1,5 +1,7 @@
 package fleamarket.core.controller;
 
+import fleamarket.core.DTO.ItemDTO;
+import fleamarket.core.DTO.MarketDTO;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Market;
 import fleamarket.core.domain.Member;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -66,9 +69,13 @@ public class MarketController {
 
     //모든 마켓 정보 반환
     @GetMapping("/map")
-    public List<Market> marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
+    public List<MarketDTO> marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
         List<Market> markets = marketRepository.findAll();
-        return markets;
+        List<ItemDTO> items = new ArrayList<>();
+        List<MarketDTO> marketDTOs = new ArrayList<>();
+        markets.stream().forEach(m->
+                marketDTOs.add(new MarketDTO(m.getMarketId(),m.getItems())));
+        return marketDTOs;
     }
 
 }
