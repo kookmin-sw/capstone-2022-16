@@ -40,11 +40,13 @@ public class MarketController {
 
     //특정 마켓의 아이템 리스트 반환
     @GetMapping("/market")
-    public List<Item> marketInfo(@RequestParam Long id){
+    public List<ItemDTO> marketInfo(@RequestParam Long id){
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice())));
 
-        return items;
+        return itemDTOS;
     }
 
     //특정 마켓에 아이템 등록
@@ -74,7 +76,7 @@ public class MarketController {
         List<ItemDTO> items = new ArrayList<>();
         List<MarketDTO> marketDTOs = new ArrayList<>();
         markets.stream().forEach(m->
-                marketDTOs.add(new MarketDTO(m.getMarketId(),m.getItems())));
+                marketDTOs.add(new MarketDTO(m.getMarketId(),m.getLatitude(),m.getLongitude(),m.getItems())));
         return marketDTOs;
     }
 

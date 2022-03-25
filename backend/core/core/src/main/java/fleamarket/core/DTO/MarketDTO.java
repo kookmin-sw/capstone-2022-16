@@ -11,9 +11,13 @@ import java.util.List;
 @Setter
 public class MarketDTO {
     private Long marketId;
+    private double latitude;
+    private double longitude;
     private List<ItemDTO> itemDTOs = new ArrayList<>();
-    public MarketDTO(Long marketId, List<Item> items){
+    public MarketDTO(Long marketId,double latitude,double longitude,List<Item> items){
         this.marketId = marketId;
+        this.latitude = latitude;
+        this.longitude = longitude;
         items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice())));
     }
 }
