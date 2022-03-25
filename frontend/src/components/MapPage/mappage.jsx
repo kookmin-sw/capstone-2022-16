@@ -77,7 +77,7 @@ const MapPage = (props) => {
     }
   }, [state.center.lat, state.center.lng]);
   return (
-    <div className=" w-full h-full bg-gray-100 box-border">
+    <div className=" w-full h-[100vh] bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
         <button onClick={() => navigate("/main")} className=" absolute left-3">
           <svg
@@ -193,7 +193,6 @@ const MapPage = (props) => {
             )}
           </Map>
         </div>
-
         <div className="flex items-center justify-center space-x-2">
           <img
             src="/icon/299087_marker_map_icon.png"
@@ -208,13 +207,15 @@ const MapPage = (props) => {
           />
           <span>: 다른 장터의 위치</span>
         </div>
-        <div className=" bg-blue-300 flex items-center justify-center">
-          <h3 className=" font-semibold text-lg">장터 이름</h3>
-        </div>
         {!hasChild ? (
-          <div className=" transition-all  w-full relative flex justify-center items-center">
-            <span className=" absolute top-40">장터 아이템을 표시</span>
-          </div>
+          <>
+            <div className=" bg-blue-300 flex items-center justify-center">
+              <h3 className=" font-semibold text-lg">장터 이름</h3>
+            </div>
+            <div className="transition-all  w-full relative flex justify-center items-center">
+              <span className=" absolute top-40">장터 아이템을 표시</span>
+            </div>
+          </>
         ) : (
           <Outlet />
         )}

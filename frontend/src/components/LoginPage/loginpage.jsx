@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/popup";
@@ -8,14 +9,16 @@ const LoginPage = (props) => {
   const [loginfail, setLoginfail] = useState(false);
   const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const navigate = useNavigate();
-
+  const [cookies, setCookie, removeCookie] = useCookies(["JSESSIONID11"]);
   const onValid = (d) => {
     axios({
       method: "POST",
       url: `login?loginId=${d.id}&password=${d.password}`,
     }).then((res) => {
+      console.log("h1");
       console.log(res);
       if (res.data === "ok") {
+        console.log(res);
         navigate("/main");
       } else {
         reset({ password: "" });
@@ -23,12 +26,21 @@ const LoginPage = (props) => {
         setLoginfail(true);
       }
     });
+
     console.log(d.id);
     console.log(d.password);
   };
   const onInValid = (error) => {
     console.log(error);
   };
+  useEffect(() => {
+    if (cookies.JSESSIONID === undefined) {
+      setCookie("JSESSIONID11", "111", { path: "/" });
+      console.log("chan");
+      console.log(cookies);
+      removeCookie("JSESSIONID11");
+    }
+  }, []);
 
   return (
     <div className=" relative mt-16 px-4 flex flex-col justify-center">

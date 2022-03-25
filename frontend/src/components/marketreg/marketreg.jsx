@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 
 const MarketReg = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
+  const [isimpossible, setisimpossible] = useState(false);
   const [marker, setMarkers] = useState({
     position: {
       lat: 33.450701,
@@ -47,7 +48,6 @@ const MarketReg = (props) => {
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
-        console.log(res);
         res.data[0] = {
           ...res.data[0],
           marketId: 0,
@@ -64,7 +64,6 @@ const MarketReg = (props) => {
           ...res.data[3],
           marketId: 3,
         };
-
         setMarketsinfo(res.data);
       });
     } else {
@@ -76,25 +75,24 @@ const MarketReg = (props) => {
       }));
     }
   }, [state.center.lat, state.center.lng]);
-
+  useEffect(() => {
+    setTimeout(() => {
+      setisimpossible(false);
+    }, 500);
+  }, [isimpossible]);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const onValid = (data) => {
-    console.log(data);
     axios({
       method: "POST",
       url: ``,
-      data: {
-        name: data.itemname,
-        price: data.itemprice,
-        description: data.itemdescription,
-      },
+      data: {},
     }).then((req) => {
       console.log(req);
     });
   };
   return (
-    <div className=" w-full h-[100vh]">
+    <div className=" w-full h-[100vh] relative">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
         <button onClick={() => navigate(-1)} className=" absolute left-3">
           <svg
@@ -137,7 +135,6 @@ const MarketReg = (props) => {
                   lng: mouseEvent.latLng.getLng(),
                 },
               });
-              console.log(marker);
             }}
           >
             <MapMarker // 마커를 생성합니다
@@ -163,7 +160,22 @@ const MarketReg = (props) => {
               };
               const marketId = market.marketId;
               return (
-                <MapMarker className="z-0" position={position} key={marketId} />
+                <div key={marketId}>
+                  <MapMarker className="z-0" position={position} />
+                  <Circle
+                    center={position}
+                    radius={40}
+                    strokeWeight={2} // 선의 두께입니다
+                    strokeColor={"#75B8FA"} // 선의 색깔입니다
+                    strokeOpacity={0.3} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                    strokeStyle={"dash"} // 선의 스타일 입니다
+                    fillColor={"#CFE7FF"} // 채우기 색깔입니다
+                    fillOpacity={0.5} // 채우기 불투명도 입니다
+                    onClick={() => {
+                      setisimpossible(true);
+                    }}
+                  />
+                </div>
               );
             })}
           </Map>
@@ -200,6 +212,21 @@ const MarketReg = (props) => {
           </button>
         </form>
       </div>
+      {isimpossible && (
+        <div
+          className=" font-medium transition-all flex justify-center items-center absolute left-[15%] top-[17%] w-[70%] z-10 rounded-full flex items-center bg-blue-400 text-white text-sm font-bold px-4 py-3"
+          role="alert"
+        >
+          <svg
+            className="fill-current w-4 h-4 mr-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z" />
+          </svg>
+          <p className=" text-center">다른 장터가 주위에있습니다</p>
+        </div>
+      )}
     </div>
   );
 };

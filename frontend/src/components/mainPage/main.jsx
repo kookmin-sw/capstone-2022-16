@@ -3,16 +3,20 @@ import { useNavigate } from "react-router-dom";
 
 const MainPage = (props) => {
   const navigate = useNavigate();
+  const logout = {};
+  const cookie = document.Cookie;
+  console.log(cookie);
+  console.log("h1");
   return (
     <div className=" bg-blue-100 w-full h-[100vh] relative">
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
       <div className="flex justify-center items-center h-full">
-        <div className=" grid grid-cols-2 grid-rows-2 space-x-7 space-y-7  pr-7">
+        <div className=" grid grid-cols-2 grid-rows-2 ml-2">
           <button
             onClick={() => navigate("/map")}
-            className=" transition-colors hover:bg-blue-500 ml-7 mt-7 w-52 space-y-4 text-white h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            className=" transition-colors hover:bg-blue-500 mr-2 mb-2 w-40 space-y-4 text-white h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +41,7 @@ const MainPage = (props) => {
           </button>
           <button
             onClick={() => navigate("/profile")}
-            className="transition-colors hover:bg-blue-500 w-52 space-y-4 text-white  h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            className="transition-colors hover:bg-blue-500 w-40 space-y-4 text-white  h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +61,7 @@ const MainPage = (props) => {
           </button>
           <button
             onClick={() => navigate("/marketreg")}
-            className="transition-colors hover:bg-blue-500 space-y-4 text-white w-52 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            className="transition-colors hover:bg-blue-500 space-y-4 text-white w-40 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +79,10 @@ const MainPage = (props) => {
             </svg>
             <span className=" text-xl">장터 등록 하기</span>
           </button>
-          <button className="transition-colors hover:bg-blue-500 space-y-4 text-white w-52 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center">
+          <button
+            onClick={() => logout}
+            className="transition-colors hover:bg-blue-500 space-y-4 text-white w-40 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-16 w-16"
@@ -90,7 +97,7 @@ const MainPage = (props) => {
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-            <span className=" text-xl">내 정보</span>
+            <span className=" text-xl">로그아웃</span>
           </button>
         </div>
       </div>

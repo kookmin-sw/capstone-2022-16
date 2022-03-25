@@ -19,9 +19,14 @@ const JoinPage = (props) => {
   });
 
   const onValid = (data) => {
+    const birth = +(data.joinyear + data.joinmonth + data.joindate);
     axios({
       method: "POST",
       url: `/join?password=${data.joinpassword}&name=${data.joinnickname}&loginId=${data.joinid}`,
+      data: {
+        birthDate: `${birth}`,
+        name: `${data.joinnickname}`,
+      },
     }).then((res) => {
       if (res.data === "ok") {
         setJoinsuccess(true);
