@@ -6,10 +6,14 @@ import LoginPage from "./components/LoginPage/loginpage";
 import MapPage from "./components/MapPage/mappage";
 import ItemsInMarket from "./components/Item/ItemsInMarket";
 import ItemDetail from "./components/Item/ItemDetail";
-import { useState } from "react";
 import Upload from "./components/uploadPage/upload";
+import MainPage from "./components/mainPage/main";
+import Profile from "./components/profilePage/profile";
+import { useState } from "react";
+import MarketReg from "./components/marketreg/marketreg";
 
 function App() {
+  const [user, setUser] = useState();
   return (
     <>
       <BrowserRouter>
@@ -26,7 +30,14 @@ function App() {
             path="/map/:marketid/:itemid"
             element={<ItemDetail></ItemDetail>}
           ></Route>
+          <Route path="main" exact element={<MainPage></MainPage>}></Route>
+          <Route path="profile" exact element={<Profile></Profile>}></Route>
           <Route path="upload" exact element={<Upload></Upload>}></Route>
+          <Route
+            path="marketreg"
+            exact
+            element={<MarketReg></MarketReg>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
