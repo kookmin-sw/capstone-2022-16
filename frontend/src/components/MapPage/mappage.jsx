@@ -47,24 +47,6 @@ const MapPage = (props) => {
         method: "GET",
         url: `/map/?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
-        console.log(res);
-        res.data[0] = {
-          ...res.data[0],
-          marketId: 0,
-        };
-        res.data[1] = {
-          ...res.data[1],
-          marketId: 1,
-        };
-        res.data[2] = {
-          ...res.data[2],
-          marketId: 2,
-        };
-        res.data[3] = {
-          ...res.data[3],
-          marketId: 3,
-        };
-
         setMarketsinfo(res.data);
       });
     } else {

@@ -32,7 +32,11 @@ function App() {
           ></Route>
           <Route path="main" exact element={<MainPage></MainPage>}></Route>
           <Route path="profile" exact element={<Profile></Profile>}></Route>
-          <Route path="upload" exact element={<Upload></Upload>}></Route>
+          <Route
+            path="/:marketid/upload"
+            exact
+            element={<Upload></Upload>}
+          ></Route>
           <Route
             path="marketreg"
             exact

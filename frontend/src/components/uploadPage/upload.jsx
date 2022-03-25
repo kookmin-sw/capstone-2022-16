@@ -1,21 +1,17 @@
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Upload = (props) => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({ mode: onchange });
+  const params = useParams();
   const onValid = (data) => {
-    console.log(data);
+    console.log(params);
     axios({
-      method: "POST",
-      url: ``,
-      data: {
-        name: data.itemname,
-        price: data.itemprice,
-        description: data.itemdescription,
-      },
+      method: "GET",
+      url: `/market/save?marketId=${params.marketid}&itemName=sfsf`,
     }).then((req) => {
       console.log(req);
     });

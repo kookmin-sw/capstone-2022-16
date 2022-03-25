@@ -26,7 +26,7 @@ public class MarketController {
     private final ItemRepository itemRepository;
 
     //마켓 등록
-    @PostMapping("/market/add/{latitude}/{longitude}")
+    @PostMapping("/market/add")
     public String addNewMarket(@RequestParam double latitude,@RequestParam double longitude){
         Market market = new Market();
         market.setLatitude(latitude);
@@ -36,7 +36,7 @@ public class MarketController {
     }
 
     //특정 마켓의 아이템 리스트 반환
-    @GetMapping("/market/{id}")
+    @GetMapping("/market")
     public List<Item> marketInfo(@RequestParam Long id){
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
@@ -45,14 +45,14 @@ public class MarketController {
     }
 
     //특정 마켓에 아이템 등록
-    @PostMapping("/market/{marektId}/save/{itemName}")
-    public String itemSave(@RequestParam Long marektId, @RequestParam String itemName, HttpServletRequest request){
+    @GetMapping("/market/save")
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
         }
         Item item = new Item();
-        Market market = marketRepository.findById(marektId).get();
+        Market market = marketRepository.findById(marketId).get();
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         item.setItemName(itemName);
