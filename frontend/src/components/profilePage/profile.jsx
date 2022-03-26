@@ -1,8 +1,17 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Profile = (props) => {
   const navigate = useNavigate();
+  useEffect(() => {
+    axios({
+      method: "",
+      url: ``,
+    }).then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <div className="w-full h-[100vh]">
       <div className=" select-none w-full items-center justify-center flex  bg-blue-500 ">
@@ -50,7 +59,11 @@ const Profile = (props) => {
           <p>안녕하세요 ... 입니다. 잘부탁드립니다.</p>
         </div>
         <div className="flex justify-around">
-          <button className="">
+          <button
+            onClick={() => {
+              navigate("/salelist");
+            }}
+          >
             <div className=" w-20 h-20 bg-blue-400 rounded-full flex justify-center text-white items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
