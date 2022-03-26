@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,8 @@ public class MemberController {
         return "ok";
     }
 
-    @GetMapping("/meber/items")
+    @GetMapping("/member/items")
+    @Transactional
     public List<ItemDTO> getSellingItems(HttpServletRequest request){
         List<ItemDTO> itemDTOs = new ArrayList<>();
         HttpSession session = request.getSession();
@@ -43,6 +45,11 @@ public class MemberController {
            return itemDTOs;
         }
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if(loggedMember == null){
+            return itemDTOs;
+        }
+
         List<Item> items = loggedMember.getItems();
         items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice(),item.isReserved(),item.isSoldOut())));
         return itemDTOs;
