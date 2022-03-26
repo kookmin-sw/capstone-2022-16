@@ -37,7 +37,6 @@ public class MemberController {
     }
 
     @GetMapping("/member/items")
-    @Transactional
     public List<ItemDTO> getSellingItems(HttpServletRequest request){
         List<ItemDTO> itemDTOs = new ArrayList<>();
         HttpSession session = request.getSession();
