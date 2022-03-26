@@ -58,7 +58,7 @@ const MapPage = (props) => {
       }));
     }
     console.log(marketsinfo);
-  }, [state.center.lat,state.center.lng]);
+  }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
@@ -120,6 +120,7 @@ const MapPage = (props) => {
                     setIsOpen(true);
                     setOverlayPos(position);
                     setCurrentMarketid(marketId);
+                    navigate("/map");
                   }}
                 />
               );
