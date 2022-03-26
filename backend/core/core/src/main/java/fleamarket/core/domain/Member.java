@@ -17,8 +17,8 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.EAGER)
-    private List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    protected List<Item> items = new ArrayList<>();
 
     @NotEmpty
     private String loginId; //로그인 ID

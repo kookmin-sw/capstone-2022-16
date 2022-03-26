@@ -6,7 +6,9 @@ import fleamarket.core.domain.Member;
 import fleamarket.core.repository.MemberRepository;
 import fleamarket.core.repository.MemoryMemberRepository;
 import fleamarket.core.web.SessionConst;
+import fleamarket.core.web.login.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,11 +21,12 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import javax.transaction.Transactional;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
     private final MemoryMemberRepository memoryMemberRepository;
+    private final LoginService loginService;
 
     @PostMapping("/join")
     public Object save(@Valid @ModelAttribute Member member, BindingResult
@@ -38,19 +41,6 @@ public class MemberController {
 
     @GetMapping("/member/items")
     public List<ItemDTO> getSellingItems(HttpServletRequest request){
-        List<ItemDTO> itemDTOs = new ArrayList<>();
-        HttpSession session = request.getSession();
-        if(session == null){
-            return itemDTOs;
-        }
-        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
-        if(loggedMember == null){
-            return itemDTOs;
-        }
-
-        List<Item> items = loggedMember.getItems();
-        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice(),item.isReserved(),item.isSoldOut())));
-        return itemDTOs;
+        return loginService.getItems(request);
     }
 }
