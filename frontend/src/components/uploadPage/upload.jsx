@@ -11,7 +11,7 @@ const Upload = (props) => {
     console.log(params);
     axios({
       method: "POST",
-      url: `/market/save?marketId=${params.marketid}&itemName=sfsf`,
+      url: `/market/save?marketId=${params.marketid}&itemName=${data.itemname}`,
     }).then((req) => {
       console.log(req);
     });

@@ -44,7 +44,7 @@ function App() {
             element={<MarketReg></MarketReg>}
           ></Route>
           <Route
-            path=":memberid/salelist"
+            path="profile/:memberid/salelist"
             exact
             element={<SaleList></SaleList>}
           ></Route>
