@@ -8,7 +8,7 @@ const ItemDetail = (props) => {
   console.log(params);
   useEffect(() => {
     axios({
-      method: "get",
+      method: "GET",
       url: "",
     }).then((res) => {});
   }, []);

@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 const Profile = (props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    axios({
-      method: "",
-      url: ``,
-    }).then((res) => {
-      console.log(res);
-    });
+    // axios({
+    //   method: "",
+    //   url: ``,
+    // }).then((res) => {
+    //   console.log(res);
+    // });
   }, []);
   return (
     <div className="w-full h-[100vh]">
@@ -39,7 +39,7 @@ const Profile = (props) => {
           <div className="flex flex-col space-y-2">
             <span className=" text-5xl">Annonymous</span>
             <div className=" justify-center cursor-pointer text-xs text-gray-400 flex items-center space-x-2">
-              <spam>Edit profile</spam>
+              <span>Edit profile</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
@@ -61,7 +61,7 @@ const Profile = (props) => {
         <div className="flex justify-around">
           <button
             onClick={() => {
-              navigate("/salelist");
+              navigate("1/salelist");
             }}
           >
             <div className=" w-20 h-20 bg-blue-400 rounded-full flex justify-center text-white items-center">

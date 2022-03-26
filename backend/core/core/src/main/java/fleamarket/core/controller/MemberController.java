@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.transaction.Transactional;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -42,7 +42,7 @@ public class MemberController {
         List<ItemDTO> itemDTOs = new ArrayList<>();
         HttpSession session = request.getSession();
         if(session == null){
-           return itemDTOs;
+            return itemDTOs;
         }
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
