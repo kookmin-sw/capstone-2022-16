@@ -1,12 +1,15 @@
 import React from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const MainPage = (props) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["LoginCookie"]);
+
   const navigate = useNavigate();
-  const logout = {};
-  const cookie = document.Cookie;
-  console.log(cookie);
-  console.log("h1");
+  const logout = () => {
+    removeCookie("LoginCookie");
+    navigate("/");
+  };
   return (
     <div className=" bg-blue-100 w-full h-[100vh] relative">
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
@@ -80,7 +83,9 @@ const MainPage = (props) => {
             <span className=" text-xl">장터 등록 하기</span>
           </button>
           <button
-            onClick={() => logout}
+            onClick={() => {
+              logout();
+            }}
             className="transition-colors hover:bg-blue-500 space-y-4 text-white w-40 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
           >
             <svg

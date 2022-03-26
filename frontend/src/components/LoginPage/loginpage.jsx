@@ -9,7 +9,7 @@ const LoginPage = (props) => {
   const [loginfail, setLoginfail] = useState(false);
   const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["JSESSIONID11"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["LoginCookie"]);
   const onValid = (d) => {
     axios({
       method: "POST",
@@ -18,7 +18,7 @@ const LoginPage = (props) => {
       console.log("h1");
       console.log(res);
       if (res.data === "ok") {
-        console.log(res);
+        setCookie("LoginCookie", { path: "/" });
         navigate("/main");
       } else {
         reset({ password: "" });
@@ -34,11 +34,8 @@ const LoginPage = (props) => {
     console.log(error);
   };
   useEffect(() => {
-    if (cookies.JSESSIONID === undefined) {
-      setCookie("JSESSIONID11", "111", { path: "/" });
-      console.log("chan");
-      console.log(cookies);
-      removeCookie("JSESSIONID11");
+    if (cookies.LoginCookie !== undefined) {
+      navigate("/main");
     }
   }, []);
 
