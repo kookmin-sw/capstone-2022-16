@@ -11,6 +11,7 @@ import MainPage from "./components/mainPage/main";
 import Profile from "./components/profilePage/profile";
 import { useState } from "react";
 import MarketReg from "./components/marketreg/marketreg";
+import SaleList from "./components/saleList/salelist";
 
 function App() {
   const [user, setUser] = useState();
@@ -41,6 +42,11 @@ function App() {
             path="marketreg"
             exact
             element={<MarketReg></MarketReg>}
+          ></Route>
+          <Route
+            path=":memberid/salelist"
+            exact
+            element={<SaleList></SaleList>}
           ></Route>
         </Routes>
       </BrowserRouter>

@@ -14,17 +14,14 @@ const ItemsInMarket = (props) => {
       url: `/market?id=${params.marketid}`,
     }).then((res) => {
       console.log(res.data);
-      res.data.items && setItemlist(res.data.items);
+      res.data && setItemlist(res.data);
+      console.log(itemlist);
     });
   }, []);
   return (
     <div className=" overflow-y-scroll h-80">
       {itemlist.map((item) => (
-        <Items
-          key={item}
-          // description={item.description}
-          name={item}
-        ></Items>
+        <Items key={item.itemId} name={item.itemName}></Items>
       ))}
       <div
         onClick={() => {
