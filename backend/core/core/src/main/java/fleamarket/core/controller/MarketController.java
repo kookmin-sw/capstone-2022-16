@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice())));
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved())));
 
         return itemDTOS;
     }
@@ -78,6 +79,27 @@ public class MarketController {
         markets.stream().forEach(m->
                 marketDTOs.add(new MarketDTO(m.getMarketId(),m.getLatitude(),m.getLongitude(),m.getItems())));
         return marketDTOs;
+    }
+
+    @PostMapping("/market/reserve")
+    public String reserveItem(@RequestParam Long itemId,HttpServletRequest request){
+        Optional<Item> NullableItem = itemRepository.findById(itemId);
+        Item item = NullableItem.get();
+        if(item == null){
+            return "Item Not Found";
+        }
+        HttpSession session = request.getSession();
+        if(session == null){
+            return "Not Logged In";
+        }
+
+        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null){
+            return "Not Logged In";
+        }
+
+        item.setReserved(true);
+        return "OK";
     }
 
 }

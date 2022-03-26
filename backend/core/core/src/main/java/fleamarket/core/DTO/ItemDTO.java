@@ -9,10 +9,12 @@ public class ItemDTO {
     private Long itemId;
     private String itemName;
     private Long price;
+    private boolean reserved;
 
-    public ItemDTO(Long itemId,String itemName,Long price){
+    public ItemDTO(Long itemId,String itemName,Long price,boolean is_reserved){
         this.itemId = itemId;
         this.itemName = itemName;
         this.price = price;
+        this.reserved = reserved;
     }
 }

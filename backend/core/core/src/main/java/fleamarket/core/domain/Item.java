@@ -15,6 +15,7 @@ public class Item {
     private Long itemId;
     private String itemName;
     private Long price;
+    private boolean reserved = false;
 
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")

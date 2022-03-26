@@ -44,7 +44,7 @@ public class MemberController {
         }
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         List<Item> items = loggedMember.getItems();
-        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice())));
+        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice(),item.isReserved())));
         return itemDTOs;
     }
 }

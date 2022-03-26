@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -19,6 +20,10 @@ public class ItemRepository {
     public Item save(Item item){
         em.persist(item);
         return item;
+    }
+
+    public Optional<Item> findById(Long id){
+        return Optional.ofNullable(em.find(Item.class,id));
     }
 
     public void delete(Item item){
