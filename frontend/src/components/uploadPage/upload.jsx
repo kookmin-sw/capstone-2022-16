@@ -1,5 +1,6 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -7,6 +8,10 @@ const Upload = (props) => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({ mode: onchange });
   const params = useParams();
+  const [cookies] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   const onValid = (data) => {
     console.log(params);
     axios({

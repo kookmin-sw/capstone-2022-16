@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ItemDetail = (props) => {
   const navigate = useNavigate();
   const params = useParams();
-  console.log(params);
+  const [cookies] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   useEffect(() => {
     axios({
       method: "GET",

@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const MainPage = (props) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["LoginCookie"]);
+  const [cookies, setCookie, removeCookie] = useCookies([]);
 
   const navigate = useNavigate();
   const logout = () => {
     removeCookie("LoginCookie");
     navigate("/");
   };
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  });
+
   return (
     <div className=" bg-blue-100 w-full h-[100vh] relative">
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">

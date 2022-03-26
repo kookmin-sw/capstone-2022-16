@@ -3,10 +3,15 @@ import Items from "./items";
 import dummy from "../../data.json";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 const ItemsInMarket = (props) => {
   const params = useParams();
   const [itemlist, setItemlist] = useState([]);
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   useEffect(() => {
     console.log(params);
     axios({
