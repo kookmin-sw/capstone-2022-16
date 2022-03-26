@@ -45,7 +45,7 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved())));
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved(),item.isSoldOut())));
 
         return itemDTOS;
     }
@@ -102,4 +102,24 @@ public class MarketController {
         return "OK";
     }
 
+    @PostMapping("/market/soldout")
+    public String sellItem(@RequestParam Long itemId,HttpServletRequest request){
+        Optional<Item> NullableItem = itemRepository.findById(itemId);
+        Item item = NullableItem.get();
+        if(item == null){
+            return "Item Not Found";
+        }
+        HttpSession session = request.getSession();
+        if(session == null){
+            return "Not Logged In";
+        }
+
+        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null){
+            return "Not Logged In";
+        }
+
+        item.setSoldOut(true);
+        return "OK";
+    }
 }
