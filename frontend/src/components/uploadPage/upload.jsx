@@ -13,9 +13,10 @@ const Upload = (props) => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   const onValid = (data) => {
+    console.log(data.itemdescription);
     axios({
       method: "POST",
-      url: `/market/save?marketId=${params.marketid}&itemName=${data.itemname}`,
+      url: `/market/save?marketId=${params.marketid}&itemName=${data.itemname}&price=${data.itemprice}`,
       data: {
         description: data.itemdescription,
       },
