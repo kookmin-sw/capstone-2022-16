@@ -11,10 +11,7 @@ import fleamarket.core.service.MemberService;
 import fleamarket.core.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,14 +42,14 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.isSoldOut())));
 
         return itemDTOS;
     }
 
     //특정 마켓에 아이템 등록
     @PostMapping("/market/save")
-    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, HttpServletRequest request){
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestBody String description, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
