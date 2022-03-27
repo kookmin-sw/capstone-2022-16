@@ -45,7 +45,7 @@ public class LoginService {
         }
         Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
         List<Item> items = realMember.getItems();
-        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getItemId(),item.getItemName(),item.getPrice(),item.isReserved(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(realMember.getName(),item.getItemId(),item.getItemName(),item.getPrice(),item.isReserved(),item.isSoldOut())));
         return itemDTOs;
     }
 }
