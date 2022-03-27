@@ -1,22 +1,22 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ItemDetail = (props) => {
   const navigate = useNavigate();
-  const params = useParams();
+  const location = useLocation();
   const [cookies] = useCookies([]);
+  console.log(location);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: "",
-    }).then((res) => {});
+    // axios({
+    //   method: "GET",
+    //   url: "",
+    // }).then((res) => {});
   }, []);
-
   return (
     //
 
@@ -52,12 +52,32 @@ const ItemDetail = (props) => {
             alt=""
             className=" w-10 h-10 rounded-full"
           />
-          <span>판매자이름</span>
+          <span>{location.state.name}</span>
         </div>
         <span>판매자 정보</span>
       </div>
       <div className=" p-4">
-        <h1 className=" mb-4 text-2xl">판매 물품 이름</h1>
+        <div className="flex justify-between items-center">
+          <h1 className=" mb-4 text-2xl">{location.state.itemname}</h1>
+          <div className="mb-4 text-2xl flex items-center space-x-4">
+            <h1 className=" ">{location.state.price}원</h1>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-pink-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </div>
+        </div>
+
         <p className=" font-normal ">
           description description description description description
           description description description description description
