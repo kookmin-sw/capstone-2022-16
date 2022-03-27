@@ -29,7 +29,12 @@ public class MarketController {
 
     //마켓 등록
     @PostMapping("/market/add")
-    public String addNewMarket(@RequestParam double latitude,@RequestParam double longitude){
+    public String addNewMarket(@RequestParam double latitude,@RequestParam double longitude,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            return "Not logged In";
+        }
+
         Market market = new Market();
         market.setLatitude(latitude);
         market.setLongitude(longitude);
@@ -39,7 +44,12 @@ public class MarketController {
 
     //특정 마켓의 아이템 리스트 반환
     @GetMapping("/market")
-    public List<ItemDTO> marketInfo(@RequestParam Long id){
+    public Object marketInfo(@RequestParam Long id,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            return "Not logged In";
+        }
+
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
@@ -71,7 +81,12 @@ public class MarketController {
 
     //모든 마켓 정보 반환
     @GetMapping("/map")
-    public List<MarketDTO> marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude){
+    public Object marketLocationInfo(@RequestParam("lat") double latitude,@RequestParam("lng") double longitude,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            return "Not logged In";
+        }
+
         List<Market> markets = marketRepository.findAll();
         List<ItemDTO> items = new ArrayList<>();
         List<MarketDTO> marketDTOs = new ArrayList<>();
