@@ -45,7 +45,7 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(), item.getPrice(),item.isReserved(),item.isSoldOut())));
 
         return itemDTOS;
     }
