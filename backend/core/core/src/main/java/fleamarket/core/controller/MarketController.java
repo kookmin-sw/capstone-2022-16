@@ -60,7 +60,7 @@ public class MarketController {
 
     //특정 마켓에 아이템 등록
     @PostMapping("/market/save")
-    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName,@RequestParam Long price, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
@@ -71,7 +71,7 @@ public class MarketController {
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         item.setDescription(itemJSON.getDescription());
         item.setItemName(itemName);
-        item.setPrice(1000L);
+        item.setPrice(price);
         item.setMember(loggedMember);
         item.setMarket(market);
         itemRepository.save(item);
