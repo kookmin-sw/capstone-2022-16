@@ -15,6 +15,7 @@ public class Item {
     private Long itemId;
     private String itemName;
     private Long price;
+    private String description;
     private boolean reserved = false;
     private boolean soldOut = false;
 
