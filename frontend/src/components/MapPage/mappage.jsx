@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -10,6 +11,10 @@ const MapPage = (props) => {
   const [overlayPos, setOverlayPos] = useState([]);
   const [currentmarketid, setCurrentMarketid] = useState(1);
   const navigate = useNavigate();
+  const [cookies] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   const [state, setState] = useState({
     center: {
       lat: 37.58827661475296,
@@ -58,7 +63,7 @@ const MapPage = (props) => {
       }));
     }
     console.log(marketsinfo);
-  }, [state.center.lat,state.center.lng]);
+  }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
       <div className=" items-center justify-center flex relative bg-blue-500 ">
@@ -120,6 +125,7 @@ const MapPage = (props) => {
                     setIsOpen(true);
                     setOverlayPos(position);
                     setCurrentMarketid(marketId);
+                    navigate("/map");
                   }}
                 />
               );

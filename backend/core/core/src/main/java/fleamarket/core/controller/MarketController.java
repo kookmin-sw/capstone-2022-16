@@ -54,10 +54,11 @@ public class MarketController {
         if(session == null){
             return "Not logged In";
         }
+
         Item item = new Item();
         Market market = marketRepository.findById(marketId).get();
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
+        item.setDescription(description);
         item.setItemName(itemName);
         item.setPrice(1000L);
         item.setMember(loggedMember);

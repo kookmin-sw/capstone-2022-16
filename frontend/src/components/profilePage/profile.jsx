@@ -1,9 +1,14 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const Profile = (props) => {
   const navigate = useNavigate();
+  const [cookies] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   useEffect(() => {
     // axios({
     //   method: "",
@@ -15,7 +20,7 @@ const Profile = (props) => {
   return (
     <div className="w-full h-[100vh]">
       <div className=" select-none w-full items-center justify-center flex  bg-blue-500 ">
-        <button onClick={() => navigate(-1)} className=" absolute left-3">
+        <button onClick={() => navigate("/main")} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"

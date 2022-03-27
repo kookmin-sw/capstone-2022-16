@@ -3,24 +3,37 @@ import Items from "./items";
 import dummy from "../../data.json";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 const ItemsInMarket = (props) => {
   const params = useParams();
   const [itemlist, setItemlist] = useState([]);
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   useEffect(() => {
     console.log(params);
     axios({
       method: "GET",
       url: `/market?id=${params.marketid}`,
     }).then((res) => {
+      console.log(res);
       res.data && setItemlist(res.data);
-      console.log(itemlist);
     });
   }, []);
   return (
     <div className=" overflow-y-scroll h-80">
       {itemlist.map((item) => (
-        <Items key={item.itemId} name={item.itemName}></Items>
+        <Items
+          key={item.itemId}
+          itemname={item.itemName}
+          name={item.name}
+          itemId={item.itemId}
+          price={item.price}
+          reserved={item.reserved}
+          soldOut={item.soldOut}
+        ></Items>
       ))}
       <div
         onClick={() => {

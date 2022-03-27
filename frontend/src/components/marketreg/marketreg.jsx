@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,10 @@ const MarketReg = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
   const [isimpossible, setisimpossible] = useState(false);
   const navigate = useNavigate();
+  const [cookies] = useCookies([]);
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   const { register, handleSubmit } = useForm();
   const [marker, setMarkers] = useState({
     position: {
