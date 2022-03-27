@@ -2,6 +2,7 @@ package fleamarket.core.controller;
 
 import fleamarket.core.DTO.ItemDTO;
 import fleamarket.core.DTO.MarketDTO;
+import fleamarket.core.JSON.ItemJSON;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Market;
 import fleamarket.core.domain.Member;
@@ -49,7 +50,7 @@ public class MarketController {
 
     //특정 마켓에 아이템 등록
     @PostMapping("/market/save")
-    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestBody String description, HttpServletRequest request){
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
@@ -58,7 +59,7 @@ public class MarketController {
         Item item = new Item();
         Market market = marketRepository.findById(marketId).get();
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        item.setDescription(description);
+        item.setDescription(itemJSON.getDescription());
         item.setItemName(itemName);
         item.setPrice(1000L);
         item.setMember(loggedMember);
