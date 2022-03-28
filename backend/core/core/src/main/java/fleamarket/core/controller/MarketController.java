@@ -54,8 +54,9 @@ public class MarketController {
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
         items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.isSoldOut())));
-
+        items.forEach(item -> System.out.println(item.isReserved()));
         return itemDTOS;
+
     }
 
     //특정 마켓에 아이템 등록
@@ -112,7 +113,8 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        item.setReserved(true);
+        item.setReserved(!item.isReserved());
+        itemRepository.save(item);
         return "OK";
     }
 
@@ -133,7 +135,9 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        item.setSoldOut(true);
+        item.setSoldOut(!item.isSoldOut());
+        itemRepository.save(item);
+
         return "OK";
     }
 }

@@ -13,7 +13,6 @@ const ItemsInMarket = (props) => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   useEffect(() => {
-    console.log(params);
     axios({
       method: "GET",
       url: `/market?id=${params.marketid}`,
@@ -33,6 +32,7 @@ const ItemsInMarket = (props) => {
           price={item.price}
           reserved={item.reserved}
           soldOut={item.soldOut}
+          des={item.description}
         ></Items>
       ))}
       <div

@@ -4,12 +4,15 @@ import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
+import Popup from "../components/popup";
 
 const MarketReg = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
   const [isimpossible, setisimpossible] = useState(false);
   const navigate = useNavigate();
   const [cookies] = useCookies([]);
+  const [marketregsuccess, setMarketRegSucess] = useState(false);
+  const [popupopen, setPopupOPen] = useState(false);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
@@ -77,12 +80,19 @@ const MarketReg = (props) => {
     axios({
       method: "POST",
       url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
-    }).then((req) => {
-      console.log(req);
+    }).then(() => {
+      setPopupOPen(true);
     });
   };
   return (
     <div className=" w-full h-[100vh] relative">
+      {popupopen && (
+        <Popup
+          itemclick={setMarketRegSucess}
+          popupmsg="장터등록이 완료되었습니다!"
+          navigateurl="/main"
+        ></Popup>
+      )}
       <div className=" items-center justify-center flex relative bg-blue-500 ">
         <button onClick={() => navigate(-1)} className=" absolute left-3">
           <svg
