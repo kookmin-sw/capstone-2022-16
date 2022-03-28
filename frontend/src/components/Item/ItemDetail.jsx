@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,16 +8,22 @@ const ItemDetail = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [cookies] = useCookies([]);
-  console.log(location);
+  const [isreserved, setIsreserved] = useState();
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   useEffect(() => {
-    // axios({
-    //   method: "GET",
-    //   url: "",
-    // }).then((res) => {});
+    setIsreserved(location.state.reserved);
   }, []);
+  const reserveItem = async (e) => {
+    axios({
+      method: "POST",
+      url: `/market/reserve?itemId=${location.state.itemId}`,
+    }).then((res) => {
+      console.log(res);
+    });
+    setIsreserved(!isreserved);
+  };
   return (
     //
 
@@ -56,38 +63,33 @@ const ItemDetail = (props) => {
         </div>
         <span>판매자 정보</span>
       </div>
-      <div className=" p-4">
+      <div className=" w-full p-4">
         <div className="flex justify-between items-center">
           <h1 className=" mb-4 text-2xl">{location.state.itemname}</h1>
           <div className="mb-4 text-2xl flex items-center space-x-4">
             <h1 className=" ">{location.state.price}원</h1>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-pink-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
+            <button onClick={reserveItem}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={classNames(`h-6 w-6 text-pink-400`, {
+                  "fill-current": isreserved,
+                })}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
-        <p className=" font-normal ">
-          description description description description description
-          description description description description description
-          description description description description description
-          description description description description description
-          description description description description description
-          description description description description description
-          description description description description description
-          description description
-        </p>
+        <p className=" font-normal ">{location.state.des}</p>
       </div>
     </div>
   );

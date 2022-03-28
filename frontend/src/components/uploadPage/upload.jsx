@@ -1,14 +1,17 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Popup from "../components/popup";
 const Upload = (props) => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({ mode: onchange });
   const params = useParams();
   const [cookies] = useCookies([]);
+  const [uploadsuccess, setUploadSucess] = useState(false);
+  const [popupopen, setPopupOPen] = useState(false);
+
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
@@ -20,12 +23,19 @@ const Upload = (props) => {
       data: {
         description: data.itemdescription,
       },
-    }).then((req) => {
-      console.log(req);
+    }).then(() => {
+      setPopupOPen(true);
     });
   };
   return (
     <div className=" w-full h-[100vh]">
+      {popupopen && (
+        <Popup
+          itemclick={setUploadSucess}
+          popupmsg="아이템등록이 완료되었습니다!"
+          navigateurl="/map"
+        ></Popup>
+      )}
       <div
         onClick={() => {
           navigate(-1);

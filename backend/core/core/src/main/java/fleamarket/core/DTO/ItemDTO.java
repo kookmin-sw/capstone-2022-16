@@ -20,7 +20,7 @@ public class ItemDTO {
         this.itemName = itemName;
         this.price = price;
         this.description = description;
-        this.reserved = reserved;
+        this.reserved = is_reserved;
         this.soldOut = soldOut;
     }
 }

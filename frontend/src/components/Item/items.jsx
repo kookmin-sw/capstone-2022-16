@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Items = ({
   description,
@@ -9,6 +9,7 @@ const Items = ({
   price,
   soldOut,
   reserved,
+  des,
 }) => {
   const navigate = useNavigate();
   const [data, setData] = useState({});
@@ -24,6 +25,7 @@ const Items = ({
             soldOut,
             reserved,
             itemname,
+            des,
           },
         })
       }
