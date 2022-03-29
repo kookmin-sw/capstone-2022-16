@@ -116,8 +116,11 @@ public class MarketController {
         if(item.isReserved() == false || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
             item.setReserved(!item.isReserved());
             itemRepository.save(item);
+            return "OK";
         }
-        return "OK";
+        else{
+            return "NO";
+        }
     }
 
     @PostMapping("/market/soldout")
