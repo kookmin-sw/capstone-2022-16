@@ -20,9 +20,8 @@ const ItemDetail = (props) => {
       method: "POST",
       url: `/market/reserve?itemId=${location.state.itemId}`,
     }).then((res) => {
-      console.log(res);
+      if (res.data === "OK") setIsreserved(!isreserved);
     });
-    setIsreserved(!isreserved);
   };
   return (
     //

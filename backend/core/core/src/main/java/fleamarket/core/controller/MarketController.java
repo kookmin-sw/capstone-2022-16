@@ -114,6 +114,7 @@ public class MarketController {
         }
 
         if(item.isReserved() == false || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
+            item.setReserveMember(loggedMember.getMemberId());
             item.setReserved(!item.isReserved());
             itemRepository.save(item);
             return "OK";

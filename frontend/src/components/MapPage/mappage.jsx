@@ -62,7 +62,6 @@ const MapPage = (props) => {
         isLoading: false,
       }));
     }
-    console.log(marketsinfo);
   }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
