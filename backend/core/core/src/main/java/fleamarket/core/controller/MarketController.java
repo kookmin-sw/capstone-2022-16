@@ -113,7 +113,7 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        if(item.isReserved() == false || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
+        if((item.isReserved() == false && item.getMember().getMemberId() != loggedMember.getMemberId()) || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
             item.setReserveMember(loggedMember.getMemberId());
             item.setReserved(!item.isReserved());
             itemRepository.save(item);
@@ -141,9 +141,14 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        item.setSoldOut(!item.isSoldOut());
-        itemRepository.save(item);
+        if(item.isReserved() || item.isSoldOut()) {
+            item.setSoldOut(!item.isSoldOut());
+            itemRepository.save(item);
+            return "OK";
+        }
+        else{
+            return "Not Reserved Item";
+        }
 
-        return "OK";
     }
 }
