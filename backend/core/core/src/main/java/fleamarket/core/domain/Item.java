@@ -17,6 +17,7 @@ public class Item {
     private Long price;
     private String description;
     private boolean reserved = false;
+    private Long reserveMember;
     private boolean soldOut = false;
 
     @ManyToOne

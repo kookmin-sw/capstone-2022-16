@@ -53,7 +53,7 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.getReserveMember(),item.isSoldOut())));
         items.forEach(item -> System.out.println(item.isReserved()));
         return itemDTOS;
 
@@ -113,8 +113,10 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        item.setReserved(!item.isReserved());
-        itemRepository.save(item);
+        if(item.isReserved() == false || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
+            item.setReserved(!item.isReserved());
+            itemRepository.save(item);
+        }
         return "OK";
     }
 
