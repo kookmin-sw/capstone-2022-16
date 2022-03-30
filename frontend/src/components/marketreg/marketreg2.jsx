@@ -1,21 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/popup";
 
-const MarketReg = (props) => {
+const MarketReg2 = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
-  const [isimpossible, setisimpossible] = useState(false);
+
   const navigate = useNavigate();
   const [cookies] = useCookies([]);
+  const [isimpossible, setisimpossible] = useState(false);
   const [marketregsuccess, setMarketRegSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
-  useEffect(() => {
-    if (cookies.LoginCookie === undefined) navigate("/");
-  }, []);
   const { register, handleSubmit } = useForm();
   const [marker, setMarkers] = useState({
     position: {
@@ -23,14 +22,18 @@ const MarketReg = (props) => {
       lng: 126.570667,
     },
   });
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   const [state, setState] = useState({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.58827661475296,
+      lng: 127.2197275271777,
     },
     errMsg: null,
     isLoading: true,
   });
+  const [hasChild, setHasChild] = useState(false);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -87,7 +90,7 @@ const MarketReg = (props) => {
     });
   };
   return (
-    <div className=" w-full h-[100vh] relative">
+    <div className=" w-full h-[100vh] bg-gray-100 box-border">
       {popupopen && (
         <Popup
           itemclick={setMarketRegSucess}
@@ -96,7 +99,7 @@ const MarketReg = (props) => {
         ></Popup>
       )}
       <div className=" items-center justify-center flex relative bg-blue-500 ">
-        <button onClick={() => navigate(-1)} className=" absolute left-3">
+        <button onClick={() => navigate("/main")} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"
@@ -114,23 +117,24 @@ const MarketReg = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      <div className="p-4">
+      <div className="p-2 space-y-3">
         <div className="flex justify-center">
           <span className=" text-gray-700 font-medium mb-4">
             장터를 오픈할 위치를 지정해주세요
           </span>
         </div>
         <div className=" border-4 border-blue-400 rounded-3xl p-2">
-          <Map // 지도를 표시할 Container
+          <Map
             className=" rounded-3xl"
-            id="map1"
+            // 지도를 표시할 Container
+            id={`map`}
             center={state.center}
             style={{
               // 지도의 크기
               width: "100%",
               height: "450px",
             }}
-            level={3} // 지도의 확대 레벨
+            level={2} // 지도의 확대 레벨
             onClick={(_target, mouseEvent) => {
               setMarkers({
                 position: {
@@ -156,6 +160,7 @@ const MarketReg = (props) => {
                 },
               }}
             />
+            {/* 현재 자기 위치 마커에표시*/}
             {marketsinfo.map((market) => {
               const position = {
                 lat: market.latitude,
@@ -185,6 +190,7 @@ const MarketReg = (props) => {
                 </div>
               );
             })}
+            {/* 주변 장터의 위치 마커에 표시*/}
           </Map>
         </div>
         <div className="flex mt-3 space-x-2 items-center justify-center">
@@ -238,4 +244,4 @@ const MarketReg = (props) => {
   );
 };
 
-export default MarketReg;
+export default MarketReg2;

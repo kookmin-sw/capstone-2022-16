@@ -23,18 +23,21 @@ const ItemsInMarket = (props) => {
   }, []);
   return (
     <div className=" overflow-y-scroll h-80">
-      {itemlist.map((item) => (
-        <Items
-          key={item.itemId}
-          itemname={item.itemName}
-          name={item.name}
-          itemId={item.itemId}
-          price={item.price}
-          reserved={item.reserved}
-          soldOut={item.soldOut}
-          des={item.description}
-        ></Items>
-      ))}
+      {itemlist.map(
+        (item) =>
+          !item.soldOut && (
+            <Items
+              key={item.itemId}
+              itemname={item.itemName}
+              name={item.name}
+              itemId={item.itemId}
+              price={item.price}
+              reserved={item.reserved}
+              soldOut={item.soldOut}
+              des={item.description}
+            ></Items>
+          )
+      )}
       <div
         onClick={() => {
           navigate(`/${params.marketid}/upload`);
