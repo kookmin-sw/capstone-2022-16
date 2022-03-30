@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
@@ -15,6 +16,8 @@ const MarketReg2 = (props) => {
   const [isimpossible, setisimpossible] = useState(false);
   const [marketregsuccess, setMarketRegSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
+  const [ismarketexist, setIsMarketExist] = useState(false);
+  const [errormsg, setErrorMsg] = useState();
   const { register, handleSubmit } = useForm();
   const [marker, setMarkers] = useState({
     position: {
@@ -33,7 +36,6 @@ const MarketReg2 = (props) => {
     errMsg: null,
     isLoading: true,
   });
-  const [hasChild, setHasChild] = useState(false);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -72,23 +74,29 @@ const MarketReg2 = (props) => {
         isLoading: false,
       }));
     }
-    console.log(state.center.lat, state.center.lng);
   }, [state.center.lat, state.center.lng]);
   useEffect(() => {
     setTimeout(() => {
       setisimpossible(false);
-    }, 500);
+    }, 1000);
   }, [isimpossible]);
 
   const onValid = (d) => {
-    console.log(`${marker.position.lat} ${marker.position.lng}`);
-    axios({
-      method: "POST",
-      url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
-    }).then(() => {
-      setPopupOPen(true);
-    });
+    ismarketexist
+      ? axios({
+          method: "POST",
+          url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
+        }).then(() => {
+          setPopupOPen(true);
+        })
+      : setErrorMsg("장터를 오픈할 위치를 선택해주세요") ||
+        setisimpossible(true);
   };
+  const onCircleClick = useCallback((e) => {
+    kakao.maps.event.preventMap();
+    setErrorMsg("다른 장터가 주위에 있습니다.");
+    setisimpossible(true);
+  });
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
       {popupopen && (
@@ -136,6 +144,8 @@ const MarketReg2 = (props) => {
             }}
             level={2} // 지도의 확대 레벨
             onClick={(_target, mouseEvent) => {
+              setisimpossible(false);
+              setIsMarketExist(true);
               setMarkers({
                 position: {
                   lat: mouseEvent.latLng.getLat(),
@@ -183,9 +193,7 @@ const MarketReg2 = (props) => {
                     strokeStyle={"dash"} // 선의 스타일 입니다
                     fillColor={"#CFE7FF"} // 채우기 색깔입니다
                     fillOpacity={0.5} // 채우기 불투명도 입니다
-                    onClick={() => {
-                      setisimpossible(true);
-                    }}
+                    onClick={onCircleClick}
                   />
                 </div>
               );
@@ -237,7 +245,7 @@ const MarketReg2 = (props) => {
           >
             <path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z" />
           </svg>
-          <p className=" text-center">다른 장터가 주위에있습니다</p>
+          <p className=" text-center">{errormsg}</p>
         </div>
       )}
     </div>
