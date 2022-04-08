@@ -21,24 +21,7 @@
 #### 조원1: 강찬우
 역할: 프론트엔드
 
-### 4. 사용법
 
-#### 개발 환경설정
-##### 1.데이터베이스 h2(임시) 설치 (https://www.h2database.com/html/download-archive.html)
-##### 2.자바버전 11.0.2 (build 11.0.2+9) 설치. (https://jdk.java.net/archive/)
-##### 3.자바 환경변수 추가.
-  ###### 3-1.C:\Program Files 폴더에 OpenJDK 폴더 생성
-  ###### 3-2.openjdk-11.0.2_windows-x64_bin.zip 압축해제
-  ###### 3-3.jdk-11.0.2 폴더를 OpenJDK 폴더 안으로 이동
-  ###### 3-5.시스템 환경변수 등록 (JAVA_HOME(변수명)	C:\Program Files\OpenJDK\jdk-11.0.2(값)
-  ###### 3-8.Path에 %JAVA_HOME%\bin 등록
-##### 4.노드버전 16.14.0 설치 /// 리액트버전:17.0.2 (참고)
-##### 5.노드 환경변수 추가
-##### 6.인텔리제이 설치 (https://www.jetbrains.com/idea/download/#section=windows)
-##### 7.frontend 폴더내에서 ```npm install```
-
-#### 실행방법
-##### 1.backend 내의 build.gradle을 찾아 프로젝트로 연후 backend/core/core/src/main/java/fleamarket/core/CoreApplication.java를 실행
-##### 2.frontend 폴더내에서 ```npm start```
-
-### 5. 데모/프리뷰 (Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가)
+### 4. 프로젝트 시작 동기
+버리기는 아깝고 팔기에는 너무 사소하고 많은 물품들에 대한 처리에 대해 고민하던 도중
+이러한 물품을 처리하기에 유리한 플랫폼을 만들어보고자 하였음.
