@@ -33,6 +33,7 @@ const ItemsInMarket = (props) => {
               itemId={item.itemId}
               price={item.price}
               reserved={item.reserved}
+              reserveMember={item.reserveMember}
               soldOut={item.soldOut}
               des={item.description}
             ></Items>

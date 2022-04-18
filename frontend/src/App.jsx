@@ -13,6 +13,7 @@ import { useState } from "react";
 import MarketReg from "./components/marketreg/marketreg";
 import SaleList from "./components/saleList/salelist";
 import MarketReg2 from "./components/marketreg/marketreg2";
+import ReserveList from "./components/reserveList/reservelist";
 
 function App() {
   const [user, setUser] = useState();
@@ -48,6 +49,11 @@ function App() {
             path="profile/:memberid/salelist"
             exact
             element={<SaleList></SaleList>}
+          ></Route>
+          <Route
+            path="profile/:memberid/reservelist"
+            exact
+            element={<ReserveList></ReserveList>}
           ></Route>
         </Routes>
       </BrowserRouter>

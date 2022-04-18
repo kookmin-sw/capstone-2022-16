@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../components/popup";
 const Upload = (props) => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm({ mode: onchange });
+  const { register, handleSubmit, watch } = useForm({ mode: onchange });
   const params = useParams();
   const [cookies] = useCookies([]);
   const [uploadsuccess, setUploadSucess] = useState(false);
@@ -27,6 +27,15 @@ const Upload = (props) => {
       setPopupOPen(true);
     });
   };
+  const photo = watch("photo");
+  const [photoPreview, setPhotoPreview] = useState("");
+  useEffect(() => {
+    if (photo && photo.length > 0) {
+      const file = photo[0];
+      setPhotoPreview(URL.createObjectURL(file));
+      console.log(photo[0]);
+    }
+  }, [photo]);
   return (
     <div className=" w-full h-[100vh]">
       {popupopen && (
@@ -64,6 +73,39 @@ const Upload = (props) => {
         onSubmit={handleSubmit(onValid)}
         className="flex flex-col p-10 space-y-3"
       >
+        <div>
+          {photoPreview ? (
+            <img
+              src={photoPreview}
+              className="w-full aspect-video  rounded-md text-gray-600"
+            />
+          ) : (
+            <label className="w-full flex items-center justify-center border-2 border-dashed border-gray-300 py-6 h-48 rounded-md text-gray-600 hover:text-blue-400 hover:border-blue-400 hover:transition-colors cursor-pointer">
+              <svg
+                className="h-12 w-12"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              <input
+                {...register("photo")}
+                accept="image/*"
+                className="hidden"
+                type="file"
+              />
+            </label>
+          )}
+        </div>
+
         <label htmlFor="itemname">물건 이름</label>
         <input
           id="itemname"

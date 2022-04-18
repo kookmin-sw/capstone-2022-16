@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Items = ({
-  description,
+  reserveMember,
   itemname,
   name,
   itemId,
@@ -24,7 +24,7 @@ const Items = ({
             price,
             soldOut,
             reserved,
-            itemname,
+            reserveMember,
             des,
           },
         })
