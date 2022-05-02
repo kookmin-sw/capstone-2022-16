@@ -1,6 +1,7 @@
 package fleamarket.core.web.login;
 
 import fleamarket.core.DTO.ItemDTO;
+import fleamarket.core.domain.ITEM_MEMBER_RESERVE_RELATION;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Member;
 import fleamarket.core.repository.MemberRepository;
@@ -71,7 +72,9 @@ public class LoginService {
             return itemDTOs;
         }
         Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
-        List<Item> items = realMember.getItems();
+        List<ITEM_MEMBER_RESERVE_RELATION> items_reserve_relation = realMember.getReserveItems();
+
+        List<Item> items = items_reserve_relation.stream().map(relation -> relation.getItems()).collect(Collectors.toList());
         items.stream().forEach(item -> itemDTOs.add(
                 new ItemDTO(
                         realMember.getName(),
