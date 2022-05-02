@@ -6,12 +6,12 @@ const ReserveList = (props) => {
   const navigate = useNavigate();
   useEffect(() => {}, []);
   return (
-    <div className="w-full h-[100vh] bg-rose-100">
+    <div className="w-full h-[100vh] bg-gray-300">
       <div
         onClick={() => {
           navigate("/profile");
         }}
-        className=" items-center w-full justify-center flex relative bg-rose-300 "
+        className=" items-center w-full justify-center flex relative bg-blue-500 "
       >
         <button className=" absolute left-3">
           <svg

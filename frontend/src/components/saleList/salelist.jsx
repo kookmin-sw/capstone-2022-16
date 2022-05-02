@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import SaleItem from "./saleitem";
 
 const SaleList = (props) => {
   const [itemlist, setItemList] = useState([]);
@@ -13,25 +14,27 @@ const SaleList = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`,
+      url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
-      console.log(res.data);
-      setItemList(res.data);
+      setItemList(res.data.filter((item) => item.soldOut !== true));
     });
   }, []);
+  const onRemove = (itemid) => {
+    setItemList(itemlist.filter((item) => itemid !== item.itemid));
+  };
   const SoldOut = (itemId) => {
     axios({
       method: "POST",
       url: `/market/soldout?itemId=${itemId}`,
     }).then((res) => {
       if (res.data === "OK") {
-        console.log(res);
-        
+        setItemList(itemlist.filter((item) => item.soldOut !== true));
       }
     });
+    window.location.reload();
   };
   return (
-    <div className=" w-full h-[100vh]">
+    <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
         onClick={() => {
           navigate("/profile");
@@ -56,46 +59,15 @@ const SaleList = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      <div className=" mx-3 flex flex-col items-center h-full text-blue-300 text-4xl">
-        <span className="mt-5 font-bold">판매중인 아이템</span>
-        <li className=" list-none text-white w-full space-y-2">
-          {itemlist.map((item) => (
-            <ul
-              key={item.itemId}
-              className=" bg-blue-300 rounded-md w-full p-2 flex justify-between"
-            >
-              <span>{item.itemName}</span>
-              <div className=" space-x-4">
-                <span>{item.price} 원</span>
-                <button
-                  className=" hover:text-red-200 transition-colors"
-                  onClick={() => SoldOut(item.itemId)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </ul>
-          ))}
-        </li>
+      <div className=" mx-3 flex flex-col items-center  text-4xl">
+        <span className="mt-5 font-bold text-blue-300 ">판매중인 아이템</span>
+        <SaleItem
+          SoldOut={SoldOut}
+          itemlist={itemlist}
+          onRemove={onRemove}
+        ></SaleItem>
       </div>
     </div>
-
-    // itemlist.map((item)=>{
-
-    // }
   );
 };
 

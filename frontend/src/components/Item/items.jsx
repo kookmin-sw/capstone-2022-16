@@ -12,7 +12,6 @@ const Items = ({
   des,
 }) => {
   const navigate = useNavigate();
-  const [data, setData] = useState({});
   return (
     <div
       onClick={() =>

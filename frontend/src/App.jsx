@@ -10,7 +10,6 @@ import Upload from "./components/uploadPage/upload";
 import MainPage from "./components/mainPage/main";
 import Profile from "./components/profilePage/profile";
 import { useState } from "react";
-import MarketReg from "./components/marketreg/marketreg";
 import SaleList from "./components/saleList/salelist";
 import MarketReg2 from "./components/marketreg/marketreg2";
 import ReserveList from "./components/reserveList/reservelist";
