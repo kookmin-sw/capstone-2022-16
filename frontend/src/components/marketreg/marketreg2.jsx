@@ -1,21 +1,23 @@
+/* eslint-disable no-undef */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/popup";
 
-const MarketReg = (props) => {
+const MarketReg2 = (props) => {
   const [marketsinfo, setMarketsinfo] = useState([]);
-  const [isimpossible, setisimpossible] = useState(false);
+
   const navigate = useNavigate();
   const [cookies] = useCookies([]);
+  const [isimpossible, setisimpossible] = useState(false);
   const [marketregsuccess, setMarketRegSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
-  useEffect(() => {
-    if (cookies.LoginCookie === undefined) navigate("/");
-  }, []);
+  const [ismarketexist, setIsMarketExist] = useState(false);
+  const [errormsg, setErrorMsg] = useState();
   const { register, handleSubmit } = useForm();
   const [marker, setMarkers] = useState({
     position: {
@@ -23,10 +25,13 @@ const MarketReg = (props) => {
       lng: 126.570667,
     },
   });
+  useEffect(() => {
+    if (cookies.LoginCookie === undefined) navigate("/");
+  }, []);
   const [state, setState] = useState({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.58827661475296,
+      lng: 127.2197275271777,
     },
     errMsg: null,
     isLoading: true,
@@ -69,25 +74,31 @@ const MarketReg = (props) => {
         isLoading: false,
       }));
     }
-    console.log(state.center.lat, state.center.lng);
   }, [state.center.lat, state.center.lng]);
   useEffect(() => {
     setTimeout(() => {
       setisimpossible(false);
-    }, 500);
+    }, 1000);
   }, [isimpossible]);
 
   const onValid = (d) => {
-    console.log(`${marker.position.lat} ${marker.position.lng}`);
-    axios({
-      method: "POST",
-      url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
-    }).then(() => {
-      setPopupOPen(true);
-    });
+    ismarketexist
+      ? axios({
+          method: "POST",
+          url: `/market/add/?latitude=${marker.position.lat}&longitude=${marker.position.lng}`,
+        }).then(() => {
+          setPopupOPen(true);
+        })
+      : setErrorMsg("장터를 오픈할 위치를 선택해주세요") ||
+        setisimpossible(true);
   };
+  const onCircleClick = useCallback((e) => {
+    kakao.maps.event.preventMap();
+    setErrorMsg("다른 장터가 주위에 있습니다.");
+    setisimpossible(true);
+  });
   return (
-    <div className=" w-full h-[100vh] relative">
+    <div className=" w-full h-[100vh] bg-gray-100 box-border">
       {popupopen && (
         <Popup
           itemclick={setMarketRegSucess}
@@ -96,7 +107,7 @@ const MarketReg = (props) => {
         ></Popup>
       )}
       <div className=" items-center justify-center flex relative bg-blue-500 ">
-        <button onClick={() => navigate(-1)} className=" absolute left-3">
+        <button onClick={() => navigate("/main")} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"
@@ -114,24 +125,27 @@ const MarketReg = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      <div className="p-4">
+      <div className="p-2 space-y-3">
         <div className="flex justify-center">
           <span className=" text-gray-700 font-medium mb-4">
             장터를 오픈할 위치를 지정해주세요
           </span>
         </div>
         <div className=" border-4 border-blue-400 rounded-3xl p-2">
-          <Map // 지도를 표시할 Container
+          <Map
             className=" rounded-3xl"
-            id="map1"
+            // 지도를 표시할 Container
+            id={`map`}
             center={state.center}
             style={{
               // 지도의 크기
               width: "100%",
               height: "450px",
             }}
-            level={3} // 지도의 확대 레벨
+            level={2} // 지도의 확대 레벨
             onClick={(_target, mouseEvent) => {
+              setisimpossible(false);
+              setIsMarketExist(true);
               setMarkers({
                 position: {
                   lat: mouseEvent.latLng.getLat(),
@@ -156,6 +170,7 @@ const MarketReg = (props) => {
                 },
               }}
             />
+            {/* 현재 자기 위치 마커에표시*/}
             {marketsinfo.map((market) => {
               const position = {
                 lat: market.latitude,
@@ -178,13 +193,12 @@ const MarketReg = (props) => {
                     strokeStyle={"dash"} // 선의 스타일 입니다
                     fillColor={"#CFE7FF"} // 채우기 색깔입니다
                     fillOpacity={0.5} // 채우기 불투명도 입니다
-                    onClick={() => {
-                      setisimpossible(true);
-                    }}
+                    onClick={onCircleClick}
                   />
                 </div>
               );
             })}
+            {/* 주변 장터의 위치 마커에 표시*/}
           </Map>
         </div>
         <div className="flex mt-3 space-x-2 items-center justify-center">
@@ -231,11 +245,11 @@ const MarketReg = (props) => {
           >
             <path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z" />
           </svg>
-          <p className=" text-center">다른 장터가 주위에있습니다</p>
+          <p className=" text-center">{errormsg}</p>
         </div>
       )}
     </div>
   );
 };
 
-export default MarketReg;
+export default MarketReg2;

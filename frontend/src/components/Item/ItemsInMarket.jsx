@@ -17,24 +17,27 @@ const ItemsInMarket = (props) => {
       method: "GET",
       url: `/market?id=${params.marketid}`,
     }).then((res) => {
-      console.log(res);
       res.data && setItemlist(res.data);
     });
   }, []);
   return (
     <div className=" overflow-y-scroll h-80">
-      {itemlist.map((item) => (
-        <Items
-          key={item.itemId}
-          itemname={item.itemName}
-          name={item.name}
-          itemId={item.itemId}
-          price={item.price}
-          reserved={item.reserved}
-          soldOut={item.soldOut}
-          des={item.description}
-        ></Items>
-      ))}
+      {itemlist.map(
+        (item) =>
+          !item.soldOut && (
+            <Items
+              key={item.itemId}
+              itemname={item.itemName}
+              name={item.name}
+              itemId={item.itemId}
+              price={item.price}
+              reserved={item.reserved}
+              reserveMember={item.reserveMember}
+              soldOut={item.soldOut}
+              des={item.description}
+            ></Items>
+          )
+      )}
       <div
         onClick={() => {
           navigate(`/${params.marketid}/upload`);

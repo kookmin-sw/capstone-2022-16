@@ -13,6 +13,7 @@ const ItemDetail = (props) => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   useEffect(() => {
+    console.log(location);
     setIsreserved(location.state.reserved);
   }, []);
   const reserveItem = async (e) => {
@@ -70,9 +71,13 @@ const ItemDetail = (props) => {
             <button onClick={reserveItem}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={classNames(`h-6 w-6 text-pink-400`, {
-                  "fill-current": isreserved,
-                })}
+                className={classNames(
+                  `h-6 w-6 text-pink-400`,
+                  {
+                    "fill-current": isreserved,
+                  },
+                  { "text-blue-400": location.state.reserveMember === 2 }
+                )}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

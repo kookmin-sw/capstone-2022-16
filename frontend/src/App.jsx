@@ -10,8 +10,9 @@ import Upload from "./components/uploadPage/upload";
 import MainPage from "./components/mainPage/main";
 import Profile from "./components/profilePage/profile";
 import { useState } from "react";
-import MarketReg from "./components/marketreg/marketreg";
 import SaleList from "./components/saleList/salelist";
+import MarketReg2 from "./components/marketreg/marketreg2";
+import ReserveList from "./components/reserveList/reservelist";
 
 function App() {
   const [user, setUser] = useState();
@@ -41,12 +42,17 @@ function App() {
           <Route
             path="marketreg"
             exact
-            element={<MarketReg></MarketReg>}
+            element={<MarketReg2></MarketReg2>}
           ></Route>
           <Route
             path="profile/:memberid/salelist"
             exact
             element={<SaleList></SaleList>}
+          ></Route>
+          <Route
+            path="profile/:memberid/reservelist"
+            exact
+            element={<ReserveList></ReserveList>}
           ></Route>
         </Routes>
       </BrowserRouter>

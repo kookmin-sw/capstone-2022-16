@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import SaleItem from "./saleitem";
 
 const SaleList = (props) => {
   const [itemlist, setItemList] = useState([]);
@@ -13,14 +14,27 @@ const SaleList = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`,
+      url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
-      console.log(res.data);
-      setItemList(res.data);
+      setItemList(res.data.filter((item) => item.soldOut !== true));
     });
   }, []);
+  const onRemove = (itemid) => {
+    setItemList(itemlist.filter((item) => itemid !== item.itemid));
+  };
+  const SoldOut = (itemId) => {
+    axios({
+      method: "POST",
+      url: `/market/soldout?itemId=${itemId}`,
+    }).then((res) => {
+      if (res.data === "OK") {
+        setItemList(itemlist.filter((item) => item.soldOut !== true));
+      }
+    });
+    window.location.reload();
+  };
   return (
-    <div className=" w-full h-[100vh]">
+    <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
         onClick={() => {
           navigate("/profile");
@@ -45,25 +59,15 @@ const SaleList = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      <div className=" mx-3 flex flex-col items-center h-full text-blue-300 text-4xl">
-        <span className="mt-5 font-bold">판매중인 아이템</span>
-        <li className=" list-none text-white w-full space-y-2">
-          {itemlist.map((item) => (
-            <ul
-              key={item.itemId}
-              className=" bg-blue-300 rounded-md w-full p-2 flex justify-between"
-            >
-              <span>{item.itemName}</span>
-              <span>{item.price} 원</span>
-            </ul>
-          ))}
-        </li>
+      <div className=" mx-3 flex flex-col items-center  text-4xl">
+        <span className="mt-5 font-bold text-blue-300 ">판매중인 아이템</span>
+        <SaleItem
+          SoldOut={SoldOut}
+          itemlist={itemlist}
+          onRemove={onRemove}
+        ></SaleItem>
       </div>
     </div>
-
-    // itemlist.map((item)=>{
-
-    // }
   );
 };
 
