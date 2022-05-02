@@ -43,4 +43,9 @@ public class MemberController {
     public List<ItemDTO> getSellingItems(HttpServletRequest request){
         return loginService.getItems(request);
     }
+
+    @GetMapping("/member/reserveitems")
+    public List<ItemDTO> getReserveItems(HttpServletRequest request){
+        return loginService.getReserveItems(request);
+    }
 }

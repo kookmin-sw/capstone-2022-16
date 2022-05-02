@@ -3,9 +3,11 @@ package fleamarket.core.controller;
 import fleamarket.core.DTO.ItemDTO;
 import fleamarket.core.DTO.MarketDTO;
 import fleamarket.core.JSON.ItemJSON;
+import fleamarket.core.domain.ITEM_MEMBER_RESERVE_RELATION;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Market;
 import fleamarket.core.domain.Member;
+import fleamarket.core.repository.ITEM_MEMBER_RESERVERELATION_Repository;
 import fleamarket.core.repository.ItemRepository;
 import fleamarket.core.repository.MarketRepository;
 import fleamarket.core.service.MemberService;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class MarketController {
     private final MemberService memberService;
     private final MarketRepository marketRepository;
     private final ItemRepository itemRepository;
+    private final ITEM_MEMBER_RESERVERELATION_Repository relationRepository;
 
     //마켓 등록
     @PostMapping("/market/add")
@@ -53,10 +57,16 @@ public class MarketController {
         Market market = marketRepository.findById(id).get();
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        items.stream().forEach(item -> itemDTOS.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.getReserveMember(),item.isSoldOut())));
-        items.forEach(item -> System.out.println(item.isReserved()));
+        items.stream().forEach(item -> itemDTOS.add(
+                new ItemDTO(
+                        item.getMember().getName(),
+                        item.getItemId(),
+                        item.getItemName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
+                        item.isSoldOut())));
         return itemDTOS;
-
     }
 
     //특정 마켓에 아이템 등록
@@ -113,9 +123,10 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        if((item.isReserved() == false && item.getMember().getMemberId() != loggedMember.getMemberId()) || (item.isReserved() && loggedMember.getMemberId() == item.getReserveMember())){
-            item.setReserveMember(loggedMember.getMemberId());
-            item.setReserved(!item.isReserved());
+        if((item.getMember().getMemberId() != loggedMember.getMemberId())){
+            ITEM_MEMBER_RESERVE_RELATION relation = null;
+            relation.setItems(item);
+            relation.setMembers(loggedMember);
             itemRepository.save(item);
             return "OK";
         }
@@ -141,7 +152,7 @@ public class MarketController {
             return "Not Logged In";
         }
 
-        if(item.isReserved() || item.isSoldOut()) {
+        if(item.isSoldOut()) {
             item.setSoldOut(!item.isSoldOut());
             itemRepository.save(item);
             return "OK";

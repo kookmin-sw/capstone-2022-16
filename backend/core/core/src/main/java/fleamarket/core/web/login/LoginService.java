@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,41 @@ public class LoginService {
         }
         Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
         List<Item> items = realMember.getItems();
-        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(realMember.getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.getReserveMember(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOs.add(
+                new ItemDTO(
+                        realMember.getName(),
+                        item.getItemId(),
+                        item.getItemName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
+                        item.isSoldOut())));
+        return itemDTOs;
+    }
+
+    @Transactional
+    public List<ItemDTO> getReserveItems(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        List<ItemDTO> itemDTOs = new ArrayList<>();
+        if(session == null){
+            return itemDTOs;
+        }
+        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if(loggedMember == null){
+            return itemDTOs;
+        }
+        Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
+        List<Item> items = realMember.getItems();
+        items.stream().forEach(item -> itemDTOs.add(
+                new ItemDTO(
+                        realMember.getName(),
+                        item.getItemId(),
+                        item.getItemName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
+                        item.isSoldOut())));
         return itemDTOs;
     }
 }

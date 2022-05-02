@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -18,6 +19,14 @@ public class MarketDTO {
         this.marketId = marketId;
         this.latitude = latitude;
         this.longitude = longitude;
-        items.stream().forEach(item -> itemDTOs.add(new ItemDTO(item.getMember().getName(),item.getItemId(),item.getItemName(),item.getDescription(), item.getPrice(),item.isReserved(),item.getReserveMember(),item.isSoldOut())));
+        items.stream().forEach(item -> itemDTOs.add(
+                new ItemDTO(
+                        item.getMember().getName(),
+                        item.getItemId(),
+                        item.getItemName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
+                        item.isSoldOut())));
     }
 }

@@ -20,6 +20,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     protected List<Item> items = new ArrayList<>();
 
+    @OneToMany(mappedBy ="members")
+    private List<ITEM_MEMBER_RESERVE_RELATION> reserveItems;
+
     @NotEmpty
     private String loginId; //로그인 ID
     @NotEmpty
