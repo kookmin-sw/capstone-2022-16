@@ -49,7 +49,6 @@ public class LoginService {
         List<Item> items = realMember.getItems();
         items.stream().forEach(item -> itemDTOs.add(
                 new ItemDTO(
-                        //realMember.getName(),
                         item.getMember().getName(),
                         item.getItemId(),
                         item.getItemName(),
