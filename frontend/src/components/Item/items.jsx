@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Items = ({
-  reserveMember,
+  reserveMembers,
   itemname,
   name,
   itemId,
   price,
   soldOut,
-  reserved,
   des,
 }) => {
   const navigate = useNavigate();
@@ -22,8 +21,7 @@ const Items = ({
             itemId,
             price,
             soldOut,
-            reserved,
-            reserveMember,
+            reserveMembers,
             des,
           },
         })

@@ -8,20 +8,22 @@ const ItemDetail = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [cookies] = useCookies([]);
-  const [isreserved, setIsreserved] = useState();
+  const [isreserved, setIsreserved] = useState(false);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
+    location.state.reserveMembers.map((item) => {
+      if (item === localStorage.getItem("name")) setIsreserved(true);
+      else setIsreserved(false);
+    });
   }, []);
-  useEffect(() => {
-    console.log(location);
-    setIsreserved(location.state.reserved);
-  }, []);
+  console.log(location.state.des);
   const reserveItem = async (e) => {
+    console.log("chan");
     axios({
       method: "POST",
       url: `/market/reserve?itemId=${location.state.itemId}`,
     }).then((res) => {
-      if (res.data === "OK") setIsreserved(!isreserved);
+      console.log(res.data);
     });
   };
   return (
@@ -76,7 +78,10 @@ const ItemDetail = (props) => {
                   {
                     "fill-current": isreserved,
                   },
-                  { "text-blue-400": location.state.reserveMember === 2 }
+                  {
+                    "text-blue-400":
+                      location.state.name === localStorage.getItem("name"),
+                  }
                 )}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -92,7 +97,6 @@ const ItemDetail = (props) => {
             </button>
           </div>
         </div>
-
         <p className=" font-normal ">{location.state.des}</p>
       </div>
     </div>

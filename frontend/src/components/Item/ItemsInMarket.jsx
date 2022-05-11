@@ -18,6 +18,7 @@ const ItemsInMarket = (props) => {
       url: `/market?id=${params.marketid}`,
     }).then((res) => {
       res.data && setItemlist(res.data);
+      console.log(res.data);
     });
   }, []);
   return (
@@ -31,8 +32,7 @@ const ItemsInMarket = (props) => {
               name={item.name}
               itemId={item.itemId}
               price={item.price}
-              reserved={item.reserved}
-              reserveMember={item.reserveMember}
+              reserveMembers={item.reserveMembers}
               soldOut={item.soldOut}
               des={item.description}
             ></Items>

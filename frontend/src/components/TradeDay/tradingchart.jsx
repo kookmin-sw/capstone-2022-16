@@ -1,40 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import SaleItem from "./saleitem";
+import TdSaleList from "./tdsalelist";
 
-const SaleList = (props) => {
-  const [itemlist, setItemList] = useState([]);
+const TradingChart = (props) => {
   const navigate = useNavigate();
-  const [cookies] = useCookies([]);
-  useEffect(() => {
-    if (cookies.LoginCookie === undefined) navigate("/");
-  }, []);
+  const [salelist, setSaleList] = useState([]);
   useEffect(() => {
     axios({
       method: "GET",
       url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
-      setItemList(res.data.filter((item) => item.soldOut !== true));
+      console.log(res);
+      setSaleList(res.data);
     });
   }, []);
-  const onRemove = (itemid) => {
-    setItemList(itemlist.filter((item) => itemid !== item.itemid));
-  };
-  const SoldOut = (itemId, member) => {
-    //멤버이름도 받아서 보내줘야함
-    axios({
-      method: "POST",
-      url: `/market/soldout?itemId=${itemId}`,
-    })
-      .then((res) => {
-        if (res.data === "OK") {
-          setItemList(itemlist.filter((item) => item.soldOut !== true));
-        }
-      })
-      .then(window.location.reload());
-  };
   return (
     <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
@@ -63,14 +43,13 @@ const SaleList = (props) => {
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
         <span className="mt-5 font-bold text-blue-300 ">판매중인 아이템</span>
-        <SaleItem
-          SoldOut={SoldOut}
-          itemlist={itemlist}
-          onRemove={onRemove}
-        ></SaleItem>
+        <TdSaleList salelist={salelist}></TdSaleList>
+      </div>
+      <div className=" mx-3 flex flex-col items-center  text-4xl">
+        <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
       </div>
     </div>
   );
 };
 
-export default SaleList;
+export default TradingChart;

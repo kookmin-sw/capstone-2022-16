@@ -1,19 +1,33 @@
+import React from "react";
+import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import Popup from "../components/popup";
 
-const MapPage = (props) => {
-  const [marketsinfo, setMarketsinfo] = useState([]);
-  const [overlayPos, setOverlayPos] = useState([]);
-  const [currentmarketid, setCurrentMarketid] = useState(1);
-  const navigate = useNavigate();
-  const [cookies] = useCookies([]);
-  useEffect(() => {
-    if (cookies.LoginCookie === undefined) navigate("/");
-  }, []);
+const TradeMain = (props) => {
+  const [checking, setChecking] = useState();
+  const [marketlat, setMarketlat] = useState();
+  const [marketlng, setMarketlng] = useState();
+  const [ispopup, setPopUp] = useState(false);
+  const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
+  };
+  const getDistance = (lat1, lng1, lat2, lng2) => {
+    const R = 6371;
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    return d;
+  };
+  const [marketinfo, setMarketInfo] = useState([]);
   const [state, setState] = useState({
     center: {
       lat: 37.58827661475296,
@@ -22,15 +36,16 @@ const MapPage = (props) => {
     errMsg: null,
     isLoading: true,
   });
-  const [hasChild, setHasChild] = useState(false);
+  const chken = (lat1, lng1, lat2, lng2) => {
+    const dis = Math.floor(getDistance(lat1, lng1, lat2, lng2) * 1000);
+    if (dis < 20) setPopUp(true);
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
-
           setState((prev) => ({
             ...prev,
             center: {
@@ -52,8 +67,9 @@ const MapPage = (props) => {
         method: "GET",
         url: `/map?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
-        setMarketsinfo(res.data);
-        console.log(res.data);
+        setMarketInfo(res.data);
+        setMarketlat(res.data[0].latitude);
+        setMarketlng(res.data[0].longitude);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -66,8 +82,16 @@ const MapPage = (props) => {
   }, [state.center.lat, state.center.lng]);
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
+      {ispopup && (
+        <Popup
+          itemclick={setChecking}
+          popupmsg="입장이 완료되었습니다."
+          navigateurl="/main"
+        ></Popup>
+      )}
+
       <div className=" items-center justify-center flex relative bg-blue-500 ">
-        <button onClick={() => navigate("/main")} className=" absolute left-3">
+        <button onClick={() => Navigate("/main")} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"
@@ -110,55 +134,51 @@ const MapPage = (props) => {
               }}
             />
             {/* 현재 자기 위치 마커에표시*/}
-            {marketsinfo.map((market) => {
+            {marketinfo.map((market) => {
               const position = {
                 lat: market.latitude,
                 lng: market.longitude,
               };
               const marketId = market.marketId;
               return (
-                <MapMarker
-                  className="z-0"
-                  position={position}
-                  key={marketId}
-                  onClick={() => {
-                    setOverlayPos(position);
-                    setCurrentMarketid(marketId);
-                    navigate("/map");
-                    navigate(`${marketId}`);
-                    setHasChild(true);
-                  }}
-                />
+                <div key={marketId} className="relative">
+                  <MapMarker
+                    className="z-0"
+                    position={position}
+                    key={marketId}
+                  />
+                  <Circle
+                    center={position}
+                    radius={20}
+                    strokeWeight={2} // 선의 두께입니다
+                    strokeColor={"#75B8FA"} // 선의 색깔입니다
+                    strokeOpacity={0.3} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                    strokeStyle={"dash"} // 선의 스타일 입니다
+                    fillColor={"#CFE7FF"} // 채우기 색깔입니다
+                    fillOpacity={0.5} // 채우기 불투명도 입니다
+                  />
+                </div>
               );
             })}
           </Map>
+          {checking && <div className=" absolute w-10 h-5"></div>}
         </div>
-        <div className="flex items-center justify-center space-x-2">
-          <img
-            src="/icon/299087_marker_map_icon.png"
-            className="w-7 h-7"
-            alt=""
-          />
-          <span>: 현재 위치</span>
-          <img
-            src="http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png"
-            alt=""
-            className=" w-5 h-7"
-          />
-          <span>: 다른 장터의 위치</span>
-        </div>
-        {!hasChild ? (
-          <>
-            <div className="transition-all  w-full relative flex justify-center items-center">
-              <span className=" absolute top-40">장터 아이템을 표시</span>
-            </div>
-          </>
-        ) : (
-          <Outlet />
-        )}
+      </div>
+      <div className="p-2">
+        <p className="flex items-center justify-center my-5">
+          장터 근처에 오면 CHECK 버튼을 눌러 입장 신청을 해주세요
+        </p>
+        <button
+          className=" py-2 w-full bg-blue-300 rounded-md text-white text-2xl my-5 hover:bg-blue-400 transition-colors"
+          onClick={() => {
+            chken(state.center.lat, state.center.lng, marketlat, marketlng);
+          }}
+        >
+          CHECK
+        </button>
       </div>
     </div>
   );
 };
 
-export default MapPage;
+export default TradeMain;

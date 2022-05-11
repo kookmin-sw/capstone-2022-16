@@ -15,10 +15,9 @@ const LoginPage = (props) => {
       method: "POST",
       url: `login?loginId=${d.id}&password=${d.password}`,
     }).then((res) => {
-      console.log("h1");
-      console.log(res);
       if (res.data === "ok") {
         setCookie("LoginCookie", { path: "/" });
+        localStorage.setItem("name", "chanw121212");
         navigate("/main");
       } else {
         reset({ password: "" });

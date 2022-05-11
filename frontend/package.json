@@ -10,6 +10,7 @@
     "classnames": "^2.3.1",
     "express": "^4.18.0",
     "http": "^0.0.1-security",
+    "moment": "^2.29.3",
     "react": "^17.0.2",
     "react-chat-engine": "^1.11.22",
     "react-cookie": "^4.1.1",

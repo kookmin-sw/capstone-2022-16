@@ -13,6 +13,8 @@ import { useState } from "react";
 import SaleList from "./components/saleList/salelist";
 import MarketReg2 from "./components/marketreg/marketreg2";
 import ReserveList from "./components/reserveList/reservelist";
+import TradeMain from "./components/TradeDay/trademain";
+import TradingChart from "./components/TradeDay/tradingchart";
 
 function App() {
   const [user, setUser] = useState();
@@ -53,6 +55,12 @@ function App() {
             path="profile/:memberid/reservelist"
             exact
             element={<ReserveList></ReserveList>}
+          ></Route>
+          <Route path="dday" exacrt element={<TradeMain></TradeMain>}></Route>
+          <Route
+            path="tradingchart"
+            exacrt
+            element={<TradingChart></TradingChart>}
           ></Route>
         </Routes>
       </BrowserRouter>

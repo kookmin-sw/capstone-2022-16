@@ -1,14 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
+const TdSaleList = ({ salelist }) => {
   const navigate = useNavigate();
-  console.log(itemlist);
   return (
     <li className=" list-none w-full space-y-2">
-      {itemlist.map((item) => (
+      {salelist.map((item, index) => (
         <ul
-          key={item.itemId}
+          key={index}
           className=" group bg-white rounded-md w-full p-2 hover:cursor-pointer"
         >
           <div
@@ -23,7 +22,7 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
                   price: item.price,
                   soldOut: item.soldOut,
                   reserveMembers: item.reserveMembers,
-                  des: item.description,
+                  des: item.des,
                 },
               })
             }
@@ -39,10 +38,6 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
                 <button
                   className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   key={index}
-                  onClick={() => {
-                    onRemove(item.itemId);
-                    SoldOut(item.itemId, member);
-                  }}
                 >
                   {member}
                 </button>
@@ -55,4 +50,4 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
   );
 };
 
-export default SaleItem;
+export default TdSaleList;

@@ -1,10 +1,20 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReserveItem from "../components/reserveitem";
 
 const ReserveList = (props) => {
   const navigate = useNavigate();
-  useEffect(() => {}, []);
+  const [reserveitem, setReserveItem] = useState([]);
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `/member/reserveitems`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
+    }).then((res) => {
+      setReserveItem(res.data);
+      console.log(res.data);
+    });
+  }, []);
   return (
     <div className="w-full h-[100vh] bg-gray-300">
       <div

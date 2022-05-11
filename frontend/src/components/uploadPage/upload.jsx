@@ -16,12 +16,12 @@ const Upload = (props) => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
   const onValid = (data) => {
-    console.log(data.itemdescription);
     axios({
       method: "POST",
       url: `/market/save?marketId=${params.marketid}&itemName=${data.itemname}&price=${data.itemprice}`,
       data: {
         description: data.itemdescription,
+        saletime: data.saletime,
       },
     }).then(() => {
       setPopupOPen(true);
@@ -120,6 +120,12 @@ const Upload = (props) => {
           type="text"
           className="focus:border-blue-400 border-2 border-gray-400 rounded-md outline-none px-2 py-1"
         />
+        <label htmlFor="saletime">판매 시간</label>
+        <select id="saletime" {...register("saletime", { required: true })}>
+          <option value="10">10:00</option>
+          <option value="13">13:00</option>
+          <option value="18">18:00</option>
+        </select>
         <label htmlFor="itemdes">설명</label>
         <textarea
           {...register("itemdescription", { required: true })}

@@ -235,7 +235,7 @@ const MarketReg2 = (props) => {
       </div>
       {isimpossible && (
         <div
-          className=" font-medium transition-all flex justify-center items-center absolute left-[15%] top-[17%] w-[70%] z-10 rounded-full flex items-center bg-blue-400 text-white text-sm font-bold px-4 py-3"
+          className=" font-medium transition-all  justify-center  absolute left-[15%] top-[17%] w-[70%] z-10 rounded-full flex items-center bg-blue-400 text-white text-sm font-bold px-4 py-3"
           role="alert"
         >
           <svg
