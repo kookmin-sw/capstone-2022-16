@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +37,17 @@ public class MemberController {
             return result.getAllErrors();
         }
         System.out.println(member.getMemberId());
-        memoryMemberRepository.save(member);
-        return "ok";
+        Optional<Member> temp = memoryMemberRepository.findByLoginId(member.getLoginId());
+        if(temp.isEmpty()){
+            memoryMemberRepository.save(member);
+            return "ok";
+        }
+        else if(temp.get() == null){
+            memoryMemberRepository.save(member);
+            return "ok";
+        }
+
+        return "no";
     }
 
     @GetMapping("/member/items")
