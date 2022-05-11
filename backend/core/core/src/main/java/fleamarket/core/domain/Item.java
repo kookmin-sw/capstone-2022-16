@@ -18,6 +18,7 @@ public class Item {
     private Long price;
     private String description;
     private boolean soldOut = false;
+    private int sellingTime = 10;
 
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")

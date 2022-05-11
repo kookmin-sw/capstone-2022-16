@@ -48,14 +48,7 @@ public class LoginService {
         Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
         List<Item> items = realMember.getItems();
         items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(
-                        item.getMember().getName(),
-                        item.getItemId(),
-                        item.getItemName(),
-                        item.getDescription(),
-                        item.getPrice(),
-                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
-                        item.isSoldOut())));
+                new ItemDTO(item)));
         return itemDTOs;
     }
 
@@ -76,14 +69,7 @@ public class LoginService {
 
         List<Item> items = items_reserve_relation.stream().map(relation -> relation.getItems()).collect(Collectors.toList());
         items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(
-                        item.getMember().getName(),
-                        item.getItemId(),
-                        item.getItemName(),
-                        item.getDescription(),
-                        item.getPrice(),
-                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
-                        item.isSoldOut())));
+                new ItemDTO(item)));
         return itemDTOs;
     }
 }

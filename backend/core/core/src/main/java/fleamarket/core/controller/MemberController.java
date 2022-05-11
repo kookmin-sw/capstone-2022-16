@@ -1,6 +1,7 @@
 package fleamarket.core.controller;
 
 import fleamarket.core.DTO.ItemDTO;
+import fleamarket.core.DTO.MemberDTO;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Member;
 import fleamarket.core.repository.MemberRepository;
@@ -47,5 +48,11 @@ public class MemberController {
     @GetMapping("/member/reserveitems")
     public List<ItemDTO> getReserveItems(HttpServletRequest request){
         return loginService.getReserveItems(request);
+    }
+
+    @GetMapping("/member/profile")
+    public MemberDTO getProfile(HttpServletRequest request){
+        Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        return new MemberDTO(member);
     }
 }

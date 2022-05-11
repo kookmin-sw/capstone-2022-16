@@ -58,20 +58,13 @@ public class MarketController {
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
         items.stream().forEach(item -> itemDTOS.add(
-                new ItemDTO(
-                        item.getMember().getName(),
-                        item.getItemId(),
-                        item.getItemName(),
-                        item.getDescription(),
-                        item.getPrice(),
-                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
-                        item.isSoldOut())));
+                new ItemDTO(item)));
         return itemDTOS;
     }
 
     //특정 마켓에 아이템 등록
     @PostMapping("/market/save")
-    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName,@RequestParam Long price, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName,@RequestParam Long price,@RequestParam int sellingTime, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
@@ -85,6 +78,7 @@ public class MarketController {
         item.setPrice(price);
         item.setMember(loggedMember);
         item.setMarket(market);
+        item.setSellingTime(sellingTime);
         itemRepository.save(item);
 
         return "OK";

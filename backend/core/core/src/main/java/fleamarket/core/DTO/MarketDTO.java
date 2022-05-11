@@ -20,13 +20,6 @@ public class MarketDTO {
         this.latitude = latitude;
         this.longitude = longitude;
         items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(
-                        item.getMember().getName(),
-                        item.getItemId(),
-                        item.getItemName(),
-                        item.getDescription(),
-                        item.getPrice(),
-                        item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList()),
-                        item.isSoldOut())));
+                new ItemDTO(item)));
     }
 }

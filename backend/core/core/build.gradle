@@ -38,3 +38,14 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+task appNpmInstall(type: NpmTask) {
+	workingDir = file("frontend")
+	args = ["run", "build"]
+}
+task copyWebApp(type: Copy) {
+	from 'frontend/build'
+	into "build/resources/main/static"
+}
+copyWebApp.dependsOn(appNpmInstall)
+compileJava.dependsOn(copyWebApp)
+
