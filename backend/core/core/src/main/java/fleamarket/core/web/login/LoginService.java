@@ -49,7 +49,8 @@ public class LoginService {
         List<Item> items = realMember.getItems();
         items.stream().forEach(item -> itemDTOs.add(
                 new ItemDTO(
-                        realMember.getName(),
+                        //realMember.getName(),
+                        item.getMember().getName(),
                         item.getItemId(),
                         item.getItemName(),
                         item.getDescription(),
@@ -77,7 +78,7 @@ public class LoginService {
         List<Item> items = items_reserve_relation.stream().map(relation -> relation.getItems()).collect(Collectors.toList());
         items.stream().forEach(item -> itemDTOs.add(
                 new ItemDTO(
-                        realMember.getName(),
+                        item.getMember().getName(),
                         item.getItemId(),
                         item.getItemName(),
                         item.getDescription(),

@@ -124,7 +124,7 @@ public class MarketController {
         }
 
         if((item.getMember().getMemberId() != loggedMember.getMemberId())){
-            ITEM_MEMBER_RESERVE_RELATION relation = null;
+            ITEM_MEMBER_RESERVE_RELATION relation = new ITEM_MEMBER_RESERVE_RELATION();
             relation.setItems(item);
             relation.setMembers(loggedMember);
             itemRepository.save(item);
