@@ -14,13 +14,18 @@ import fleamarket.core.service.MemberService;
 import fleamarket.core.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +35,10 @@ public class MarketController {
     private final MarketRepository marketRepository;
     private final ItemRepository itemRepository;
     private final ITEM_MEMBER_RESERVERELATION_Repository relationRepository;
+
+
+    @Value("${file.dir}")
+    private String root;
 
     //마켓 등록
     @PostMapping("/market/add")
@@ -64,16 +73,25 @@ public class MarketController {
 
     //특정 마켓에 아이템 등록
     @PostMapping("/market/save")
-    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName,@RequestParam Long price,@RequestParam int sellingTime, @RequestBody ItemJSON itemJSON, HttpServletRequest request){
+    public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestParam Long price, @RequestParam int sellingTime, @RequestParam MultipartFile photo,@RequestParam String description, HttpServletRequest request) throws IOException {
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
         }
 
+        if(photo != null) {
+            if(!photo.isEmpty()) {
+                String uuid = UUID.randomUUID().toString();
+                String extension = photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf("."));
+                String fullPath = uuid+extension;
+                System.out.println(fullPath);
+                photo.transferTo(new File(fullPath));
+            }
+        }
         Item item = new Item();
         Market market = marketRepository.findById(marketId).get();
         Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        item.setDescription(itemJSON.getDescription());
+        item.setDescription(description);
         item.setItemName(itemName);
         item.setPrice(price);
         item.setMember(loggedMember);
@@ -82,6 +100,7 @@ public class MarketController {
         itemRepository.save(item);
 
         return "OK";
+
     }
 
     //모든 마켓 정보 반환

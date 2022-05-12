@@ -11,19 +11,25 @@ const Upload = (props) => {
   const [cookies] = useCookies([]);
   const [uploadsuccess, setUploadSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
-
+  const formData = new FormData();
+  formData.append("chan", 1000);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
+
   const onValid = (data) => {
+    const formData = new FormData();
+    formData.append("photo", data.photo[0]);
+    formData.append("description", data.itemdescription);
+    formData.append("marketId",params.marketid);
+    formData.append("itemName",data.itemname);
+    formData.append("price",data.itemprice);
+    formData.append("sellingTime",data.saletime);
     axios({
       method: "POST",
-      url: `/market/save?marketId=${params.marketid}&itemName=${data.itemname}&price=${data.itemprice}`,
-      data: {
-        description: data.itemdescription,
-        saletime: data.saletime,
-      },
-    }).then(() => {
+      url: `/market/save`,
+      data: formData,
+    }).then((res) => {
       setPopupOPen(true);
     });
   };
@@ -33,9 +39,9 @@ const Upload = (props) => {
     if (photo && photo.length > 0) {
       const file = photo[0];
       setPhotoPreview(URL.createObjectURL(file));
-      console.log(photo[0]);
     }
   }, [photo]);
+
   return (
     <div className=" w-full h-[100vh]">
       {popupopen && (
@@ -77,7 +83,7 @@ const Upload = (props) => {
           {photoPreview ? (
             <img
               src={photoPreview}
-              className="w-full aspect-video  rounded-md text-gray-600"
+              className=" aspect-square  rounded-md text-gray-600"
             />
           ) : (
             <label className="w-full flex items-center justify-center border-2 border-dashed border-gray-300 py-6 h-48 rounded-md text-gray-600 hover:text-blue-400 hover:border-blue-400 hover:transition-colors cursor-pointer">

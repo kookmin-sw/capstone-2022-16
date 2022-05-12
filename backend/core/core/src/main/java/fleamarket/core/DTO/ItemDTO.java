@@ -22,10 +22,9 @@ public class ItemDTO {
     private List<String> reserveMembers;
     private boolean soldOut;
     private int sellingTime;
-    private Market market;
+    private Long marketId;
 
     public ItemDTO(Item item){
-        this.name = item.getMember().getName();
         this.name = item.getMember().getName();
         this.itemId = item.getItemId();
         this.itemName = item.getItemName();
@@ -34,6 +33,6 @@ public class ItemDTO {
         this.reserveMembers = item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList());
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
-        this.market = item.getMarket();
+        this.marketId = item.getMarket().getMarketId();
     }
 }
