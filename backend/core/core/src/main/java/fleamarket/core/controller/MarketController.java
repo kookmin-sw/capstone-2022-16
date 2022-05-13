@@ -137,12 +137,25 @@ public class MarketController {
             return "Not Logged In";
         }
 
+
         if((item.getMember().getMemberId() != loggedMember.getMemberId())){
-            ITEM_MEMBER_RESERVE_RELATION relation = new ITEM_MEMBER_RESERVE_RELATION();
-            relation.setItems(item);
-            relation.setMembers(loggedMember);
-            relationRepository.save(relation);
-            return "OK";
+            List<ITEM_MEMBER_RESERVE_RELATION> relations = item.getMembers();
+            List<Integer> a = new ArrayList<>();
+            relations.stream().forEach(relation->{
+                Member newMember = relation.getMembers();
+                if(newMember.getMemberId() == loggedMember.getMemberId()) {
+                    a.add(1);
+                }
+            });
+            if(a.isEmpty()){
+                ITEM_MEMBER_RESERVE_RELATION relation = new ITEM_MEMBER_RESERVE_RELATION();
+                relation.setId(item.getItemId());
+                relation.setItems(item);
+                relation.setMembers(loggedMember);
+                relationRepository.save(relation);
+                return "OK";
+            }
+            return "ALREAY EXIST";
         }
         else{
             return "NO";
