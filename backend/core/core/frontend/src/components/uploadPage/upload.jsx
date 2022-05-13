@@ -11,8 +11,7 @@ const Upload = (props) => {
   const [cookies] = useCookies([]);
   const [uploadsuccess, setUploadSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
-  const formData = new FormData();
-  formData.append("chan", 1000);
+  const [photopopup, setPhotoPopup] = useState(false);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
@@ -21,10 +20,10 @@ const Upload = (props) => {
     const formData = new FormData();
     formData.append("photo", data.photo[0]);
     formData.append("description", data.itemdescription);
-    formData.append("marketId",params.marketid);
-    formData.append("itemName",data.itemname);
-    formData.append("price",data.itemprice);
-    formData.append("sellingTime",data.saletime);
+    formData.append("marketId", params.marketid);
+    formData.append("itemName", data.itemname);
+    formData.append("price", data.itemprice);
+    formData.append("sellingTime", data.saletime);
     axios({
       method: "POST",
       url: `/market/save`,
@@ -38,18 +37,48 @@ const Upload = (props) => {
   useEffect(() => {
     if (photo && photo.length > 0) {
       const file = photo[0];
-      setPhotoPreview(URL.createObjectURL(file));
+      if (file.size > 1024 * 1024 * 1) {
+        setPhotoPreview(null);
+        setPhotoPopup(true);
+        setTimeout(function () {
+          setPhotoPopup(false);
+        }, 1000);
+      } else {
+        setPhotoPreview(URL.createObjectURL(file));
+      }
     }
   }, [photo]);
+  const deletePhoto = () => {
+    setPhotoPreview(null);
+  };
 
   return (
-    <div className=" w-full h-[100vh]">
+    <div className=" w-full h-[100vh] relative">
       {popupopen && (
         <Popup
           itemclick={setUploadSucess}
           popupmsg="아이템등록이 완료되었습니다!"
           navigateurl="/map"
         ></Popup>
+      )}
+      {photopopup && (
+        <div className="flex bg-blue-300 rounded-xl text-white absolute top-44 left-1/2 -translate-y-1/2 -translate-x-1/2 py-1 px-4 ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          파일크기가 2MB를 넘을 수 없습니다
+        </div>
       )}
       <div
         onClick={() => {
@@ -81,10 +110,13 @@ const Upload = (props) => {
       >
         <div>
           {photoPreview ? (
-            <img
-              src={photoPreview}
-              className=" aspect-square  rounded-md text-gray-600"
-            />
+            <div className="flex justify-center">
+              <img
+                src={photoPreview}
+                className=" aspect-square  rounded-md max-w-sm"
+                onClick={deletePhoto}
+              />
+            </div>
           ) : (
             <label className="w-full flex items-center justify-center border-2 border-dashed border-gray-300 py-6 h-48 rounded-md text-gray-600 hover:text-blue-400 hover:border-blue-400 hover:transition-colors cursor-pointer">
               <svg
@@ -103,6 +135,7 @@ const Upload = (props) => {
               </svg>
 
               <input
+                id="uphoto"
                 {...register("photo")}
                 accept="image/*"
                 className="hidden"

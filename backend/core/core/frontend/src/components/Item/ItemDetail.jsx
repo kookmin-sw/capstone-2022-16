@@ -16,9 +16,7 @@ const ItemDetail = (props) => {
       else setIsreserved(false);
     });
   }, []);
-  console.log(location.state.des);
   const reserveItem = async (e) => {
-    console.log("chan");
     axios({
       method: "POST",
       url: `/market/reserve?itemId=${location.state.itemId}`,

@@ -17,7 +17,6 @@ const LoginPage = (props) => {
     }).then((res) => {
       if (res.data === "ok") {
         setCookie("LoginCookie", { path: "/" });
-        localStorage.setItem("name", "chanw121212");
         navigate("/main");
       } else {
         reset({ password: "" });
@@ -25,9 +24,6 @@ const LoginPage = (props) => {
         setLoginfail(true);
       }
     });
-
-    console.log(d.id);
-    console.log(d.password);
   };
   const onInValid = (error) => {
     console.log(error);
