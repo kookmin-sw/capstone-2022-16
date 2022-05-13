@@ -149,7 +149,6 @@ public class MarketController {
             });
             if(a.isEmpty()){
                 ITEM_MEMBER_RESERVE_RELATION relation = new ITEM_MEMBER_RESERVE_RELATION();
-                relation.setId(item.getItemId());
                 relation.setItems(item);
                 relation.setMembers(loggedMember);
                 relationRepository.save(relation);
