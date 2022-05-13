@@ -48,7 +48,7 @@ public class ItemDTO {
 
 
         try {
-            InputStream in = getClass().getResourceAsStream("/static/능이.png");
+            InputStream in = getClass().getResourceAsStream("/static/a.png");
             if(in != null)
                 this.file = in.readAllBytes();
         }

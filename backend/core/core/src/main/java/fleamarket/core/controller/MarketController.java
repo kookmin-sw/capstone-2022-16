@@ -40,8 +40,6 @@ public class MarketController {
     private final ITEM_MEMBER_RESERVERELATION_Repository relationRepository;
 
 
-    @Value("${file.dir}")
-    private String root;
 
     //마켓 등록
     @PostMapping("/market/add")
