@@ -15,6 +15,8 @@ import fleamarket.core.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +72,7 @@ public class MarketController {
         items.stream().forEach(item -> itemDTOS.add(
                 new ItemDTO(item)));
         return itemDTOS;
+
     }
 
     //특정 마켓에 아이템 등록
@@ -112,7 +116,6 @@ public class MarketController {
         }
 
         List<Market> markets = marketRepository.findAll();
-        List<ItemDTO> items = new ArrayList<>();
         List<MarketDTO> marketDTOs = new ArrayList<>();
         markets.stream().forEach(m->
                 marketDTOs.add(new MarketDTO(m.getMarketId(),m.getLatitude(),m.getLongitude(),m.getItems())));

@@ -6,14 +6,22 @@ import fleamarket.core.domain.Market;
 import fleamarket.core.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.UrlResource;
+import org.springframework.web.multipart.MultipartFile;
 import org.yaml.snakeyaml.error.Mark;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class ItemDTO {
+
     private String name;
     private Long itemId;
     private String itemName;
@@ -24,7 +32,10 @@ public class ItemDTO {
     private int sellingTime;
     private Long marketId;
 
+    private byte[] file;
+
     public ItemDTO(Item item){
+
         this.name = item.getMember().getName();
         this.itemId = item.getItemId();
         this.itemName = item.getItemName();
@@ -34,5 +45,18 @@ public class ItemDTO {
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();
+
+
+        try {
+            InputStream in = getClass().getResourceAsStream("/static/능이.png");
+            if(in != null)
+                this.file = in.readAllBytes();
+            else{
+                System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+            }
+        }
+        catch(IOException e){
+            int a= 1;
+        }
     }
 }
