@@ -16,6 +16,7 @@ const SaleList = (props) => {
       method: "GET",
       url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
+      console.log(res);
       setItemList(res.data.filter((item) => item.soldOut !== true));
     });
   }, []);

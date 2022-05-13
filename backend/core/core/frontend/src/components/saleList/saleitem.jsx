@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
   const navigate = useNavigate();
-  console.log(itemlist);
   return (
     <li className=" list-none w-full space-y-2">
       {itemlist.map((item) => (
@@ -14,8 +13,7 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
           <div
             className="flex justify-between w-full text-3xl"
             onClick={() =>
-              navigate(`/map/2/${item.itemId}`, {
-                //마켓정보필요
+              navigate(`/map/${item.marketId}/${item.itemId}`, {
                 state: {
                   itemname: item.itemName,
                   name: item.name,
@@ -24,6 +22,7 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
                   soldOut: item.soldOut,
                   reserveMembers: item.reserveMembers,
                   des: item.description,
+                  marketId: item.marketId,
                 },
               })
             }

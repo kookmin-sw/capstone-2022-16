@@ -1,3 +1,4 @@
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -15,6 +16,14 @@ const MainPage = (props) => {
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   });
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `/member/profile`,
+    }).then((res) => {
+      console.log(res.data);
+    });
+  }, []);
 
   return (
     <div className=" bg-blue-100 w-full h-[100vh] relative">
