@@ -23,6 +23,12 @@ public class Member {
     @OneToMany(mappedBy ="members")
     private List<ITEM_MEMBER_RESERVE_RELATION> reserveItems;
 
+    @OneToMany(mappedBy ="member")
+    private List<ItemBought> boughtItems;
+
+    @OneToMany(mappedBy ="member")
+    private List<ItemSoldout> soldoutItems;
+
     @NotEmpty
     private String loginId; //로그인 ID
     @NotEmpty

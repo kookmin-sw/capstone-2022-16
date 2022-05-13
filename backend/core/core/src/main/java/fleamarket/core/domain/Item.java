@@ -19,6 +19,7 @@ public class Item {
     private String description;
     private boolean soldOut = false;
     private int sellingTime = 10;
+    private String imagePath;
 
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")
