@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ReserveItem = ({ reserveitem }) => {
+const PurchaseItem = ({ itemlist }) => {
   const navigate = useNavigate();
   return (
     <li className=" list-none w-full space-y-2">
-      {reserveitem.map((item) => (
+      {itemlist.map((item) => (
         <ul
           key={item.itemId}
           className=" group bg-white rounded-md w-full p-2 hover:cursor-pointer"
@@ -33,12 +33,17 @@ const ReserveItem = ({ reserveitem }) => {
           </div>
           <div className="border-b-2 border-gray-300 my-2"></div>
           <div className="flex items-center justify-between text-gray-500">
-            <div className="flex">
-              <span className=" text-lg">판매자 : </span>
-
-              <div className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
-                {item.name}
-              </div>
+            <div>
+              <span className=" text-lg">예약자 : </span>
+              {item.reserveMembers.map((member, index) => (
+                <button
+                  className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                  key={index}
+                  onClick={() => {}}
+                >
+                  {member}
+                </button>
+              ))}
             </div>
           </div>
         </ul>
@@ -47,4 +52,4 @@ const ReserveItem = ({ reserveitem }) => {
   );
 };
 
-export default ReserveItem;
+export default PurchaseItem;

@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../components/popup";
+import imageCompression from "browser-image-compression";
 const Upload = (props) => {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm({ mode: onchange });
@@ -12,18 +13,23 @@ const Upload = (props) => {
   const [uploadsuccess, setUploadSucess] = useState(false);
   const [popupopen, setPopupOPen] = useState(false);
   const [photopopup, setPhotoPopup] = useState(false);
+  const [photo, setPhoto] = useState();
+  const [photoPreview, setPhotoPreview] = useState("");
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
+  const formData = new FormData();
 
   const onValid = (data) => {
-    const formData = new FormData();
-    formData.append("photo", data.photo[0]);
+    formData.append("photo", photo);
     formData.append("description", data.itemdescription);
     formData.append("marketId", params.marketid);
     formData.append("itemName", data.itemname);
     formData.append("price", data.itemprice);
     formData.append("sellingTime", data.saletime);
+    for (let value of formData.values()) {
+      console.log(value);
+    }
     axios({
       method: "POST",
       url: `/market/save`,
@@ -32,22 +38,57 @@ const Upload = (props) => {
       setPopupOPen(true);
     });
   };
-  const photo = watch("photo");
-  const [photoPreview, setPhotoPreview] = useState("");
-  useEffect(() => {
-    if (photo && photo.length > 0) {
-      const file = photo[0];
-      if (file.size > 1024 * 1024 * 1) {
-        setPhotoPreview(null);
-        setPhotoPopup(true);
-        setTimeout(function () {
-          setPhotoPopup(false);
-        }, 1000);
-      } else {
-        setPhotoPreview(URL.createObjectURL(file));
-      }
+  const handlingDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(",")[1]);
+
+    // Blob를 구성하기 위한 준비, 이 내용은 저도 잘 이해가 안가서 기술하지 않았습니다.
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
     }
-  }, [photo]);
+    const blob = new Blob([ia], {
+      type: "image/jpeg",
+    });
+    const file = new File([blob], "image.jpg");
+
+    // 위 과정을 통해 만든 image폼을 FormData에 넣어줍니다.
+    // 서버에서는 이미지를 받을 때, FormData가 아니면 받지 않도록 세팅해야합니다.
+    setPhoto(file);
+  };
+
+  const handleFileOnChange = async (e) => {
+    let file = e.target.files[0]; // 입력받은 file객체
+
+    // 이미지 resize 옵션 설정 (최대 width을 100px로 지정)
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 400,
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      setPhoto(compressedFile);
+
+      // resize된 이미지의 url을 받아 fileUrl에 저장
+      const promise = imageCompression.getDataUrlFromFile(compressedFile);
+      promise.then((result) => {
+        setPhotoPreview(result);
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        // 변환 완료!
+        const base64data = reader.result;
+
+        // formData 만드는 함수
+        handlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deletePhoto = () => {
     setPhotoPreview(null);
   };
@@ -140,6 +181,7 @@ const Upload = (props) => {
                 accept="image/*"
                 className="hidden"
                 type="file"
+                onChange={handleFileOnChange}
               />
             </label>
           )}

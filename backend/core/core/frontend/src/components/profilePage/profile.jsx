@@ -5,17 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = (props) => {
   const navigate = useNavigate();
+  const memberId = localStorage.getItem("memberId");
   const [cookies] = useCookies([]);
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
-  }, []);
-  useEffect(() => {
-    // axios({
-    //   method: "",
-    //   url: ``,
-    // }).then((res) => {
-    //   console.log(res);
-    // });
   }, []);
   return (
     <div className="w-full h-[100vh]">
@@ -42,32 +35,15 @@ const Profile = (props) => {
         <div className="flex flex-col items-center space-y-10 border-b-[1px] pb-8">
           <div className=" bg-gray-300 rounded-full w-52 h-52"></div>
           <div className="flex flex-col space-y-2">
-            <span className=" text-5xl">Annonymous</span>
-            <div className=" justify-center cursor-pointer text-xs text-gray-400 flex items-center space-x-2">
-              <span>Edit profile</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
+            <span className=" text-5xl">{localStorage.getItem("name")}</span>
+            <div className=" justify-center cursor-pointer text-xs text-gray-400 flex items-center space-x-2"></div>
           </div>
-          <p>안녕하세요 ... 입니다. 잘부탁드립니다.</p>
         </div>
         <div className="flex justify-around">
           {/* 멤버 아이디 받아와서 바꾸기 */}
           <button
             onClick={() => {
-              navigate("1/salelist");
+              navigate(`${memberId}/salelist`);
             }}
           >
             <div className=" w-20 h-20 bg-blue-400 rounded-full flex justify-center text-white items-center">
@@ -91,7 +67,7 @@ const Profile = (props) => {
           <button
             className=""
             onClick={() => {
-              navigate("1/reservelist");
+              navigate(`${memberId}/reservelist`);
             }}
           >
             <div className=" w-20 h-20 bg-blue-400 rounded-full flex justify-center text-white items-center">
@@ -112,7 +88,12 @@ const Profile = (props) => {
             </div>
             <span>찜 목록</span>
           </button>
-          <button className="">
+          <button
+            className=""
+            onClick={() => {
+              navigate(`${memberId}/record`);
+            }}
+          >
             <div className=" w-20 h-20 bg-blue-400 rounded-full flex justify-center text-white items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,27 +1,17 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import ReserveItem from "../components/reserveitem";
+import PurchaseItem from "./purchaseitem";
 
-const ReserveList = (props) => {
+const RecordList = (props) => {
   const navigate = useNavigate();
-  const [reserveitem, setReserveItem] = useState([]);
-  useEffect(() => {
-    axios({
-      method: "GET",
-      url: `/member/reserveitems`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
-    }).then((res) => {
-      setReserveItem(res.data);
-      console.log(res.data);
-    });
-  }, []);
+  const itemlist = [];
   return (
-    <div className="w-full h-[100vh] bg-gray-300 ">
+    <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
         onClick={() => {
           navigate("/profile");
         }}
-        className=" items-center w-full justify-center flex relative bg-blue-500 "
+        className=" items-center justify-center flex relative bg-blue-500 "
       >
         <button className=" absolute left-3">
           <svg
@@ -42,11 +32,13 @@ const ReserveList = (props) => {
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
-        <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
-        <ReserveItem reserveitem={reserveitem}></ReserveItem>
+        <span className="mt-5 font-bold text-blue-300 ">판매한 아이템</span>
+      </div>
+      <div className=" mx-3 flex flex-col items-center  text-4xl">
+        <span className="mt-5 font-bold text-blue-300 ">구매한 아이템</span>
       </div>
     </div>
   );
 };
 
-export default ReserveList;
+export default RecordList;

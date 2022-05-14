@@ -23,6 +23,7 @@ const SaleItem = ({ SoldOut, itemlist, onRemove }) => {
                   reserveMembers: item.reserveMembers,
                   des: item.description,
                   marketId: item.marketId,
+                  photo: item.file,
                 },
               })
             }

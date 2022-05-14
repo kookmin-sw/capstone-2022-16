@@ -21,7 +21,10 @@ const MainPage = (props) => {
       method: "GET",
       url: `/member/profile`,
     }).then((res) => {
-      console.log(res.data);
+      if (localStorage.getItem("name") === null)
+        localStorage.setItem("name", res.data.name);
+      if (localStorage.getItem("memberId") === null)
+        localStorage.setItem("memberId", res.data.memberId);
     });
   }, []);
 
