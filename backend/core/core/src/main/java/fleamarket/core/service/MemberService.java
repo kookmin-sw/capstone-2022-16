@@ -24,9 +24,6 @@ public class MemberService {
     private final BoughtRepository boughtRepository;
     private final ItemRepository itemRepository;
 
-    /**
-     * 회원가입
-     */
     public Object join(Member member, BindingResult result) {
         if (result.hasErrors()) {
             return result.getAllErrors();
@@ -63,7 +60,6 @@ public class MemberService {
         return soldMember.getSoldoutItems();
     }
 
-    @Transactional
     public List<ItemDTO> getItems(HttpServletRequest request){
         HttpSession session = request.getSession();
         List<ItemDTO> itemDTOs = new ArrayList<>();
@@ -82,7 +78,6 @@ public class MemberService {
         return itemDTOs;
     }
 
-    @Transactional
     public List<ItemDTO> getReserveItems(HttpServletRequest request){
         HttpSession session = request.getSession();
         List<ItemDTO> itemDTOs = new ArrayList<>();

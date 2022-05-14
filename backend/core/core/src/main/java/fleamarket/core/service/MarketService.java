@@ -21,6 +21,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MarketService {
+
     private final ItemRepository itemRepository;
     private final ITEM_MEMBER_RESERVERELATION_Repository relationRepository;
     private final MemberRepository memberRepository;
