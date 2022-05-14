@@ -1,4 +1,4 @@
-package fleamarket.core.web.login;
+package fleamarket.core.Form;
 
 import lombok.Data;
 

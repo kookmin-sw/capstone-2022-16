@@ -17,16 +17,19 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @OneToMany(mappedBy = "member")
-    protected List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "Owner")
+    protected List<Item> myItems = new ArrayList<>();
 
-    @OneToMany(mappedBy ="members")
+    @OneToMany(mappedBy = "confirmedMember")
+    private List<Item> confirmedItems = new ArrayList<>();
+
+    @OneToMany(mappedBy ="reserveMember")
     private List<ITEM_MEMBER_RESERVE_RELATION> reserveItems;
 
-    @OneToMany(mappedBy ="member")
+    @OneToMany(mappedBy ="BoughtMember")
     private List<ItemBought> boughtItems;
 
-    @OneToMany(mappedBy ="member")
+    @OneToMany(mappedBy ="SoldMember")
     private List<ItemSoldout> soldoutItems;
 
     @NotEmpty

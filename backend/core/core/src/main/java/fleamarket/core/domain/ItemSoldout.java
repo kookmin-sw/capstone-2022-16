@@ -15,8 +15,8 @@ public class ItemSoldout {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="member")
-    private Member member;
+    @JoinColumn(name="SoldMember")
+    private Member SoldMember;
 
     private String itemName;
     private Long itemPrice;

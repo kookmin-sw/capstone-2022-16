@@ -22,14 +22,18 @@ public class Item {
     private String imagePath;
 
     @ManyToOne
-    @JoinColumn(name="MEMBER_ID")
-    private Member member;
+    @JoinColumn(name="Owner_ID")
+    private Member Owner;
+
+    @ManyToOne
+    @JoinColumn(name="ConfirmedMember_ID")
+    private Member confirmedMember;
 
     @ManyToOne
     @JoinColumn(name="MARKET_ID")
     private Market market;
 
-    @OneToMany(mappedBy ="items")
-    private List<ITEM_MEMBER_RESERVE_RELATION> members;
+    @OneToMany(mappedBy ="reserveItems")
+    private List<ITEM_MEMBER_RESERVE_RELATION> reserveMembers;
 
 }

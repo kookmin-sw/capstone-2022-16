@@ -31,21 +31,21 @@ public class ItemDTO {
     private boolean soldOut;
     private int sellingTime;
     private Long marketId;
-
+    private Member reserveConfirmationMember;
     private byte[] file;
 
     public ItemDTO(Item item){
 
-        this.name = item.getMember().getName();
+        this.name = item.getOwner().getName();
         this.itemId = item.getItemId();
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.description = item.getDescription();
-        this.reserveMembers = item.getMembers().stream().map(relation -> relation.getMembers().getName()).collect(Collectors.toList());
+        this.reserveMembers = item.getReserveMembers().stream().map(relation -> relation.getReserveMember().getName()).collect(Collectors.toList());
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();
-
+        this.reserveConfirmationMember = item.getConfirmedMember();
 
         try {
             InputStream in = getClass().getResourceAsStream("/static/a.png");
