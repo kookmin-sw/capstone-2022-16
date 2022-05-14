@@ -17,9 +17,9 @@ public class ITEM_MEMBER_RESERVE_RELATION {
 
     @ManyToOne
     @JoinColumn(name="RESERVED_ITEM")
-    private Item items;
+    private Item reserveItems;
 
     @ManyToOne
     @JoinColumn(name="RESERVED_MEMBER")
-    private Member members ;
+    private Member reserveMember ;
 }

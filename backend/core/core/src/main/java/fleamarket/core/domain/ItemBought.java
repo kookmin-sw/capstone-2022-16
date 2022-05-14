@@ -16,7 +16,7 @@ public class ItemBought {
 
     @ManyToOne
     @JoinColumn(name="member")
-    private Member member;
+    private Member BoughtMember;
 
     private String itemName;
     private Long itemPrice;

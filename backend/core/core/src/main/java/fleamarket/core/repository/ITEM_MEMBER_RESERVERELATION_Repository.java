@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Slf4j
 @Transactional
@@ -24,4 +25,12 @@ public class ITEM_MEMBER_RESERVERELATION_Repository {
         em.remove(relation);
     }
 
+    public Optional<ITEM_MEMBER_RESERVE_RELATION> findById(Long id){
+        return Optional.ofNullable(em.find(ITEM_MEMBER_RESERVE_RELATION.class,id));
+    }
+
+    public void deleteById(Long id){
+        ITEM_MEMBER_RESERVE_RELATION relation = findById(id).get();
+        em.remove(relation);
+    }
 }
