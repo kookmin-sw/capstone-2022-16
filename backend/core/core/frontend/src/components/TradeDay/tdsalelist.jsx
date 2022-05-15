@@ -1,8 +1,10 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TdSaleList = ({ salelist }) => {
   const navigate = useNavigate();
+
   return (
     <li className=" list-none w-full space-y-2">
       {salelist.map((item, index) => (
@@ -14,7 +16,6 @@ const TdSaleList = ({ salelist }) => {
             className="flex justify-between w-full text-3xl"
             onClick={() =>
               navigate(`/map/2/${item.itemId}`, {
-                //마켓정보필요
                 state: {
                   itemname: item.itemName,
                   name: item.name,
@@ -33,15 +34,10 @@ const TdSaleList = ({ salelist }) => {
           <div className="border-b-2 border-gray-300 my-2"></div>
           <div className="flex items-center justify-between text-gray-500">
             <div>
-              <span className=" text-lg">예약자 : </span>
-              {item.reserveMembers.map((member, index) => (
-                <button
-                  className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                  key={index}
-                >
-                  {member}
-                </button>
-              ))}
+              <span className=" text-lg">구매자 : </span>
+              <button className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                {item.reserveConfirmationMember}
+              </button>
             </div>
           </div>
         </ul>

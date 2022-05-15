@@ -16,7 +16,6 @@ const SaleList = (props) => {
       method: "GET",
       url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
-      console.log(res.data);
       setItemList(res.data);
     });
   }, []);
@@ -26,11 +25,9 @@ const SaleList = (props) => {
       method: "POST",
       url: `/market/Confirm?itemId=${itemId}&memberId=${member}`,
     }).then((res) => {
-      console.log(res.data);
       if (res.data === "OK") {
         setItemList(itemlist.filter((item) => item.soldOut !== true));
       }
-      console.log(res);
     });
   };
   return (

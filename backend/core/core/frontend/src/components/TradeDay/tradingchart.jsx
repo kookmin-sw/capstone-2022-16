@@ -1,25 +1,33 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TdReserveList from "./tdreservelist";
 import TdSaleList from "./tdsalelist";
 
 const TradingChart = (props) => {
   const navigate = useNavigate();
   const [salelist, setSaleList] = useState([]);
+  const [reservelist, setReserveList] = useState([]);
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
+      url: `/member/items`,
     }).then((res) => {
-      console.log(res);
       setSaleList(res.data);
     });
+    axios({
+      method: "GET",
+      url: `/member/reserveitems`,
+    }).then((res) => {
+      setReserveList(res.data);
+    });
   }, []);
+
   return (
     <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
         onClick={() => {
-          navigate("/profile");
+          navigate(-1);
         }}
         className=" items-center justify-center flex relative bg-blue-500 "
       >
@@ -47,6 +55,7 @@ const TradingChart = (props) => {
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
         <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
+        <TdReserveList reservelist={reservelist}></TdReserveList>
       </div>
     </div>
   );
