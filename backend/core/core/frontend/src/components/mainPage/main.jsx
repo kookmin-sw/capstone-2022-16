@@ -10,6 +10,7 @@ const MainPage = (props) => {
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("name");
+    localStorage.removeItem("memberId");
     removeCookie("LoginCookie");
     navigate("/");
   };

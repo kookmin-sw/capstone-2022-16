@@ -12,7 +12,7 @@ const ItemDetail = (props) => {
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
     location.state.reserveMembers.map((item) => {
-      if (item === localStorage.getItem("name")) setIsreserved(true);
+      if (item.name === localStorage.getItem("name")) setIsreserved(true);
       else setIsreserved(false);
     });
   }, []);
@@ -21,8 +21,7 @@ const ItemDetail = (props) => {
       method: "POST",
       url: `/market/reserve?itemId=${location.state.itemId}`,
     }).then((res) => {
-      if (isreserved) setIsreserved(false);
-      window.location.reload();
+      setIsreserved(!isreserved);
     });
   };
   return (

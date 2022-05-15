@@ -15,6 +15,12 @@ const ReserveList = (props) => {
       console.log(res.data);
     });
   }, []);
+  const reserveOut = (itemId) => {
+    axios({
+      method: "POST",
+      url: `/market/reserve?itemId=${itemId}`,
+    }).then(window.location.reload());
+  };
   return (
     <div className="w-full h-[100vh] bg-gray-300 ">
       <div
@@ -43,7 +49,10 @@ const ReserveList = (props) => {
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
         <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
-        <ReserveItem reserveitem={reserveitem}></ReserveItem>
+        <ReserveItem
+          reserveOut={reserveOut}
+          reserveitem={reserveitem}
+        ></ReserveItem>
       </div>
     </div>
   );

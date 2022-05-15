@@ -1,10 +1,18 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PurchaseItem from "./purchaseitem";
 
 const RecordList = (props) => {
   const navigate = useNavigate();
-  const itemlist = [];
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `/member/myBought`,
+    }).then((res) => {
+      console.log(res.data);
+    });
+  });
   return (
     <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div

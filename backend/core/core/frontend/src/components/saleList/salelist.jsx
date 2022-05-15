@@ -16,25 +16,22 @@ const SaleList = (props) => {
       method: "GET",
       url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
-      console.log(res);
-      setItemList(res.data.filter((item) => item.soldOut !== true));
+      console.log(res.data);
+      setItemList(res.data);
     });
   }, []);
-  const onRemove = (itemid) => {
-    setItemList(itemlist.filter((item) => itemid !== item.itemid));
-  };
-  const SoldOut = (itemId, member) => {
+  const ReserveComplete = (itemId, member) => {
     //멤버이름도 받아서 보내줘야함
     axios({
       method: "POST",
-      url: `/market/soldout?itemId=${itemId}`,
-    })
-      .then((res) => {
-        if (res.data === "OK") {
-          setItemList(itemlist.filter((item) => item.soldOut !== true));
-        }
-      })
-      .then(window.location.reload());
+      url: `/market/Confirm?itemId=${itemId}&memberId=${member}`,
+    }).then((res) => {
+      console.log(res.data);
+      if (res.data === "OK") {
+        setItemList(itemlist.filter((item) => item.soldOut !== true));
+      }
+      console.log(res);
+    });
   };
   return (
     <div className=" w-full h-[100vh] box-border bg-gray-300">
@@ -65,9 +62,8 @@ const SaleList = (props) => {
       <div className=" mx-3 flex flex-col items-center  text-4xl">
         <span className="mt-5 font-bold text-blue-300 ">판매중인 아이템</span>
         <SaleItem
-          SoldOut={SoldOut}
+          ReserveComplete={ReserveComplete}
           itemlist={itemlist}
-          onRemove={onRemove}
         ></SaleItem>
       </div>
     </div>
