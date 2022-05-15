@@ -176,11 +176,15 @@ public class MarketService {
         if (loggedMember == null) {
             return "Not Logged In";
         }
-        Member member = item.getOwner();
-        if(member.getMemberId() != loggedMember.getMemberId()){
+        Member owner = item.getOwner();
+        if(owner.getMemberId() != loggedMember.getMemberId()){
             return "Not your item";
         }
-        item.setConfirmedMember(member);
+        Member reserveMember = memberRepository.findById(memberId).get();
+        if(reserveMember == null){
+            return "No member there";
+        }
+        item.setConfirmedMember(reserveMember);
         return "OK";
     }
 

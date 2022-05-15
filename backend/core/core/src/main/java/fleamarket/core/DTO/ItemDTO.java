@@ -12,6 +12,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 import org.yaml.snakeyaml.error.Mark;
 
+import javax.persistence.Tuple;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -27,7 +28,7 @@ public class ItemDTO {
     private String itemName;
     private Long price;
     private String description;
-    private List<String> reserveMembers;
+    private List<MemberDTO> reserveMembers;
     private boolean soldOut;
     private int sellingTime;
     private Long marketId;
@@ -41,7 +42,7 @@ public class ItemDTO {
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.description = item.getDescription();
-        this.reserveMembers = item.getReserveMembers().stream().map(relation -> relation.getReserveMember().getName()).collect(Collectors.toList());
+        this.reserveMembers = item.getReserveMembers().stream().map(relation -> new MemberDTO(relation.getReserveMember())).collect(Collectors.toList());
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();

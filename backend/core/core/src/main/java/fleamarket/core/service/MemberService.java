@@ -2,6 +2,7 @@ package fleamarket.core.service;
 
 import fleamarket.core.Const.SessionConst;
 import fleamarket.core.DTO.ItemDTO;
+import fleamarket.core.DTO.ItemSoldBoughtDTO;
 import fleamarket.core.domain.*;
 import fleamarket.core.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -47,17 +48,40 @@ public class MemberService {
                 .orElse(null);
     }
 
-    public List<ItemSoldout> getMySoldouts(HttpServletRequest request){
-        List<ItemSoldout> soldouts = new ArrayList<>();
+    public List<ItemSoldBoughtDTO> getMySoldouts(HttpServletRequest request){
+        List<ItemSoldBoughtDTO> soldouts = new ArrayList<>();
         HttpSession session = request.getSession(false);
         if(session == null)
             return soldouts;
 
-        Member soldMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Member loggedMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null){
+            return soldouts;
+        }
+
+        Member soldMember = (Member) memberRepository.findById(loggedMember.getMemberId()).get();
+
         if(soldMember == null){
             return soldouts;
         }
-        return soldMember.getSoldoutItems();
+        soldMember.getSoldoutItems().stream().forEach(item->soldouts.add(new ItemSoldBoughtDTO(item)));
+        return soldouts;
+    }
+    public List<ItemSoldBoughtDTO> getMyBoughts(HttpServletRequest request){
+        List<ItemSoldBoughtDTO> boughts = new ArrayList<>();
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            return boughts;
+        Member loggedMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null){
+            return boughts;
+        }
+        Member boughtMember = (Member) memberRepository.findById(loggedMember.getMemberId()).get();
+        if(boughtMember == null){
+            return boughts;
+        }
+        boughtMember.getSoldoutItems().stream().forEach(item->boughts.add(new ItemSoldBoughtDTO(item)));
+        return boughts;
     }
 
     public List<ItemDTO> getItems(HttpServletRequest request){
@@ -96,19 +120,6 @@ public class MemberService {
         items.stream().forEach(item -> itemDTOs.add(
                 new ItemDTO(item)));
         return itemDTOs;
-    }
-
-    public List<ItemBought> getMyBoughts(HttpServletRequest request){
-        List<ItemBought> boughts = new ArrayList<>();
-        HttpSession session = request.getSession(false);
-        if(session == null)
-            return boughts;
-
-        Member soldMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if(soldMember == null){
-            return boughts;
-        }
-        return soldMember.getBoughtItems();
     }
 
     public Optional<Member> findOne(Long memberId) {

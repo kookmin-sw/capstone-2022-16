@@ -2,6 +2,7 @@ package fleamarket.core.controller;
 
 import fleamarket.core.Const.SessionConst;
 import fleamarket.core.DTO.ItemDTO;
+import fleamarket.core.DTO.ItemSoldBoughtDTO;
 import fleamarket.core.DTO.MemberDTO;
 import fleamarket.core.Form.LoginForm;
 import fleamarket.core.domain.ItemBought;
@@ -73,12 +74,12 @@ public class MemberController {
     }
 
     @GetMapping("/member/mySoldout")
-    public List<ItemSoldout> mySoldoutItems(HttpServletRequest request){
+    public List<ItemSoldBoughtDTO> mySoldoutItems(HttpServletRequest request){
         return memberService.getMySoldouts(request);
     }
 
     @GetMapping("/member/myBought")
-    public List<ItemBought> myBoughtItems(HttpServletRequest request){
+    public List<ItemSoldBoughtDTO> myBoughtItems(HttpServletRequest request){
         return memberService.getMyBoughts(request);
     }
 
