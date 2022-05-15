@@ -24,6 +24,7 @@ public class MemberService {
     private final SoldoutRepository soldoutRepository;
     private final BoughtRepository boughtRepository;
     private final ItemRepository itemRepository;
+    private final AwsS3Service awsS3Service;
 
     public Object join(Member member, BindingResult result) {
         if (result.hasErrors()) {
@@ -98,7 +99,7 @@ public class MemberService {
         Member realMember = memberRepository.findById(loggedMember.getMemberId()).get();
         List<Item> items = realMember.getMyItems();
         items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(item)));
+                new ItemDTO(item, awsS3Service.downloadFile(item.getImagePath()))));
         return itemDTOs;
     }
 
@@ -118,7 +119,7 @@ public class MemberService {
 
         List<Item> items = items_reserve_relation.stream().map(relation -> relation.getReserveItems()).collect(Collectors.toList());
         items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(item)));
+                new ItemDTO(item, awsS3Service.downloadFile(item.getImagePath()))));
         return itemDTOs;
     }
 

@@ -34,7 +34,7 @@ const MainPage = (props) => {
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      {moment().format("dddd") === "Monday" ? (
+      {moment().format("dddd") === "Sunday" ? (
         <div className="flex justify-center items-center h-full">
           <div className=" grid grid-cols-2 grid-rows-2 ml-2">
             <button

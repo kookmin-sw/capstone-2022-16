@@ -29,6 +29,7 @@ public class MarketService {
     private final MarketRepository marketRepository;
     private final SoldoutRepository soldoutRepository;
     private final BoughtRepository boughtRepository;
+    private final AwsS3Service awsS3Service;
 
     public String marektAdd(double latitude,double longitude,HttpServletRequest request){
         HttpSession session = request.getSession(false);
@@ -53,7 +54,7 @@ public class MarketService {
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
         items.stream().forEach(item -> itemDTOS.add(
-                new ItemDTO(item)));
+                new ItemDTO(item, awsS3Service.downloadFile(item.getImagePath()))));
         return itemDTOS;
     }
 
@@ -66,7 +67,7 @@ public class MarketService {
         List<Market> markets = marketRepository.findAll();
         List<MarketDTO> marketDTOs = new ArrayList<>();
         markets.stream().forEach(m->
-                marketDTOs.add(new MarketDTO(m.getMarketId(),m.getLatitude(),m.getLongitude(),m.getItems())));
+                marketDTOs.add(new MarketDTO(m)));
         return marketDTOs;
     }
 
@@ -79,15 +80,7 @@ public class MarketService {
         if(loggedMember == null){
             return "Not Logged In";
         }
-        if(photo != null) {
-            if(!photo.isEmpty()) {
-                String uuid = UUID.randomUUID().toString();
-                String extension = photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf("."));
-                String fullPath = uuid+extension;
-                System.out.println(fullPath);
-                photo.transferTo(new File(fullPath));
-            }
-        }
+
         Item item = new Item();
         Market market = marketRepository.findById(marketId).get();
         item.setDescription(description);
@@ -96,6 +89,9 @@ public class MarketService {
         item.setOwner(loggedMember);
         item.setMarket(market);
         item.setSellingTime(sellingTime);
+
+        String fileName = awsS3Service.uploadFile(photo);
+        item.setImagePath(fileName);
         itemRepository.save(item);
 
         return "OK";

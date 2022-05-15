@@ -1,7 +1,10 @@
 package fleamarket.core.DTO;
 
 import fleamarket.core.domain.Item;
+import fleamarket.core.domain.Market;
+import fleamarket.core.service.AwsS3Service;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -15,11 +18,9 @@ public class MarketDTO {
     private double latitude;
     private double longitude;
     private List<ItemDTO> itemDTOs = new ArrayList<>();
-    public MarketDTO(Long marketId,double latitude,double longitude,List<Item> items){
-        this.marketId = marketId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        items.stream().forEach(item -> itemDTOs.add(
-                new ItemDTO(item)));
+    public MarketDTO(Market market){
+        this.marketId = market.getMarketId();
+        this.latitude = market.getLatitude();
+        this.longitude = market.getLongitude();
     }
 }
