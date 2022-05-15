@@ -1,33 +1,23 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import TdReserveList from "./tdreservelist";
-import TdSaleList from "./tdsalelist";
+import PurchaseItem from "./purchaseitem";
 
-const TradingChart = (props) => {
+const RecordList = (props) => {
   const navigate = useNavigate();
-  const [salelist, setSaleList] = useState([]);
-  const [reservelist, setReserveList] = useState([]);
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`,
+      url: `/member/myBought`,
     }).then((res) => {
-      setSaleList(res.data);
+      console.log(res.data);
     });
-    axios({
-      method: "GET",
-      url: `/member/reserveitems`,
-    }).then((res) => {
-      setReserveList(res.data);
-    });
-  }, []);
-
+  });
   return (
     <div className=" w-full h-[100vh] box-border bg-gray-300">
       <div
         onClick={() => {
-          navigate(-1);
+          navigate("/profile");
         }}
         className=" items-center justify-center flex relative bg-blue-500 "
       >
@@ -50,15 +40,13 @@ const TradingChart = (props) => {
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
-        <span className="mt-5 font-bold text-blue-300 ">판매중인 아이템</span>
-        <TdSaleList salelist={salelist}></TdSaleList>
+        <span className="mt-5 font-bold text-blue-300 ">판매한 아이템</span>
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
-        <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
-        <TdReserveList reservelist={reservelist}></TdReserveList>
+        <span className="mt-5 font-bold text-blue-300 ">구매한 아이템</span>
       </div>
     </div>
   );
 };
 
-export default TradingChart;
+export default RecordList;

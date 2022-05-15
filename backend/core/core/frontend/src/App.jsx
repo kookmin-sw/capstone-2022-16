@@ -15,6 +15,7 @@ import MarketReg2 from "./components/marketreg/marketreg2";
 import ReserveList from "./components/reserveList/reservelist";
 import TradeMain from "./components/TradeDay/trademain";
 import TradingChart from "./components/TradeDay/tradingchart";
+import RecordList from "./components/recordList/recordlist";
 
 function App() {
   const [user, setUser] = useState();
@@ -61,6 +62,11 @@ function App() {
             path="tradingchart"
             exacrt
             element={<TradingChart></TradingChart>}
+          ></Route>
+          <Route
+            path="profile/:memberid/record"
+            exact
+            element={<RecordList></RecordList>}
           ></Route>
         </Routes>
       </BrowserRouter>

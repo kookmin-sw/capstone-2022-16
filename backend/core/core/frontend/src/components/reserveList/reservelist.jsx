@@ -14,8 +14,14 @@ const ReserveList = (props) => {
       setReserveItem(res.data);
     });
   }, []);
+  const reserveOut = (itemId) => {
+    axios({
+      method: "POST",
+      url: `/market/reserve?itemId=${itemId}`,
+    }).then(window.location.reload());
+  };
   return (
-    <div className="w-full h-[100vh] bg-gray-300">
+    <div className="w-full h-[100vh] bg-gray-300 ">
       <div
         onClick={() => {
           navigate("/profile");
@@ -40,9 +46,13 @@ const ReserveList = (props) => {
         </button>
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      {reserveitem.map((item) => {
-        console.log(item);
-      })}
+      <div className=" mx-3 flex flex-col items-center  text-4xl">
+        <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
+        <ReserveItem
+          reserveOut={reserveOut}
+          reserveitem={reserveitem}
+        ></ReserveItem>
+      </div>
     </div>
   );
 };

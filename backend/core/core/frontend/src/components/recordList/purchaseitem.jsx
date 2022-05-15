@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const SaleItem = ({ ReserveComplete, itemlist }) => {
+const PurchaseItem = ({ itemlist }) => {
   const navigate = useNavigate();
   return (
     <li className=" list-none w-full space-y-2">
@@ -39,11 +39,9 @@ const SaleItem = ({ ReserveComplete, itemlist }) => {
                 <button
                   className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   key={index}
-                  onClick={() => {
-                    ReserveComplete(item.itemId, member.memberId);
-                  }}
+                  onClick={() => {}}
                 >
-                  {member.name}
+                  {member}
                 </button>
               ))}
             </div>
@@ -54,4 +52,4 @@ const SaleItem = ({ ReserveComplete, itemlist }) => {
   );
 };
 
-export default SaleItem;
+export default PurchaseItem;

@@ -10,6 +10,7 @@ const MainPage = (props) => {
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("name");
+    localStorage.removeItem("memberId");
     removeCookie("LoginCookie");
     navigate("/");
   };
@@ -21,7 +22,10 @@ const MainPage = (props) => {
       method: "GET",
       url: `/member/profile`,
     }).then((res) => {
-      console.log(res.data);
+      if (localStorage.getItem("name") === null)
+        localStorage.setItem("name", res.data.name);
+      if (localStorage.getItem("memberId") === null)
+        localStorage.setItem("memberId", res.data.memberId);
     });
   }, []);
 
@@ -31,7 +35,83 @@ const MainPage = (props) => {
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
       {moment().format("dddd") === "Sunday" ? (
-        <div className="flex justify-center items-center h-full"></div>
+        <div className="flex justify-center items-center h-full">
+          <div className=" grid grid-cols-2 grid-rows-2 ml-2">
+            <button
+              onClick={() => navigate("/dday")}
+              className=" transition-colors hover:bg-blue-500 mr-2 mb-2 w-40 space-y-4 text-white h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className=" text-xl">장터 입장</span>
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="transition-colors hover:bg-blue-500 w-40 space-y-4 text-white  h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className=" text-xl">내 정보</span>
+            </button>
+            <button
+              onClick={() => navigate("")}
+              className="transition-colors hover:bg-blue-500 space-y-4 text-white w-40 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            >
+              <span className=" text-xl"></span>
+            </button>
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="transition-colors hover:bg-blue-500 space-y-4 text-white w-40 h-40 rounded-md bg-blue-400 flex flex-col items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className=" text-xl">로그아웃</span>
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="flex justify-center items-center h-full">
           <div className=" grid grid-cols-2 grid-rows-2 ml-2">

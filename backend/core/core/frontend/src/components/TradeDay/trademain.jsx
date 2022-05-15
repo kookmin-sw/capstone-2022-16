@@ -2,17 +2,19 @@ import React from "react";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Popup from "../components/popup";
 
 const TradeMain = (props) => {
   const [checking, setChecking] = useState();
   const [marketlat, setMarketlat] = useState();
   const [marketlng, setMarketlng] = useState();
-  const [ispopup, setPopUp] = useState(false);
+  const [ispopup, setPopUp] = useState(true);
+  const [errorpopup, setErrorPopUp] = useState(false);
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };
+  const navigate = useNavigate();
   const getDistance = (lat1, lng1, lat2, lng2) => {
     const R = 6371;
     const dLat = deg2rad(lat2 - lat1);
@@ -39,6 +41,9 @@ const TradeMain = (props) => {
   const chken = (lat1, lng1, lat2, lng2) => {
     const dis = Math.floor(getDistance(lat1, lng1, lat2, lng2) * 1000);
     if (dis < 20) setPopUp(true);
+    else {
+      setErrorPopUp(true);
+    }
   };
 
   useEffect(() => {
@@ -86,12 +91,28 @@ const TradeMain = (props) => {
         <Popup
           itemclick={setChecking}
           popupmsg="입장이 완료되었습니다."
-          navigateurl="/main"
+          navigateurl="/tradingchart"
         ></Popup>
+      )}
+      {errorpopup && (
+        <div className=" flex flex-col items-center justify-between w-1/2 h-40 absolute rounded-md bg-blue-300 z-10 top-1/3 left-1/4">
+          <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
+          <span className="flex justify-center items-center">
+            장터 주변이 아닙니다
+          </span>
+          <button
+            onClick={() => {
+              setErrorPopUp(false);
+            }}
+            className=" mb-7 w-1/4 bg-blue-500 px-3 text-white py-1 rounded-md"
+          >
+            확인
+          </button>
+        </div>
       )}
 
       <div className=" items-center justify-center flex relative bg-blue-500 ">
-        <button onClick={() => Navigate("/main")} className=" absolute left-3">
+        <button onClick={() => navigate("/main")} className=" absolute left-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8"
