@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -185,6 +186,8 @@ public class MarketService {
             return "No member there";
         }
         item.setConfirmedMember(reserveMember);
+        System.out.println(item.getConfirmedMember().getName());
+        itemRepository.save(item);
         return "OK";
     }
 
