@@ -32,7 +32,7 @@ public class ItemDTO {
     private boolean soldOut;
     private int sellingTime;
     private Long marketId;
-    private Member reserveConfirmationMember;
+    private MemberDTO reserveConfirmationMember;
     private byte[] file;
 
     public ItemDTO(Item item){
@@ -46,8 +46,10 @@ public class ItemDTO {
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();
-        this.reserveConfirmationMember = item.getConfirmedMember();
 
+        if(item.getConfirmedMember() != null) {
+            this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember());
+        }
         try {
             InputStream in = getClass().getResourceAsStream("/static/a.png");
             if(in != null)
