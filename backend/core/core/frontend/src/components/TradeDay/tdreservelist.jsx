@@ -6,7 +6,9 @@ const TdReserveList = ({ reservelist }) => {
   return (
     <li className=" list-none w-full space-y-2">
       {reservelist.map((item) => {
-        if (item.reserveConfirmationMember === localStorage.getItem("name")) {
+        if (
+          item.reserveConfirmationMember.name === localStorage.getItem("name")
+        ) {
           return (
             <ul
               key={item.itemId}
