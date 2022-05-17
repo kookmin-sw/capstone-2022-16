@@ -63,29 +63,48 @@ public class MemberController {
         return "ok";
     }
 
-    @GetMapping("/member/items")
+    @GetMapping("/member/items") //현재 내가 내놓은 물건 내역
     public List<ItemDTO> getSellingItems(HttpServletRequest request){
         return memberService.getItems(request);
     }
 
-    @GetMapping("/member/reserveitems")
+    @GetMapping("/member/reserveitems") // 현재 내가 찜한 물건 내역
     public List<ItemDTO> getReserveItems(HttpServletRequest request){
         return memberService.getReserveItems(request);
     }
 
-    @GetMapping("/member/mySoldout")
-    public List<ItemSoldBoughtDTO> mySoldoutItems(HttpServletRequest request){
-        return memberService.getMySoldouts(request);
+    @GetMapping("/member/mySellingReservedItems") //현재 내가 판매하는 물건중 거래예약된 내역
+    public List<ItemDTO> mySellingReservedItems(HttpServletRequest request){
+        return memberService.getSellingItems(request);
     }
 
-    @GetMapping("/member/myBought")
-    public List<ItemSoldBoughtDTO> myBoughtItems(HttpServletRequest request){
-        return memberService.getMyBoughts(request);
+    @GetMapping("/member/myBuyingReservedItems") //현재 내가 찜한 물건중 거래예약된 물건 내역
+    public List<ItemDTO> myBuingReservedItems(HttpServletRequest request){
+        return memberService.getBuyingItems(request);
+    }
+
+    @GetMapping("/member/mySoldout") //내 판매 내역
+    public List<ItemSoldBoughtDTO> mySoldoutItems(@RequestParam Long memberId, HttpServletRequest request){
+        return memberService.getMySoldouts(memberId, request);
+    }
+
+    @GetMapping("/member/myBought") //내 구매 내역
+    public List<ItemSoldBoughtDTO> myBoughtItems(@RequestParam Long memberId, HttpServletRequest request){
+        return memberService.getMyBoughts(memberId, request);
+    }
+
+    @GetMapping("/member/myprofile")
+    public MemberDTO getProfile(HttpServletRequest request){
+        return memberService.myProfile(request);
     }
 
     @GetMapping("/member/profile")
-    public MemberDTO getProfile(HttpServletRequest request){
-        Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-        return new MemberDTO(member);
+    public MemberDTO getProfile(@RequestParam Long memberId, HttpServletRequest request){
+        return memberService.memberProfile(memberId, request);
+    }
+
+    @PostMapping("/member/myfasion") //착장의상 정보
+    public void myFasion(@RequestParam String fasion,HttpServletRequest request){
+        memberService.decribeFasion(fasion,request);
     }
 }

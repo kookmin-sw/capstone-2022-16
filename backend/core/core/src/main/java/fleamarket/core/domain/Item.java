@@ -18,6 +18,7 @@ public class Item {
     private Long price;
     private String description;
     private boolean soldOut = false;
+    private boolean bought = false;
     private int sellingTime = 10;
     private String imagePath;
 

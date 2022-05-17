@@ -54,7 +54,7 @@ public class MarketService {
         List<Item> items = market.getItems();
         List<ItemDTO> itemDTOS = new ArrayList<>();
         items.stream().forEach(item -> itemDTOS.add(
-                new ItemDTO(item, awsS3Service.downloadFile(item.getImagePath()))));
+                new ItemDTO(item, awsS3Service.downloadFile(item.getImagePath()),null)));
         return itemDTOS;
     }
 
@@ -197,21 +197,50 @@ public class MarketService {
             return;
 
         Item item = itemRepository.findById(itemId).get();
-        Member soldMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Member boughtMember = memberRepository.findById(memberId).get();
-
-        if(item == null || soldMember == null || boughtMember == null){
+        itemRepository.save(item);
+        Member owner = item.getOwner();
+        Member loggedMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null){
             return;
         }
+        Member soldMember = memberRepository.findById(loggedMember.getMemberId()).get();
+        Member boughtMember = memberRepository.findById(memberId).get();
+
+        if(item == null || soldMember == null || boughtMember == null || owner.getMemberId() != soldMember.getMemberId()){
+            return;
+        }
+
+        item.setSoldOut(true);
+        item.setMarket(null);
+        ItemBought itembought = new ItemBought();
+        itembought.setBoughtMember(boughtMember);
+        itembought.setItemPrice(item.getPrice());
+        itembought.setItemName(item.getItemName());
+        boughtRepository.save(itembought);
+    }
+
+    public void boughtItem(Long itemId, Long memberId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            return;
+
+        Item item = itemRepository.findById(itemId).get();
+        Member owner = item.getOwner();
+        Member confirmedMember = item.getConfirmedMember();
+
+        Member boughtMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Member soldMember = memberRepository.findById(memberId).get();
+
+        if(item == null || soldMember == null || boughtMember == null || owner==null || confirmedMember == null || boughtMember.getMemberId() != confirmedMember.getMemberId()){
+            return;
+        }
+
 
         ItemSoldout itemsoldout = new ItemSoldout();
         itemsoldout.setSoldMember(soldMember);
         itemsoldout.setItemPrice(item.getPrice());
+        itemsoldout.setItemName(item.getItemName());
         soldoutRepository.save(itemsoldout);
-
-        ItemBought itembought = new ItemBought();
-        itembought.setBoughtMember(boughtMember);
-        itembought.setItemPrice(item.getPrice());
-        boughtRepository.save(itembought);
     }
+
 }

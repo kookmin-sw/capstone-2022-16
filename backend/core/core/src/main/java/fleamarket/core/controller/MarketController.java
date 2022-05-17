@@ -18,6 +18,7 @@ public class MarketController {
         return marketService.marektAdd(latitude,longitude,request);
     }
 
+
     //특정 마켓의 아이템 리스트 반환
     @GetMapping("/market")
     public Object marketInfo(@RequestParam Long id,HttpServletRequest request){
@@ -28,6 +29,11 @@ public class MarketController {
     @PostMapping("/market/save")
     public String itemSave(@RequestParam Long marketId, @RequestParam String itemName, @RequestParam Long price, @RequestParam int sellingTime, @RequestParam MultipartFile photo,@RequestParam String description, HttpServletRequest request) throws IOException {
         return marketService.saveItem(marketId,itemName,price,sellingTime,photo,description,request);
+    }
+
+    @PostMapping("/market/itemDelete")
+    public String itemSave(@RequestParam Long marketId, @RequestParam Long itemId, HttpServletRequest request) throws IOException {
+        return marketService.deleteItem(marketId, itemId, request);
     }
 
     //모든 마켓 정보 반환
@@ -46,8 +52,14 @@ public class MarketController {
         return marketService.reserveConfirm(itemId,memberId,request);
     }
 
-    @PostMapping("/market/soldout") //거래완료 버튼
+    @PostMapping("/market/soldout") //판매완료 버튼
     public void sellItem(@RequestParam Long itemId,@RequestParam Long memberId, HttpServletRequest request){
         marketService.soldoutItem(itemId,memberId,request);
     }
+
+    @PostMapping("/market/bought") //구매완료 버튼
+    public void buyItem(@RequestParam Long itemId,@RequestParam Long memberId, HttpServletRequest request){
+        marketService.boughtItem(itemId,memberId,request);
+    }
+
 }

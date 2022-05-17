@@ -31,12 +31,15 @@ public class ItemDTO {
     private String description;
     private List<MemberDTO> reserveMembers;
     private boolean soldOut;
+    private boolean bought;
     private int sellingTime;
     private Long marketId;
     private MemberDTO reserveConfirmationMember;
     private byte[] file;
+    private String fasionDescription;
+    private Long Owner;
 
-    public ItemDTO(Item item,byte[] file){
+    public ItemDTO(Item item,byte[] file,String fasionDescription){
 
         this.name = item.getOwner().getName();
         this.itemId = item.getItemId();
@@ -47,12 +50,16 @@ public class ItemDTO {
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();
-
+        this.Owner = item.getOwner().getMemberId();
+        this.bought = item.isBought();
         if(item.getConfirmedMember() != null) {
             this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember());
         }
         if(file != null) {
             this.file = file;
+        }
+        if(fasionDescription != null){
+            this.fasionDescription = fasionDescription;
         }
     }
 }
