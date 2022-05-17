@@ -17,6 +17,7 @@ const SaleList = (props) => {
       url: `/member/items`,
     }).then((res) => {
       setItemList(res.data);
+      console.log(res.data);
     });
   }, []);
   const ReserveComplete = (itemId, member) => {

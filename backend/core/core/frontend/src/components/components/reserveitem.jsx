@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const ReserveItem = ({ reserveitem, reserveOut }) => {
   const navigate = useNavigate();
+  console.log(reserveitem);
   return (
     <li className=" list-none w-full space-y-2">
       {reserveitem.map((item) => (
@@ -39,8 +40,28 @@ const ReserveItem = ({ reserveitem, reserveOut }) => {
             <div className="flex">
               <span className=" text-lg">판매자 : </span>
 
-              <div className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+              <div className="text-lg flex items-center  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
                 {item.name}
+                <button
+                  onClick={() => {
+                    navigate(`/profile/${item.owner}/record`);
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
             <button

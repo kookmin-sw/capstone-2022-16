@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const TdSaleList = ({ salelist }) => {
   const navigate = useNavigate();
-
+  console.log(salelist);
   const soldOut = (itemId, memberId) => {
     axios({
       method: "POST",

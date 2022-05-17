@@ -11,6 +11,7 @@ const TradeMain = (props) => {
   const [marketlng, setMarketlng] = useState();
   const [ispopup, setPopUp] = useState(true);
   const [errorpopup, setErrorPopUp] = useState(false);
+
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };

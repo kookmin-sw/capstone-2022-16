@@ -11,13 +11,13 @@ const TradingChart = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`,
+      url: `/member/mySellingReservedItems`,
     }).then((res) => {
       setSaleList(res.data);
     });
     axios({
       method: "GET",
-      url: `/member/reserveitems`,
+      url: `/member/myBuyingReservedItems`,
     }).then((res) => {
       setReserveList(res.data);
     });

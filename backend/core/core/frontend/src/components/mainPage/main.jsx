@@ -1,16 +1,33 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const MainPage = (props) => {
+  const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const [cookies, setCookie, removeCookie] = useCookies([]);
-
+  const [fasionpopup, setFasionPopUp] = useState(false);
   const navigate = useNavigate();
+  const setFasion = (data) => {
+    axios({
+      method: "POST",
+      url: `/member/myfasion?fasion=${data.fasion}`,
+    }).then((res) => {
+      setFasionPopUp(false);
+      localStorage.setItem("fasion", data.fasion);
+    });
+  };
+  const [profiledata, setProfileData] = useState({
+    memberId: null,
+    name: null,
+    fasion: null,
+  });
   const logout = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("memberId");
+    localStorage.removeItem("fasion");
     removeCookie("LoginCookie");
     navigate("/");
   };
@@ -22,10 +39,18 @@ const MainPage = (props) => {
       method: "GET",
       url: `/member/profile`,
     }).then((res) => {
+      console.log(res.data);
       if (localStorage.getItem("name") === null)
         localStorage.setItem("name", res.data.name);
       if (localStorage.getItem("memberId") === null)
         localStorage.setItem("memberId", res.data.memberId);
+      if (res.data.fasion !== null) {
+        localStorage.setItem("fasion", res.data.fasion);
+        setFasionPopUp(false);
+      }
+      if (res.data.fasion === null) {
+        setFasionPopUp(true);
+      }
     });
   }, []);
 
@@ -34,8 +59,27 @@ const MainPage = (props) => {
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      {moment().format("dddd") === "Monday" ? (
-        <div className="flex justify-center items-center h-full">
+      {moment().format("dddd") === "Tuesday" ? (
+        <div className="flex justify-center items-center h-full relative">
+          {fasionpopup && (
+            <div className=" absolute flex flex-col items-center justify-between w-1/2 h-72 rounded-md bg-blue-300 z-10 top-1/3 left-1/4 pb-4">
+              <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
+              <form
+                className="flex flex-col h-4/5 items-center justify-between w-full space-y-5"
+                onSubmit={handleSubmit(setFasion)}
+              >
+                <span>자신의 착용의상 정보를 입력해주세요</span>
+                <textarea
+                  type="text"
+                  className=" h-2/3 w-4/5"
+                  {...register("fasion", { required: true })}
+                />
+                <button className=" mb-7 w-2/4 bg-blue-500 px-3 text-white py-1 rounded-md my-4">
+                  확인
+                </button>
+              </form>
+            </div>
+          )}
           <div className=" grid grid-cols-2 grid-rows-2 ml-2">
             <button
               onClick={() => navigate("/dday")}
