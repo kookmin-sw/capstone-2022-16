@@ -1,7 +1,11 @@
-import React from 'react';
+import React from "react";
 
-const SellingItem = (props) => (
-            
-    );
+const SellingItem = (props) => {
+  return (
+    <div>
+      <div>hello</div>
+    </div>
+  );
+};
 
 export default SellingItem;

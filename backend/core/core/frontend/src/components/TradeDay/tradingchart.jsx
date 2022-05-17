@@ -8,17 +8,19 @@ const TradingChart = (props) => {
   const navigate = useNavigate();
   const [salelist, setSaleList] = useState([]);
   const [reservelist, setReserveList] = useState([]);
+
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`,
+      url: `/member/mySellingReservedItems`,
     }).then((res) => {
       setSaleList(res.data);
     });
     axios({
       method: "GET",
-      url: `/member/reserveitems`,
+      url: `/member/myBuyingReservedItems`,
     }).then((res) => {
+      console.log(res.data);
       setReserveList(res.data);
     });
   }, []);
@@ -54,7 +56,9 @@ const TradingChart = (props) => {
         <TdSaleList salelist={salelist}></TdSaleList>
       </div>
       <div className=" mx-3 flex flex-col items-center  text-4xl">
-        <span className="mt-5 font-bold text-blue-300 ">찜한 아이템</span>
+        <span className="mt-5 font-bold text-blue-300 ">
+          구매 대기중인 아이템
+        </span>
         <TdReserveList reservelist={reservelist}></TdReserveList>
       </div>
     </div>
