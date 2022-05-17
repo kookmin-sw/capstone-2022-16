@@ -14,20 +14,19 @@ const SaleList = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/items`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
+      url: `/member/items`,
     }).then((res) => {
       setItemList(res.data);
+      console.log(res.data);
+      itemlist.filter((item) => item.soldOut === true);
     });
   }, []);
   const ReserveComplete = (itemId, member) => {
-    //멤버이름도 받아서 보내줘야함
     axios({
       method: "POST",
       url: `/market/Confirm?itemId=${itemId}&memberId=${member}`,
-    }).then((res) => {
-      if (res.data === "OK") {
-        setItemList(itemlist.filter((item) => item.soldOut !== true));
-      }
+    }).then(() => {
+      window.location.reload();
     });
   };
   return (
