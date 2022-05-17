@@ -8,6 +8,7 @@ const TradingChart = (props) => {
   const navigate = useNavigate();
   const [salelist, setSaleList] = useState([]);
   const [reservelist, setReserveList] = useState([]);
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -19,6 +20,7 @@ const TradingChart = (props) => {
       method: "GET",
       url: `/member/myBuyingReservedItems`,
     }).then((res) => {
+      console.log(res.data);
       setReserveList(res.data);
     });
   }, []);

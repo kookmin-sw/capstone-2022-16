@@ -22,7 +22,6 @@ const RecordList = (props) => {
       url: `/member/mySoldout?memberId=${params.memberid}`,
     }).then((res) => {
       setSellList(res.data);
-      console.log(res.data);
     });
   }, []);
   return (

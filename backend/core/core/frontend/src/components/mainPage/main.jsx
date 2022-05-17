@@ -11,6 +11,7 @@ const MainPage = (props) => {
   const [fasionpopup, setFasionPopUp] = useState(false);
   const navigate = useNavigate();
   const setFasion = (data) => {
+    console.log(data);
     axios({
       method: "POST",
       url: `/member/myfasion?fasion=${data.fasion}`,
@@ -37,7 +38,7 @@ const MainPage = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `/member/profile`,
+      url: `/member/myprofile`,
     }).then((res) => {
       console.log(res.data);
       if (localStorage.getItem("name") === null)
@@ -62,7 +63,7 @@ const MainPage = (props) => {
       {moment().format("dddd") === "Tuesday" ? (
         <div className="flex justify-center items-center h-full relative">
           {fasionpopup && (
-            <div className=" absolute flex flex-col items-center justify-between w-1/2 h-72 rounded-md bg-blue-300 z-10 top-1/3 left-1/4 pb-4">
+            <div className=" absolute flex flex-col items-center justify-between w-1/2 h-72 rounded-md bg-blue-300 z-10 top-1/4 left-1/4 pb-4">
               <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
               <form
                 className="flex flex-col h-4/5 items-center justify-between w-full space-y-5"

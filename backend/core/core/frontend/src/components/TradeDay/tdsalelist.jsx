@@ -4,7 +4,21 @@ import { useNavigate } from "react-router-dom";
 
 const TdSaleList = ({ salelist }) => {
   const navigate = useNavigate();
-  console.log(salelist);
+  const [popup, setPopup] = useState(false);
+  const [memberdata, setMemberData] = useState({
+    memberId: null,
+    name: null,
+    fasion: null,
+  });
+  const getFasion = (memberId, Popup) => {
+    axios({
+      method: "GET",
+      url: `/member/profile?memberId=${memberId}`,
+    }).then((res) => {
+      setMemberData(res.data);
+      setPopup(true);
+    });
+  };
   const soldOut = (itemId, memberId) => {
     axios({
       method: "POST",
@@ -15,6 +29,23 @@ const TdSaleList = ({ salelist }) => {
   };
   return (
     <li className=" list-none w-full space-y-2">
+      {popup && (
+        <div className=" absolute flex flex-col items-center justify-between w-1/2 h-52 rounded-md bg-blue-300 z-10 top-1/3 left-1/4 pb-4 space-y-2">
+          <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
+          <span className=" text-xl">상대방의 착용의상 정보입니다</span>
+          <p className=" text-lg text-gray-700 opacity-80">
+            {memberdata.fasion}
+          </p>
+          <button
+            className=" text-sm mb-7 w-1/6 bg-blue-500 px-3 text-white py-1 rounded-md my-4"
+            onClick={() => {
+              setPopup(false);
+            }}
+          >
+            확인
+          </button>
+        </div>
+      )}
       {salelist.map((item, index) => {
         if (!item.soldOut) {
           return (
@@ -45,11 +76,31 @@ const TdSaleList = ({ salelist }) => {
               </div>
               <div className="border-b-2 border-gray-300 my-2"></div>
               <div className="flex items-center justify-between text-gray-500">
-                <div>
+                <div className="flex">
                   <span className=" text-lg">구매자 : </span>
-                  <button className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                  <div className=" flex items-center text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
                     {item.reserveConfirmationMember.name}
-                  </button>
+                    <button
+                      onClick={() => {
+                        getFasion(item.owner);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <button

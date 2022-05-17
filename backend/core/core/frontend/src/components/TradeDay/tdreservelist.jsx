@@ -1,13 +1,48 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const TdReserveList = ({ reservelist }) => {
   const navigate = useNavigate();
+  const [popup, setPopup] = useState(false);
+  const [memberdata, setMemberData] = useState({
+    memberId: null,
+    name: null,
+    fasion: null,
+  });
+  const getFasion = (memberId, Popup) => {
+    axios({
+      method: "GET",
+      url: `/member/profile?memberId=${memberId}`,
+    }).then((res) => {
+      setMemberData(res.data);
+      setPopup(true);
+    });
+  };
   return (
     <li className=" list-none w-full space-y-2">
+      {popup && (
+        <div className=" absolute flex flex-col items-center justify-between w-1/2 h-52 rounded-md bg-blue-300 z-10 top-1/3 left-1/4 pb-4 space-y-2">
+          <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
+          <span className=" text-xl">상대방의 착용의상 정보입니다</span>
+          <p className=" text-lg text-gray-700 opacity-80">
+            {memberdata.fasion}
+          </p>
+          <button
+            className=" text-sm mb-7 w-1/6 bg-blue-500 px-3 text-white py-1 rounded-md my-4"
+            onClick={() => {
+              setPopup(false);
+            }}
+          >
+            확인
+          </button>
+        </div>
+      )}
       {reservelist.map((item) => {
         if (
-          item.reserveConfirmationMember.name === localStorage.getItem("name")
+          item.reserveConfirmationMember.name ===
+            localStorage.getItem("name") &&
+          !item.soldOut
         ) {
           return (
             <ul
@@ -41,8 +76,28 @@ const TdReserveList = ({ reservelist }) => {
                 <div className="flex">
                   <span className=" text-lg">판매자 : </span>
 
-                  <div className="text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                  <div className="flex items-center text-lg  bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200">
                     {item.name}
+                    <button
+                      onClick={() => {
+                        getFasion(item.owner);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
