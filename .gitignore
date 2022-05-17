@@ -90,3 +90,4 @@ out/
 .vscode/
 frontend/.DS_Store
 .DS_Store
+backend/core/core/src/main/resources/application.yml
