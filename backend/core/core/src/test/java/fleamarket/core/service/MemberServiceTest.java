@@ -1,22 +1,26 @@
 package fleamarket.core.service;
 
 import fleamarket.core.domain.Member;
+import fleamarket.core.repository.MemberRepository;
 import fleamarket.core.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Service
 class MemberServiceTest {
+    /*
     MemberService memberService;
-    MemoryMemberRepository memberRepository;
+    //private final MemberRepository memberRepository;
     @BeforeEach
     public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
+        //memberRepository = new MemoryMemberRepository();
+        //memberService = new MemberService(memberRepository);
     }
     @AfterEach
     public void afterEach() {
@@ -46,4 +50,5 @@ class MemberServiceTest {
                 //() -> memberService.join(member2));//예외가 발생해야 한다.
         //assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
     }
+     */
 }
