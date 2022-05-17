@@ -82,7 +82,7 @@ const TdSaleList = ({ salelist }) => {
                     {item.reserveConfirmationMember.name}
                     <button
                       onClick={() => {
-                        getFasion(item.owner);
+                        getFasion(item.reserveConfirmationMember.memberId);
                       }}
                     >
                       <svg

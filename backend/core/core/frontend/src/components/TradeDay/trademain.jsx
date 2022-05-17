@@ -9,7 +9,7 @@ const TradeMain = (props) => {
   const [checking, setChecking] = useState();
   const [marketlat, setMarketlat] = useState();
   const [marketlng, setMarketlng] = useState();
-  const [ispopup, setPopUp] = useState(true);
+  const [ispopup, setPopUp] = useState(false);
   const [errorpopup, setErrorPopUp] = useState(false);
 
   const deg2rad = (deg) => {

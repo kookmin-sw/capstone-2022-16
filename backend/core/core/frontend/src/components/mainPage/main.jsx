@@ -11,7 +11,6 @@ const MainPage = (props) => {
   const [fasionpopup, setFasionPopUp] = useState(false);
   const navigate = useNavigate();
   const setFasion = (data) => {
-    console.log(data);
     axios({
       method: "POST",
       url: `/member/myfasion?fasion=${data.fasion}`,
