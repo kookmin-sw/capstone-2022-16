@@ -31,7 +31,7 @@ public class MemberService {
         }
         System.out.println(member.getMemberId());
         Optional<Member> temp = memberRepository.findByLoginId(member.getLoginId());
-        if(temp.isEmpty()){
+        if(temp.isEmpty() && photo != null){
             String pathName = awsS3Service.uploadFile(photo);
             member.setImagePath(pathName);
             memberRepository.save(member);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +32,22 @@ public class MarketService {
     private final BoughtRepository boughtRepository;
     private final AwsS3Service awsS3Service;
 
-    public String marektAdd(double latitude,double longitude,HttpServletRequest request){
+    public String marketAdd(double latitude,double longitude,HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return "Not logged In";
         }
 
-        Market market = new Market();
-        market.setLatitude(latitude);
-        market.setLongitude(longitude);
-        marketRepository.save(market);
-        return "OK";
+        List<Market> markets = marketRepository.findAll();
+        List<Market> nearMarkets = markets.stream().filter(market -> (market.getLatitude()-latitude)*(market.getLatitude()-latitude) + (market.getLongitude()-longitude)*(market.getLongitude()-longitude)<0.00000158369).collect(Collectors.toList());
+        if(nearMarkets.isEmpty()) {
+            Market market = new Market();
+            market.setLatitude(latitude);
+            market.setLongitude(longitude);
+            marketRepository.save(market);
+            return "OK";
+        }
+        return "NO";
     }
 
     public Object getMarketInfo(Long id,HttpServletRequest request){

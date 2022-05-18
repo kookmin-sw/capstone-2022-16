@@ -15,7 +15,7 @@ public class MarketController {
     //마켓 등록
     @PostMapping("/market/add")
     public String addNewMarket(@RequestParam double latitude,@RequestParam double longitude,HttpServletRequest request){
-        return marketService.marektAdd(latitude,longitude,request);
+        return marketService.marketAdd(latitude,longitude,request);
     }
 
 
