@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const ReserveItem = ({ reserveitem, reserveOut }) => {
   const navigate = useNavigate();
-  console.log(reserveitem);
+
   return (
     <li className=" list-none w-full space-y-2">
       {reserveitem.map((item) => {
