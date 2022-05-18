@@ -48,6 +48,8 @@ const MainPage = (props) => {
         localStorage.setItem("fasion", res.data.fasion);
         setFasionPopUp(false);
       }
+      if (localStorage.getItem("photo") === null)
+        localStorage.setItem("photo", res.data.photo);
       if (res.data.fasion === null) {
         setFasionPopUp(true);
       }
