@@ -29,7 +29,6 @@ public class MemberService {
         if (result.hasErrors()) {
             return result.getAllErrors();
         }
-        System.out.println(member.getMemberId());
         Optional<Member> temp = memberRepository.findByLoginId(member.getLoginId());
         if(temp.isEmpty() && photo != null){
             String pathName = awsS3Service.uploadFile(photo);

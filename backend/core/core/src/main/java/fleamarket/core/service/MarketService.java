@@ -179,20 +179,15 @@ public class MarketService {
         if (loggedMember == null) {
             return "Not Logged In";
         }
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Member owner = item.getOwner();
         if(owner.getMemberId() != loggedMember.getMemberId()){
             return "Not your item";
         }
-        System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Member reserveMember = memberRepository.findById(memberId).get();
         if(reserveMember == null){
             return "No member there";
         }
-        System.out.println("cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         item.setConfirmedMember(reserveMember);
-        System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(item.getConfirmedMember().getName());
         itemRepository.save(item);
         return "OK";
     }

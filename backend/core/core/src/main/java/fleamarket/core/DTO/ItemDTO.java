@@ -46,17 +46,17 @@ public class ItemDTO {
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.description = item.getDescription();
-        this.reserveMembers = item.getReserveMembers().stream().map(relation -> new MemberDTO(relation.getReserveMember())).collect(Collectors.toList());
+        this.reserveMembers = item.getReserveMembers().stream().map(relation -> new MemberDTO(relation.getReserveMember(),null)).collect(Collectors.toList());
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
         this.marketId = item.getMarket().getMarketId();
         this.Owner = item.getOwner().getMemberId();
         this.bought = item.isBought();
         if(item.getConfirmedMember() != null) {
-            this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember());
+            this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember(),null);
         }
         else{
-            this.reserveConfirmationMember = new MemberDTO(new Member());
+            this.reserveConfirmationMember = new MemberDTO(new Member(),null);
         }
         if(file != null) {
             this.file = file;
