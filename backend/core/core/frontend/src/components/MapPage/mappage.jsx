@@ -11,6 +11,46 @@ const MapPage = (props) => {
   const [currentmarketid, setCurrentMarketid] = useState(1);
   const navigate = useNavigate();
   const [cookies] = useCookies([]);
+  const refresh = () => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+      axios({
+        method: "GET",
+        url: `/map?lng=${state.center.lng}&lat=${state.center.lat}`,
+      }).then((res) => {
+        setMarketsinfo(res.data);
+        console.log(res.data);
+      });
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }));
+    }
+  };
   useEffect(() => {
     if (cookies.LoginCookie === undefined) navigate("/");
   }, []);
@@ -133,7 +173,7 @@ const MapPage = (props) => {
             })}
           </Map>
         </div>
-        <div className="flex items-center justify-center space-x-2">
+        <div className="flex items-center justify-center space-x-2 relative">
           <img
             src="/icon/299087_marker_map_icon.png"
             className="w-7 h-7"
@@ -146,7 +186,29 @@ const MapPage = (props) => {
             className=" w-5 h-7"
           />
           <span>: 다른 장터의 위치</span>
+          <button
+            className=" absolute right-2"
+            onClick={() => {
+              refresh();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
         </div>
+
         {!hasChild ? (
           <>
             <div className="transition-all  w-full relative flex justify-center items-center">

@@ -18,6 +18,7 @@ const ItemsInMarket = (props) => {
       url: `/market?id=${params.marketid}`,
     }).then((res) => {
       res.data && setItemlist(res.data);
+      console.log(res.data);
     });
   }, []);
   return (

@@ -12,6 +12,7 @@ const ReserveList = (props) => {
       url: `/member/reserveitems`, //여기에서 받아올때 어떤 상점에 등록되어있는지 있는지
     }).then((res) => {
       setReserveItem(res.data);
+      console.log(res.data);
     });
   }, []);
   const reserveOut = (itemId) => {

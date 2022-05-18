@@ -33,7 +33,6 @@ const Profile = (props) => {
       </div>
       <div className=" pt-5 px-5 space-y-8">
         <div className="flex flex-col items-center space-y-10 border-b-[1px] pb-8">
-          <div className=" bg-gray-300 rounded-full w-52 h-52"></div>
           <div className="flex flex-col space-y-2">
             <span className=" text-5xl">{localStorage.getItem("name")}</span>
             <div className=" justify-center cursor-pointer text-xs text-gray-400 flex items-center space-x-2"></div>
