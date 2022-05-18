@@ -9,6 +9,7 @@ import fleamarket.core.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,22 +23,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemoryMemberRepository memberRepository;
-    private final SoldoutRepository soldoutRepository;
-    private final BoughtRepository boughtRepository;
-    private final ItemRepository itemRepository;
     private final AwsS3Service awsS3Service;
 
-    public Object join(Member member, BindingResult result) {
+    public Object join(Member member, MultipartFile photo, BindingResult result) {
         if (result.hasErrors()) {
             return result.getAllErrors();
         }
         System.out.println(member.getMemberId());
         Optional<Member> temp = memberRepository.findByLoginId(member.getLoginId());
         if(temp.isEmpty()){
-            memberRepository.save(member);
-            return "ok";
-        }
-        else if(temp.get() == null){
+            String pathName = awsS3Service.uploadFile(photo);
+            member.setImagePath(pathName);
             memberRepository.save(member);
             return "ok";
         }
@@ -190,7 +186,11 @@ public class MemberService {
             return null;
         }
 
-        return new MemberDTO(loggedMember);
+        byte[] photo = null;
+        if(loggedMember.getImagePath() != null){
+            photo = awsS3Service.downloadFile(loggedMember.getImagePath());
+        }
+        return new MemberDTO(loggedMember,photo);
     }
 
     public MemberDTO memberProfile(Long memberId, HttpServletRequest request){
@@ -200,8 +200,11 @@ public class MemberService {
         if(member == null){
             return null;
         }
-
-        return new MemberDTO(member);
+        byte[] photo = null;
+        if(member.getImagePath() != null){
+            photo = awsS3Service.downloadFile(member.getImagePath());
+        }
+        return new MemberDTO(member,photo);
     }
 
     public Optional<Member> findOne(Long memberId) {
