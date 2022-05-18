@@ -12,6 +12,7 @@ const JoinPage = (props) => {
   const [message, setMessage] = useState();
   const [photoPreview, setPhotoPreview] = useState("");
   const [photo, setPhoto] = useState();
+  const formData = new FormData();
   const handlingDataForm = async (dataURI) => {
     const byteString = atob(dataURI.split(",")[1]);
 
@@ -77,30 +78,30 @@ const JoinPage = (props) => {
 
   const onValid = (data) => {
     const birth = +(data.joinyear + data.joinmonth + data.joindate);
+    formData.append("birthDate", birth);
+    formData.append("password", data.joinpassword);
+    formData.append("name", data.joinnickname);
+    formData.append("loginId", data.joinid);
+    formData.append("photo", photo);
     axios({
       method: "POST",
-      url: `/join?password=${data.joinpassword}&name=${data.joinnickname}&loginId=${data.joinid}`,
-      data: {
-        birthDate: `${birth}`,
-        name: `${data.joinnickname}`,
-      },
+      url: `/join`,
+      data: formData,
     }).then((res) => {
       if (res.data === "ok") {
         setJoinsuccess(true);
       } else {
         setMessage(res.data.message);
         //아이디가 같은경우
-        if (res.data.code === 10000) {
-          setMessage("이미 같은 아이디가 있습니다. 아이디를 바꾸어주세요");
-          setPopupOPen(true);
-        }
-        //닉네임이 같은경우
-        else if (res.data.code === 10001) {
-          setMessage("이미 같은 닉네임이 있습니다. 닉네임을 바꾸어주세요");
+        if (res.data === "no") {
+          setMessage("아이디 혹은 닉네임이 중복됩니다");
           setPopupOPen(true);
         }
       }
     });
+    for (let value of formData.values()) {
+      console.log(value);
+    }
   };
   const onInvalid = (errors) => {
     setMessage("빈칸을 모두 채워주세요");
