@@ -4,6 +4,7 @@ import fleamarket.core.domain.ITEM_MEMBER_RESERVE_RELATION;
 import fleamarket.core.domain.Item;
 import fleamarket.core.domain.Market;
 import fleamarket.core.domain.Member;
+import fleamarket.core.service.AwsS3Service;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +36,7 @@ public class ItemDTO {
     private MemberDTO reserveConfirmationMember;
     private byte[] file;
 
-    public ItemDTO(Item item){
+    public ItemDTO(Item item,byte[] file){
 
         this.name = item.getOwner().getName();
         this.itemId = item.getItemId();
@@ -50,13 +51,8 @@ public class ItemDTO {
         if(item.getConfirmedMember() != null) {
             this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember());
         }
-        try {
-            InputStream in = getClass().getResourceAsStream("/static/a.png");
-            if(in != null)
-                this.file = in.readAllBytes();
-        }
-        catch(IOException e){
-            int a= 1;
+        if(file != null) {
+            this.file = file;
         }
     }
 }
