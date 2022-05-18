@@ -15,6 +15,39 @@ const TradeMain = (props) => {
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };
+  const refresh = () => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }));
+    }
+  };
   const navigate = useNavigate();
   const getDistance = (lat1, lng1, lat2, lng2) => {
     const R = 6371;
@@ -187,9 +220,33 @@ const TradeMain = (props) => {
         </div>
       </div>
       <div className="p-2">
-        <p className="flex items-center justify-center my-5">
-          장터 근처에 오면 CHECK 버튼을 눌러 입장 신청을 해주세요
-        </p>
+        <div className="flex items-center justify-center">
+          <p className="flex items-center justify-center my-5">
+            장터 근처에 오면 CHECK 버튼을 눌러 입장 신청을 해주세요
+          </p>
+          <button
+            className=" absolute right-2"
+            onClick={() => {
+              refresh();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
+        </div>
+
         <button
           className=" py-2 w-full bg-blue-300 rounded-md text-white text-2xl my-5 hover:bg-blue-400 transition-colors"
           onClick={() => {
