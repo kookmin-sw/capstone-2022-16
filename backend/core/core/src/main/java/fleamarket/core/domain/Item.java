@@ -34,7 +34,7 @@ public class Item {
     @JoinColumn(name="MARKET_ID")
     private Market market;
 
-    @OneToMany(mappedBy ="reserveItems")
+    @OneToMany(mappedBy ="reserveItems",cascade = CascadeType.REMOVE)
     private List<ITEM_MEMBER_RESERVE_RELATION> reserveMembers;
 
 }

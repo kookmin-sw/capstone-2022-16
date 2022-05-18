@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes,HashRouter } from "react-router-dom";
 import "./App.css";
 
 import JoinPage from "./components/JoinPage/joinpage";
@@ -21,7 +21,7 @@ function App() {
   const [user, setUser] = useState();
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" exact element={<LoginPage></LoginPage>}></Route>
           <Route path="join" exact element={<JoinPage></JoinPage>}></Route>
@@ -69,7 +69,7 @@ function App() {
             element={<RecordList></RecordList>}
           ></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }

@@ -212,6 +212,7 @@ public class MarketService {
 
         item.setSoldOut(true);
         item.setMarket(null);
+        itemRepository.save(item);
         ItemBought itembought = new ItemBought();
         itembought.setBoughtMember(boughtMember);
         itembought.setItemPrice(item.getPrice());

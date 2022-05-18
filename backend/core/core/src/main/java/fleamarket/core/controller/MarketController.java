@@ -32,7 +32,7 @@ public class MarketController {
     }
 
     @PostMapping("/market/itemDelete")
-    public String itemSave(@RequestParam Long marketId, @RequestParam Long itemId, HttpServletRequest request) throws IOException {
+    public String itemDelete(@RequestParam Long marketId, @RequestParam Long itemId, HttpServletRequest request) throws IOException {
         return marketService.deleteItem(marketId, itemId, request);
     }
 

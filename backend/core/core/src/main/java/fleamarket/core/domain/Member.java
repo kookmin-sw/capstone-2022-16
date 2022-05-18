@@ -40,4 +40,6 @@ public class Member {
     private String password;
 
     private String fasion;
+
+    private String imagePath;
 }

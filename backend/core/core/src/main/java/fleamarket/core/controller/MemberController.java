@@ -12,6 +12,8 @@ import fleamarket.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -24,8 +26,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public Object save(@Valid @ModelAttribute Member member, BindingResult result) {
-        return memberService.join(member,result);
+    public Object save(@Valid @ModelAttribute Member member, @RequestParam MultipartFile photo, BindingResult result) {
+        return memberService.join(member,photo,result);
     }
 
     @PostMapping("/login")

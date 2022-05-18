@@ -55,6 +55,9 @@ public class ItemDTO {
         if(item.getConfirmedMember() != null) {
             this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember());
         }
+        else{
+            this.reserveConfirmationMember = new MemberDTO(new Member());
+        }
         if(file != null) {
             this.file = file;
         }
