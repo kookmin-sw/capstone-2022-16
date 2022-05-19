@@ -215,6 +215,7 @@ public class MarketService {
         item.setMarket(null);
         itemRepository.save(item);
         ItemBought itembought = new ItemBought();
+        itembought.setImagePath(item.getImagePath());
         itembought.setBoughtMember(boughtMember);
         itembought.setItemPrice(item.getPrice());
         itembought.setItemName(item.getItemName());
@@ -237,7 +238,8 @@ public class MarketService {
             return;
         }
 
-
+        item.setBought(true);
+        itemRepository.save(item);
         ItemSoldout itemsoldout = new ItemSoldout();
         itemsoldout.setSoldMember(soldMember);
         itemsoldout.setItemPrice(item.getPrice());
