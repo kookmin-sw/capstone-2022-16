@@ -32,12 +32,12 @@ const TdSaleList = ({ salelist }) => {
       {popup && (
         <div className=" absolute flex flex-col items-center justify-between w-1/2 h-52 rounded-md bg-blue-300 z-10 top-1/3 left-1/4 pb-4 space-y-2">
           <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
-          <span className=" text-xl">상대방의 착용의상 정보입니다</span>
+          <span className=" text-xl">상대방 착용의상 정보</span>
           <p className=" text-lg text-gray-700 opacity-80">
             {memberdata.fasion}
           </p>
           <button
-            className=" text-sm mb-7 w-1/6 bg-blue-500 px-3 text-white py-1 rounded-md my-4"
+            className=" text-sm mb-7 w-2/6 bg-blue-500 px-3 text-white py-1 rounded-md my-4"
             onClick={() => {
               setPopup(false);
             }}

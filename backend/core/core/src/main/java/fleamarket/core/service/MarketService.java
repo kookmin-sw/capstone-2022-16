@@ -241,6 +241,7 @@ public class MarketService {
         item.setBought(true);
         itemRepository.save(item);
         ItemSoldout itemsoldout = new ItemSoldout();
+        itemsoldout.setImagePath(item.getImagePath());
         itemsoldout.setSoldMember(soldMember);
         itemsoldout.setItemPrice(item.getPrice());
         itemsoldout.setItemName(item.getItemName());

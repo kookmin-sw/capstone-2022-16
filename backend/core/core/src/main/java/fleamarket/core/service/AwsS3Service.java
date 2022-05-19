@@ -43,7 +43,7 @@ public class AwsS3Service {
     }
 
     public byte[] downloadFile(String imagePath){
-        if(imagePath == ""){
+        if(imagePath == null){
             return null;
         }
         S3Object s3Object = amazonS3.getObject(bucket,imagePath);

@@ -9,9 +9,17 @@ const PurchaseItem = ({ itemlist }) => {
           key={index}
           className=" group bg-white rounded-md w-full p-2 hover:cursor-pointer"
         >
-          <div className="flex justify-between w-full text-3xl">
-            <img src={`data:image/png;base64,${item.image}`} alt="" />
-            <span>{item.itemName}</span>
+          <div className="flex justify-between w-full text-3xl items-center">
+            <div className="flex items-center justify-center">
+              <img
+                src={`data:image/png;base64,${item.image}`}
+                className="w-14 h-14 rounded-full
+            "
+                alt=""
+              />
+              <span>{item.itemName}</span>
+            </div>
+
             <span>{item.itemPrice} 원</span>
           </div>
         </ul>

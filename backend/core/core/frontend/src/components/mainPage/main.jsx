@@ -28,6 +28,7 @@ const MainPage = (props) => {
     localStorage.removeItem("name");
     localStorage.removeItem("memberId");
     localStorage.removeItem("fasion");
+    localStorage.removeItem("photo");
     removeCookie("LoginCookie");
     navigate("/");
   };
@@ -61,7 +62,7 @@ const MainPage = (props) => {
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      {moment().format("dddd") === "Thursday" ? (
+      {moment().format("dddd") === "Sunday" ? (
         <div className="flex justify-center items-center h-full relative">
           {fasionpopup && (
             <div className=" absolute flex flex-col items-center justify-between w-2/3 h-72 rounded-md bg-blue-300 z-10 top-1/4 left-1/5 pb-4">
