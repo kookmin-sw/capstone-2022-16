@@ -18,17 +18,19 @@ public class ItemSoldBoughtDTO {
     private Long SoldMember;
     private String itemName;
     private Long itemPrice;
-    private byte[] imagePath;
+    private byte[] image;
 
-    public ItemSoldBoughtDTO(ItemSoldout itemSoldout){
+    public ItemSoldBoughtDTO(ItemSoldout itemSoldout,byte[] image){
         this.SoldMember = itemSoldout.getSoldMember().getMemberId();
         this.itemName = itemSoldout.getItemName();
         this.itemPrice = itemSoldout.getItemPrice();
+        this.image = image;
     }
 
-    public ItemSoldBoughtDTO(ItemBought itemBought){
+    public ItemSoldBoughtDTO(ItemBought itemBought,byte[] image){
         this.SoldMember = itemBought.getBoughtMember().getMemberId();
         this.itemName = itemBought.getItemName();
         this.itemPrice = itemBought.getItemPrice();
+        this.image = image;
     }
 }

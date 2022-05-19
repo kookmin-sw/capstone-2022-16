@@ -133,7 +133,7 @@ public class MemberService {
         if(soldMember == null){
             return soldouts;
         }
-        soldMember.getSoldoutItems().stream().forEach(item->soldouts.add(new ItemSoldBoughtDTO(item)));
+        soldMember.getSoldoutItems().stream().forEach(item->soldouts.add(new ItemSoldBoughtDTO(item,awsS3Service.downloadFile(item.getImagePath()))));
         return soldouts;
     }
     public List<ItemSoldBoughtDTO> getMyBoughts(Long memberId, HttpServletRequest request){ //내 구매 내역
@@ -149,7 +149,7 @@ public class MemberService {
         if(boughtMember == null){
             return boughts;
         }
-        boughtMember.getBoughtItems().stream().forEach(item->boughts.add(new ItemSoldBoughtDTO(item)));
+        boughtMember.getBoughtItems().stream().forEach(item->boughts.add(new ItemSoldBoughtDTO(item,awsS3Service.downloadFile(item.getImagePath()))));
         return boughts;
     }
 
