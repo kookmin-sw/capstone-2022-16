@@ -39,7 +39,7 @@ const LoginPage = (props) => {
       {loginfail && (
         <Popup
           itemclick={setLoginfail}
-          popupmsg="아이디 및 비밀번호가 일치하지 않습니다"
+          popupmsg="아이디 및 비밀번호가 다릅니다"
           navigateurl="/"
         ></Popup>
       )}

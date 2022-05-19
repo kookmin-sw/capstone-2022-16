@@ -220,12 +220,9 @@ const TradeMain = (props) => {
         </div>
       </div>
       <div className="p-2">
-        <div className="flex items-center justify-center">
-          <p className="flex items-center justify-center my-5">
-            장터 근처에 오면 CHECK 버튼을 눌러 입장 신청을 해주세요
-          </p>
+        <div className="flex flex-col">
           <button
-            className=" absolute right-2"
+            className=""
             onClick={() => {
               refresh();
             }}
@@ -245,6 +242,9 @@ const TradeMain = (props) => {
               />
             </svg>
           </button>
+          <p className="flex items-center justify-center my-5">
+            장터 근처에 오면 CHECK 버튼을 눌러 입장 신청을 해주세요
+          </p>
         </div>
 
         <button

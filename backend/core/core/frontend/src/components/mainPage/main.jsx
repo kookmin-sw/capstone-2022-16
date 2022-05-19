@@ -64,16 +64,16 @@ const MainPage = (props) => {
       {moment().format("dddd") === "Sunday" ? (
         <div className="flex justify-center items-center h-full relative">
           {fasionpopup && (
-            <div className=" absolute flex flex-col items-center justify-between w-1/2 h-72 rounded-md bg-blue-300 z-10 top-1/4 left-1/4 pb-4">
+            <div className=" absolute flex flex-col items-center justify-between w-2/3 h-72 rounded-md bg-blue-300 z-10 top-1/4 left-1/5 pb-4">
               <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
               <form
                 className="flex flex-col h-4/5 items-center justify-between w-full space-y-5"
                 onSubmit={handleSubmit(setFasion)}
               >
-                <span>자신의 착용의상 정보를 입력해주세요</span>
+                <span className=" text-sm">자신의 착용의상 정보를 입력</span>
                 <textarea
                   type="text"
-                  className=" h-2/3 w-4/5"
+                  className=" h-2/3 w-4/5 bg-blue-100"
                   {...register("fasion", { required: true })}
                 />
                 <button className=" mb-7 w-2/4 bg-blue-500 px-3 text-white py-1 rounded-md my-4">

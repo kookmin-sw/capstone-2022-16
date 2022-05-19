@@ -17,7 +17,6 @@ const SaleList = (props) => {
       url: `/member/items`,
     }).then((res) => {
       setItemList(res.data);
-      console.log(res.data);
       itemlist.filter((item) => item.soldOut === true);
     });
   }, []);
