@@ -49,8 +49,12 @@ public class ItemDTO {
         this.reserveMembers = item.getReserveMembers().stream().map(relation -> new MemberDTO(relation.getReserveMember(),null)).collect(Collectors.toList());
         this.soldOut = item.isSoldOut();
         this.sellingTime = item.getSellingTime();
-        this.marketId = item.getMarket().getMarketId();
-        this.Owner = item.getOwner().getMemberId();
+        if(item.getMarket() != null){
+            this.marketId = item.getMarket().getMarketId();
+        }
+        if(item.getOwner() != null){
+            this.Owner = item.getOwner().getMemberId();
+        }
         this.bought = item.isBought();
         if(item.getConfirmedMember() != null) {
             this.reserveConfirmationMember = new MemberDTO(item.getConfirmedMember(),null);
