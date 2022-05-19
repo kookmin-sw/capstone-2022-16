@@ -10,6 +10,7 @@ const PurchaseItem = ({ itemlist }) => {
           className=" group bg-white rounded-md w-full p-2 hover:cursor-pointer"
         >
           <div className="flex justify-between w-full text-3xl">
+            <img src={`data:image/png;base64,${item.image}`} alt="" />
             <span>{item.itemName}</span>
             <span>{item.itemPrice} 원</span>
           </div>

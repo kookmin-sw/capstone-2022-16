@@ -15,7 +15,6 @@ const RecordList = (props) => {
       url: `/member/myBought?memberId=${params.memberid}`,
     }).then((res) => {
       setPurchaseList(res.data);
-      console.log(res.data);
     });
     axios({
       method: "GET",
