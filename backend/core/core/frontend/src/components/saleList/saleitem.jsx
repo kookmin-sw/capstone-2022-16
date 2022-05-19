@@ -10,7 +10,6 @@ const SaleItem = ({ ReserveComplete, itemlist }) => {
       method: "POST",
       url: `/market/itemDelete?marketId=${marketId}&itemId=${itemId}`,
     }).then((res) => {
-      console.log(res.data);
       window.location.reload();
     });
   };

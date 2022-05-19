@@ -204,8 +204,7 @@ const Upload = (props) => {
         <label htmlFor="saletime">판매 시간</label>
         <select id="saletime" {...register("saletime", { required: true })}>
           <option value="10">10:00</option>
-          <option value="13">13:00</option>
-          <option value="18">18:00</option>
+          <option value="14">14:00</option>
         </select>
         <label htmlFor="itemdes">설명</label>
         <textarea

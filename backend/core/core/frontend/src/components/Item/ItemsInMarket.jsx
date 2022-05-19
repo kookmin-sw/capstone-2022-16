@@ -47,11 +47,11 @@ const ItemsInMarket = (props) => {
           </div>
         ))}
         <div className=" flex justify-center bg-gray-200 rounded-t-md text-2xl text mb-2">
-          13시
+          14시
         </div>
         {itemlist.map((item, index) => (
           <div key={index}>
-            {!item.soldOut && item.sellingTime === 13 && (
+            {!item.soldOut && item.sellingTime === 14 && (
               <div className=" border-2 rounded-md border-gray-300 mb-2 bg-white">
                 <Items
                   key={item.itemId}
