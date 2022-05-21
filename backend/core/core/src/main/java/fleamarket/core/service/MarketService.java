@@ -139,7 +139,9 @@ public class MarketService {
         Member loginMember = memberRepository.findById(loggedMember.getMemberId()).get();
         if(loggedMember == null)
             return "";
-        if(loginMember.getReservedMarket() != item.getMarket().getMarketId())
+        if(item.getMarket() == null)
+            return "";
+        if(loginMember.getReservedMarket() != null && loginMember.getReservedMarket() != item.getMarket().getMarketId())
             return "";
         Member member = item.getOwner();
         if((member.getMemberId() != loginMember.getMemberId())){ //아이템의 주인과 로그인한 사람이 같으면 안되므로
