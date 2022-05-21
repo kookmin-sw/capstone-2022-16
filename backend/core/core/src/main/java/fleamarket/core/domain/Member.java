@@ -46,4 +46,6 @@ public class Member {
 
     @ColumnDefault("0")
     private Long reportedCount;
+
+    private Long reservedMarket;
 }

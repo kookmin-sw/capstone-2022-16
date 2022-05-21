@@ -12,11 +12,13 @@ public class MemberDTO {
     private String fasion;
     private byte[] photo;
     private Long reportedCount;
+    private Long reservedMarket;
     public MemberDTO(Member member,byte[] photo){
         this.memberId = member.getMemberId();
         this.name = member.getName();
         this.fasion = member.getFasion();
         this.reportedCount = member.getReportedCount();
+        this.reservedMarket = member.getReservedMarket();
         if(member.getImagePath() != null){
             this.photo = photo;
         }
