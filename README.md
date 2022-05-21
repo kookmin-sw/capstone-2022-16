@@ -33,3 +33,5 @@ e-mail : gbds234@kookmin.ac.kr
 # 5. 시스템 구성도
 ![Alt text](https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EA%B5%AC%EC%84%B1%EB%8F%84.PNG?raw=true)
 
+# 6. 실제 화면 예시
+
