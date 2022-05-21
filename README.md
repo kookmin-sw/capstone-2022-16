@@ -14,14 +14,13 @@
 # 3. 팀 소개
 
 # 팀이름: MAPLE-MARKET
+  ## 조장: 김병관
+  e-mail : gbds234@kookmin.ac.kr
+  역할: 백엔드,DB,배포
 
-## 조장: 김병관
-e-mail : gbds234@kookmin.ac.kr
-역할: 백엔드,DB,배포
-
-## 조원1: 강찬우
-e-mail : gbds234@kookmin.ac.kr
-역할: 프론트엔드
+  ## 조원1: 강찬우
+  e-mail : gbds234@kookmin.ac.kr
+  역할: 프론트엔드
 
 # 4. 프로젝트 시작 동기
 버리기는 아깝고 팔기에는 너무 사소하고 많은 물품들에 대한 처리에 대해 고민하던 도중
