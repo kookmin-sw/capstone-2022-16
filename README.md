@@ -12,8 +12,10 @@
 프로젝트 소개하는 영상을 추가하세요
 
 # 3. 팀 소개
-
-팀이름: MAPLE-MARKET
+```
+팀이름: 16조
+프로젝트 이름: MAPLE-MARKET
+```
 ```
 조장: 김병관
 e-mail : gbds234@kookmin.ac.kr
