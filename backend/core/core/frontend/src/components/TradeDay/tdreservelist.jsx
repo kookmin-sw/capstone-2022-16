@@ -20,6 +20,15 @@ const TdReserveList = ({ reservelist }) => {
       setPopup(true);
     });
   };
+  const report = (itemId, reportedMemberId) => {
+    axios({
+      method: "POST",
+      url: `/report/SellMember?reportedMemberId=${reportedMemberId}&itemId=${itemId}`,
+    }).then((res) => {
+      console.log(res.data);
+      window.location.reload();
+    });
+  };
   const purchaeOut = (itemId, memberId) => {
     axios({
       method: "POST",
@@ -110,27 +119,49 @@ const TdReserveList = ({ reservelist }) => {
                     </div>
                   </div>
                 </div>
-                <button
-                  className=" text-white bg-blue-300 rounded-md transition-colors hover:bg-blue-400"
-                  onClick={() => {
-                    purchaeOut(item.itemId, item.owner);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
+                <div className=" space-x-3 flex items-center">
+                  <button
+                    className=" text-white bg-blue-300 rounded-md transition-colors hover:bg-blue-400"
+                    onClick={() => {
+                      purchaeOut(item.itemId, item.owner);
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => {
+                      report(item.itemId, item.owner);
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </ul>
           );

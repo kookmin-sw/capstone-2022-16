@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import Popup from "../components/popup";
+import ReserveItem from "../components/reserveitem";
 
 const TradeMain = (props) => {
   const [checking, setChecking] = useState();
@@ -12,6 +13,14 @@ const TradeMain = (props) => {
   const [ispopup, setPopUp] = useState(true);
   const [errorpopup, setErrorPopUp] = useState(false);
 
+  const memberEnter = () => {
+    axios({
+      method: "POST",
+      url: `market/enter?marketId=${localStorage.getItem("reservemarket")}`,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };
@@ -20,8 +29,6 @@ const TradeMain = (props) => {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
-
           setState((prev) => ({
             ...prev,
             center: {
@@ -107,8 +114,12 @@ const TradeMain = (props) => {
         url: `/map?lng=${state.center.lng}&lat=${state.center.lat}`,
       }).then((res) => {
         setMarketInfo(res.data);
-        setMarketlat(res.data[0].latitude);
-        setMarketlng(res.data[0].longitude);
+        res.data.map((market) => {
+          if (market.marketId === localStorage.getItem("reservemarket")) {
+            setMarketlat(market.latitude);
+            setMarketlng(market.longitude);
+          }
+        });
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -122,11 +133,22 @@ const TradeMain = (props) => {
   return (
     <div className=" w-full h-[100vh] bg-gray-100 box-border">
       {ispopup && (
-        <Popup
-          itemclick={setChecking}
-          popupmsg="입장이 완료되었습니다."
-          navigateurl="/tradingchart"
-        ></Popup>
+        <div className=" flex flex-col items-center justify-between w-2/4 h-40 absolute rounded-md bg-blue-300 z-10 top-1/3 left-1/4">
+          <div className=" w-full h-7 bg-blue-500 rounded-md"></div>
+          <span className="flex justify-center items-center text-sm">
+            입장이 완료되었습니다.
+          </span>
+          <button
+            onClick={() => {
+              setChecking(false);
+              memberEnter();
+              navigate(`/tradingchart`);
+            }}
+            className=" mb-7 w-1/4 bg-blue-500 px-3 text-white py-1 rounded-md text-sm"
+          >
+            확인
+          </button>
+        </div>
       )}
       {errorpopup && (
         <div className=" flex flex-col items-center justify-between w-1/2 h-40 absolute rounded-md bg-blue-300 z-10 top-1/3 left-1/4">
@@ -190,33 +212,37 @@ const TradeMain = (props) => {
             />
             {/* 현재 자기 위치 마커에표시*/}
             {marketinfo.map((market) => {
-              const position = {
-                lat: market.latitude,
-                lng: market.longitude,
-              };
-              const marketId = market.marketId;
-              return (
-                <div key={marketId} className="relative">
-                  <MapMarker
-                    className="z-0"
-                    position={position}
-                    key={marketId}
-                  />
-                  <Circle
-                    center={position}
-                    radius={20}
-                    strokeWeight={2} // 선의 두께입니다
-                    strokeColor={"#75B8FA"} // 선의 색깔입니다
-                    strokeOpacity={0.3} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                    strokeStyle={"dash"} // 선의 스타일 입니다
-                    fillColor={"#CFE7FF"} // 채우기 색깔입니다
-                    fillOpacity={0.5} // 채우기 불투명도 입니다
-                  />
-                </div>
-              );
+              const marketnum = localStorage.getItem("reservemarket") * 1;
+              if (market.marketId !== marketnum) {
+                return null;
+              } else {
+                const position = {
+                  lat: market.latitude,
+                  lng: market.longitude,
+                };
+                const marketId = market.marketId;
+                return (
+                  <div key={marketId} className="relative">
+                    <MapMarker
+                      className="z-0"
+                      position={position}
+                      key={marketId}
+                    />
+                    <Circle
+                      center={position}
+                      radius={20}
+                      strokeWeight={2} // 선의 두께입니다
+                      strokeColor={"#75B8FA"} // 선의 색깔입니다
+                      strokeOpacity={0.3} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                      strokeStyle={"dash"} // 선의 스타일 입니다
+                      fillColor={"#CFE7FF"} // 채우기 색깔입니다
+                      fillOpacity={0.5} // 채우기 불투명도 입니다
+                    />
+                  </div>
+                );
+              }
             })}
           </Map>
-          {checking && <div className=" absolute w-10 h-5"></div>}
         </div>
       </div>
       <div className="p-2">
