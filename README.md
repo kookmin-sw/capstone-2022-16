@@ -37,7 +37,6 @@ e-mail : gbds234@kookmin.ac.kr
 <div style="float:left;">
 <img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%B2%AB%ED%99%94%EB%A9%B4.jpg" height="600px" width="300px">
 <img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%9E%A5%ED%84%B0%EC%A1%B0%ED%9A%8C%ED%99%94%EB%A9%B4.jpg" height="600px" width="300px">
-<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%9D%BC%EC%9A%94%EC%9D%BC%ED%99%94%EB%A9%B4.jpg" height="600px" width="300px">
 </div>
 <div style="float:left;">
 <img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EA%B0%9C%EC%9D%B8%ED%94%84%EB%A1%9C%ED%95%84.jpg" height="600px" width="300px">
