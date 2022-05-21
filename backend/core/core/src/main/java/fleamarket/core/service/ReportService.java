@@ -59,6 +59,7 @@ public class ReportService {
         if(reportRepository.is_alreadyReported(report))
             return;
         reportRepository.save(report);
+        item.setConfirmedMember(null);
     }
 
     public void reportSellMember(Long memberId, Long itemId, HttpServletRequest request){
