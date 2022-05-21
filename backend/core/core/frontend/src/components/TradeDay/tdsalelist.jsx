@@ -27,6 +27,14 @@ const TdSaleList = ({ salelist }) => {
       window.location.reload();
     });
   };
+  const report = (itemId, reportedMemberId) => {
+    axios({
+      method: "POST",
+      url: `/report/ConfirmMember?reportedMemberId=${reportedMemberId}&itemId=${itemId}`,
+    }).then((res) => {
+      window.location.reload();
+    });
+  };
   return (
     <li className=" list-none w-full space-y-2">
       {popup && (
@@ -47,6 +55,7 @@ const TdSaleList = ({ salelist }) => {
         </div>
       )}
       {salelist.map((item, index) => {
+        console.log(item);
         if (!item.soldOut) {
           return (
             <ul
@@ -127,7 +136,14 @@ const TdSaleList = ({ salelist }) => {
                       />
                     </svg>
                   </button>
-                  <button>
+                  <button
+                    onClick={() => {
+                      report(
+                        item.itemId,
+                        item.reserveConfirmationMember.memberId
+                      );
+                    }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"

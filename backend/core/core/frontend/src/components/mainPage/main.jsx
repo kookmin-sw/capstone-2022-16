@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const MainPage = (props) => {
+  const [marketnum, setMarketNum] = useState();
   const { register, handleSubmit, reset } = useForm({ mode: onchange });
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const [fasionpopup, setFasionPopUp] = useState(false);
@@ -19,6 +20,14 @@ const MainPage = (props) => {
       localStorage.setItem("fasion", data.fasion);
     });
   };
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `/member/profile?memberId=${localStorage.getItem("memberId")}`,
+    }).then((res) => {
+      setMarketNum(res.data.reservedMarket);
+    });
+  }, []);
   const [profiledata, setProfileData] = useState({
     memberId: null,
     name: null,
@@ -49,6 +58,12 @@ const MainPage = (props) => {
         localStorage.setItem("fasion", res.data.fasion);
         setFasionPopUp(false);
       }
+      if (
+        localStorage.getItem("reservemarket") === null &&
+        res.data.reservedMarket !== null
+      ) {
+        localStorage.setItem("reservemarket", res.data.reservedMarket);
+      }
       if (localStorage.getItem("photo") === null)
         localStorage.setItem("photo", res.data.photo);
       if (res.data.fasion === null) {
@@ -62,7 +77,7 @@ const MainPage = (props) => {
       <div className=" select-none absolute w-full items-center justify-center flex  bg-blue-500 ">
         <div className=" text-white font-bold text-5xl">market</div>
       </div>
-      {moment().format("dddd") === "Sunday" ? (
+      {moment().format("dddd") === "Saturday" ? (
         <div className="flex justify-center items-center h-full relative">
           {fasionpopup && (
             <div className=" absolute flex flex-col items-center justify-between w-2/3 h-72 rounded-md bg-blue-300 z-10 top-1/4 left-1/5 pb-4">
