@@ -16,6 +16,7 @@ const SaleItem = ({ ReserveComplete, itemlist }) => {
   return (
     <li className=" list-none w-full space-y-2">
       {itemlist.map((item) => {
+        console.log(item);
         if (!item.soldOut) {
           return (
             <ul
@@ -53,7 +54,9 @@ const SaleItem = ({ ReserveComplete, itemlist }) => {
                       className={classNames(
                         "text-lg flex bg-gray-200 ml-1 p-1 rounded-md focus:outline-none focus:ring focus:ring-blue-200",
                         {
-                          "bg-blue-300": true,
+                          "bg-blue-300":
+                            item.reserveConfirmationMember.memberId ===
+                            member.memberId,
                         }
                       )}
                     >
