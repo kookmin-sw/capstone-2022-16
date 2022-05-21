@@ -30,4 +30,6 @@ e-mail : gbds234@kookmin.ac.kr
 # 4. 사용법
 배포된 url 링크로 접속하여 회원가입후 인근 개설된 장터에 아이템을 등록하거나 찜하여 중고거래를 한다.
 
+# 5. 시스템 구성도
+https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EA%B5%AC%EC%84%B1%EB%8F%84.PNG?raw=true
 
