@@ -13,4 +13,6 @@ public interface MemberRepository {
     //Optional<Member> findByName(String name);
     List<Member> findAll();
     Optional<Member> findByLoginId(String loginId);
+
+    void reportHandle();
 }

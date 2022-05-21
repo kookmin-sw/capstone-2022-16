@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemoryMemberRepository memberRepository;
     private final AwsS3Service awsS3Service;
+    private final MarketEnterRepository marketEnterRepository;
 
     public Object join(Member member, MultipartFile photo, BindingResult result) {
         if (result.hasErrors()) {
@@ -204,6 +205,25 @@ public class MemberService {
             photo = awsS3Service.downloadFile(member.getImagePath());
         }
         return new MemberDTO(member,photo);
+    }
+
+    public void marketEntered(Long marketId,HttpServletRequest request){
+        if(request == null)
+            return;
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            return;
+        Member loggedMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loggedMember == null)
+            return;
+        Long memberId = loggedMember.getMemberId();
+        if(memberId == null)
+            return;
+
+        MarketEnter marketEnter = new MarketEnter();
+        marketEnter.setMarketId(marketId);
+        marketEnter.setMemberId(memberId);
+        marketEnterRepository.save(marketEnter);
     }
 
     public Optional<Member> findOne(Long memberId) {

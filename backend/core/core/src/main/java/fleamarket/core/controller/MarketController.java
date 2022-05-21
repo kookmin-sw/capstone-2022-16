@@ -1,6 +1,7 @@
 package fleamarket.core.controller;
 
 import fleamarket.core.service.MarketService;
+import fleamarket.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MarketController {
     private final MarketService marketService;
+    private final MemberService memberService;
 
     //마켓 등록
     @PostMapping("/market/add")
@@ -60,6 +62,11 @@ public class MarketController {
     @PostMapping("/market/bought") //구매완료 버튼
     public void buyItem(@RequestParam Long itemId,@RequestParam Long memberId, HttpServletRequest request){
         marketService.boughtItem(itemId,memberId,request);
+    }
+
+    @PostMapping("/market/enter") //입장시 써주셈.
+    public void marketEntered(@RequestParam Long marketId,HttpServletRequest request){
+        memberService.marketEntered(marketId,request);
     }
 
 }

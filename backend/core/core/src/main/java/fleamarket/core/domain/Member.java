@@ -2,6 +2,7 @@ package fleamarket.core.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -42,4 +43,7 @@ public class Member {
     private String fasion;
 
     private String imagePath;
+
+    @ColumnDefault("0")
+    private Long reportedCount;
 }

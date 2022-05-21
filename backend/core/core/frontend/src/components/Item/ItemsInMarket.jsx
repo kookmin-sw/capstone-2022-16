@@ -54,6 +54,7 @@ const ItemsInMarket = (props) => {
             {!item.soldOut && item.sellingTime === 14 && (
               <div className=" border-2 rounded-md border-gray-300 mb-2 bg-white">
                 <Items
+                  photo={item.file}
                   key={item.itemId}
                   itemname={item.itemName}
                   name={item.name}

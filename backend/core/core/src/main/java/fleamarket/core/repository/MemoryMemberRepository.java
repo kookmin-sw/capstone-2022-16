@@ -40,16 +40,8 @@ public class MemoryMemberRepository implements MemberRepository{
                 .filter(m -> m.getLoginId().equals(loginId))
                 .findFirst();
     }
-    /*
 
+    public void reportHandle(){
 
-    @Override
-    public Optional<Member> findByName(String name) {
-        return store.values().stream().filter(member -> member.getName().equals(name)).findAny();
     }
-
-    public void deleteAll(){
-        store.clear();
-    }
-     */
 }
