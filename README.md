@@ -3,8 +3,8 @@
 <!--**팀페이지 주소** : https://kookmin-sw.github.io/capstone-2022-16/-->
 
 **프로젝트 배포 링크** : https://quadroue4.com
-테스트용 아이디: tester
-테스트용 비밀번호: password
+**테스트용 아이디**: tester
+**테스트용 비밀번호**: password
 
 # 1. 프로젝트 소개
 
