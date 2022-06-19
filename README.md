@@ -12,7 +12,7 @@
 한날 한시 한장소에 여러명이 모여 한꺼번에 대량으로 거래를 주고받는걸 도와주는 플랫폼.
 
 # 2. 소개 영상
-<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%8B%9C%EC%97%B0%EC%95%95%EC%B6%95.gif" height="1440px" width="720px">
+<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%8B%9C%EC%97%B0%EC%95%95%EC%B6%95.gif" height="720px" width="360px">
 
 # 3. 팀 소개
 ```
