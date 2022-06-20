@@ -21,12 +21,12 @@
 ```
 ```
 조장: 김병관
-e-mail : gbds234@kookmin.ac.kr
+e-mail : gbds234@gmail.com
 역할: 백엔드,DB,배포
 ```
 ```
 조원1: 강찬우
-e-mail : gbds234@kookmin.ac.kr
+e-mail : wooju9812127@gmail.com
 역할: 프론트엔드
 ```
 
