@@ -127,7 +127,7 @@ public class MarketService {
         if(item == null){
             return "Item Not Found";
         }
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if(session == null){
             return "Not Logged In";
         }

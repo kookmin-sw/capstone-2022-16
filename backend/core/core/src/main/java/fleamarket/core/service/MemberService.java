@@ -47,7 +47,7 @@ public class MemberService {
     }
 
     public List<ItemDTO> getItems(HttpServletRequest request){ //현재 내가 내놓은 물건 내역
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         List<ItemDTO> itemDTOs = new ArrayList<>();
         if(session == null){
             return itemDTOs;
@@ -65,7 +65,7 @@ public class MemberService {
     }
 
     public List<ItemDTO> getReserveItems(HttpServletRequest request){ // 현재 내가 찜한 물건 내역
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         List<ItemDTO> itemDTOs = new ArrayList<>();
         if(session == null){
             return itemDTOs;
@@ -85,7 +85,7 @@ public class MemberService {
     }
 
     public List<ItemDTO> getSellingItems(HttpServletRequest request){ //현재 내가 판매하는 물건중 거래예약된 내역
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         List<ItemDTO> itemDTOs = new ArrayList<>();
         if(session == null){
             return itemDTOs;
@@ -101,7 +101,7 @@ public class MemberService {
     }
 
     public List<ItemDTO> getBuyingItems(HttpServletRequest request){ //현재 내가 찜한 물건중 거래예약된 물건 내역
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         List<ItemDTO> itemDTOs = new ArrayList<>();
         if(session == null){
             return itemDTOs;
@@ -177,7 +177,7 @@ public class MemberService {
         Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
         if(member == null)
             return null;
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if(session == null)
             return null;
 
