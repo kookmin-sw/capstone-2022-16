@@ -1,6 +1,10 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224874&assignment_repo_type=AssignmentRepo)
+<!--[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7224874&assignment_repo_type=AssignmentRepo)-->
 
-**팀페이지 주소** : https://kookmin-sw.github.io/capstone-2022-16/
+<!--**팀페이지 주소** : https://kookmin-sw.github.io/capstone-2022-16/-->
+
+**프로젝트 배포 링크** : https://quadroue4.com  
+**테스트용 아이디**: tester  
+**테스트용 비밀번호**: password  
 
 # 1. 프로젝트 소개
 
@@ -8,8 +12,7 @@
 한날 한시 한장소에 여러명이 모여 한꺼번에 대량으로 거래를 주고받는걸 도와주는 플랫폼.
 
 # 2. 소개 영상
-
-프로젝트 소개하는 영상을 추가하세요
+<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%8B%9C%EC%97%B0%EC%95%95%EC%B6%95.gif" height="720px" width="360px">
 
 # 3. 팀 소개
 ```
@@ -18,12 +21,12 @@
 ```
 ```
 조장: 김병관
-e-mail : gbds234@kookmin.ac.kr
+e-mail : gbds234@gmail.com
 역할: 백엔드,DB,배포
 ```
 ```
 조원1: 강찬우
-e-mail : gbds234@kookmin.ac.kr
+e-mail : wooju9812127@gmail.com
 역할: 프론트엔드
 ```
 
@@ -35,7 +38,7 @@ e-mail : gbds234@kookmin.ac.kr
 
 # 6. 실제 화면 예시
 <div style="float:left;">
-<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%B2%AB%ED%99%94%EB%A9%B4.jpg" height="600px" width="300px">
+<img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%B2%AB%ED%99%94%EB%A9%B4.jpg" height="600px" width="100px">
 <img src="https://github.com/kookmin-sw/capstone-2022-16/blob/master/images/%EC%9E%A5%ED%84%B0%EC%A1%B0%ED%9A%8C%ED%99%94%EB%A9%B4.jpg" height="600px" width="300px">
 </div>
 <div style="float:left;">
