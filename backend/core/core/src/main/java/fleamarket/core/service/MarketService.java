@@ -145,14 +145,16 @@ public class MarketService {
             return "";
         Member member = item.getOwner();
         if((member.getMemberId() != loginMember.getMemberId())){ //아이템의 주인과 로그인한 사람이 같으면 안되므로
-            List<ITEM_MEMBER_RESERVE_RELATION> relations = item.getReserveMembers();
-            List<Long> a = new ArrayList<>();
-            relations.stream().forEach(relation->{
+             List<ITEM_MEMBER_RESERVE_RELATION> relations = item.getReserveMembers();
+             List<Long> a = new ArrayList<>();
+             relations.stream().forEach(relation->{
                 Member newMember = relation.getReserveMember();
                 if(newMember.getMemberId() == loginMember.getMemberId()) {
                     a.add(relation.getId());
                 }
             });
+
+            //relations.stream().filter(relation -> relation.getReserveMember().getMemberId() == loginMember.getMemberId()).collect(Collectors.toList()).isEmpty()
             if(a.isEmpty()){
                 ITEM_MEMBER_RESERVE_RELATION relation = new ITEM_MEMBER_RESERVE_RELATION();
                 relation.setReserveItems(item);

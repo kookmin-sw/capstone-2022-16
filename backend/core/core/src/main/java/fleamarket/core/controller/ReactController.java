@@ -10,7 +10,6 @@ public class ReactController {
 
     @RequestMapping(value={"/market", "/member", "/map","/logout","/login","/join","/main" })
     public String HomePage() {
-        System.out.println("FuckFuckFuckFuckFuckFuckFuckFuckFuckFuckFuckFuckFuckFuckFuck");
         return "index";
     }
 
