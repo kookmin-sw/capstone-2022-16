@@ -5,6 +5,8 @@
 **프로젝트 배포 링크** : https://quadroue4.com  
 **테스트용 아이디**: tester  
 **테스트용 비밀번호**: password  
+# 0. 프로젝트 요약
+https://github.com/kookmin-sw/capstone-2022-16/blob/master/%E2%80%9C%EB%A9%94%EC%9D%B4%ED%94%8C%20%EB%A7%88%EC%BC%93%E2%80%9D%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EA%B0%9C%EC%9A%94%EC%84%9C.pdf
 
 # 1. 프로젝트 소개
 
